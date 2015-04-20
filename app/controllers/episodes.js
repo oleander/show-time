@@ -10,6 +10,16 @@ export default Ember.Controller.extend({
     },
     remove: function(obj) {
       this.episodes.removeObject(obj)
+    },
+    seen: function(obj) {
+      this.episodes.removeObject(obj)
+    },
+    reload: function(obj) {
+      obj.set("loading", ! obj.loading)
+
+      setTimeout(function() {
+        obj.set("loading", ! obj.loading)
+      }, Math.random() * 10000);
     }
   }
 });

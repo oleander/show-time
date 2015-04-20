@@ -1,3 +1,12 @@
+<style type="text/css">
+  i.loading.false {
+    visibility: hidden;
+  }
+
+  i.loading.true {
+    display: inline;
+  }
+</style>
 <table class="table">
   <tbody>
     {{#each episode in episodes}}
@@ -5,7 +14,7 @@
         <td>{{episode.show}}</td>
         <td>{{episode.what}}</td>
         <td>
-          <button class="btn btn-sm btn-default" href="{{episode.magnet}}">
+          <button class="btn btn-sm btn-default" disabled={{episode.noMagnet}} href="{{episode.magnet}}">
             <i class="fa fa-download"></i>
           </button>
           <button class="btn btn-sm btn-default" {{action "remove" episode}}>
@@ -14,6 +23,11 @@
           <button class="btn btn-sm btn-default" {{action "seen" episode}}>
             <i class="fa fa-eye"></i>
           </button>
+          <button class="btn btn-sm btn-default" {{action "reload" episode}}>
+            <i class="fa fa-refresh"></i>
+          </button>
+
+          <i class="fa fa-spinner spin {{episode.loading}} loading"></i>
         </td>
       </tr>
     {{/each}}
