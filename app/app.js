@@ -15,4 +15,13 @@ App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+// App.ApplicationSerializer = DS.IndexedDBSerializer.extend();
+// App.ApplicationAdapter = DS.IndexedDBAdapter.extend({
+//   databaseName: 'never_again',
+//   version: 1,
+//   migrations: function() {
+//     this.addModel('episode');
+//   }
+// });
+
 export default App;

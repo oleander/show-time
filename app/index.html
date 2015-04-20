@@ -11,15 +11,21 @@
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/never-again.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 
     {{content-for 'head-footer'}}
   </head>
   <body>
-    {{content-for 'body'}}
+    <div class="container">
+      {{content-for 'body'}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/never-again.js"></script>
+      <script src="assets/vendor.js"></script>
+      <script src="assets/never-again.js"></script>
 
-    {{content-for 'body-footer'}}
+      {{content-for 'body-footer'}}
+    </div>
   </body>
 </html>

@@ -1,0 +1,21 @@
+<table class="table">
+  <tbody>
+    {{#each episode in episodes}}
+      <tr>
+        <td>{{episode.show}}</td>
+        <td>{{episode.what}}</td>
+        <td>
+          <button class="btn btn-sm btn-default" href="{{episode.magnet}}">
+            <i class="fa fa-download"></i>
+          </button>
+          <button class="btn btn-sm btn-default" {{action "remove" episode}}>
+            <i class="fa fa-times"></i>
+          </button>
+          <button class="btn btn-sm btn-default" {{action "seen" episode}}>
+            <i class="fa fa-eye"></i>
+          </button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
