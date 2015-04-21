@@ -2,6 +2,15 @@
 
 module.exports = function(environment) {
   var ENV = {
+    contentSecurityPolicy: {
+          'default-src': "'none'",
+          'script-src': "'self' 'unsafe-inline' 'unsafe-eval' use.typekit.net connect.facebook.net maps.googleapis.com maps.gstatic.com localhost:35729 0.0.0.0:35729 code.jquery.com maxcdn.bootstrapcdn.com",
+          'font-src': "'self' data: use.typekit.net maxcdn.bootstrapcdn.com",
+          'connect-src': "'self' thepiratebay.se",
+          'img-src': "'self' www.facebook.com p.typekit.net",
+          'style-src': "'self' 'unsafe-inline' use.typekit.net maxcdn.bootstrapcdn.com",
+          'frame-src': "s-static.ak.facebook.com static.ak.facebook.com www.facebook.com"
+    },    
     modulePrefix: 'never-again',
     environment: environment,
     baseURL: '/',
