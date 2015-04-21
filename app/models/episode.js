@@ -2,11 +2,15 @@ export default DS.Model.extend({
   show: DS.attr('string'),
   what: DS.attr('string'),
   magnet: DS.attr('string'),
+  createdAt: DS.attr('date'),
   seen: DS.attr('boolean', { defaultValue: false }),
   isLoading: false,
   hasSeen: function() {
     this.set("seen", true).save();
   },
+  formatCreatedAt: function() {
+    return this.get("createdAt") // global.moment(this.get("createdAt")).format("YYYY-MM-DD HH:M");
+  }.property("createdAt"),
   noMagnet: function() {
     return ! this.get("magnet");
   }.property('magnet'),

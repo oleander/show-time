@@ -12,6 +12,7 @@
   <button class="btn btn-default btn-sm">Login</button>
   <button {{action "reloadAll"}} class="btn btn-default btn-sm">Reload</button>
   <button class="btn btn-default btn-sm">Seen</button>
+  <button {{action "updateAll"}} class="btn btn-default btn-sm">Update</button>
   <button class="btn btn-default btn-sm">Removed</button>
 </div>
 
@@ -22,6 +23,7 @@
         <tr>
           <td>{{episode.show}}</td>
           <td>{{episode.what}}</td>
+          <td>{{episode.formatCreatedAt}}</td>
           <td>
             <button class="btn btn-sm btn-default" disabled={{episode.noMagnet}} href="{{episode.magnet}}">
               <i class="fa fa-download"></i>
