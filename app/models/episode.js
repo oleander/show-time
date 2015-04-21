@@ -9,7 +9,8 @@ export default DS.Model.extend({
     this.set("seen", true).save();
   },
   formatCreatedAt: function() {
-    return this.get("createdAt") // global.moment(this.get("createdAt")).format("YYYY-MM-DD HH:M");
+    var moment = nRequire("moment");
+    return moment(this.get("createdAt")).format("YYYY-MM-DD HH:mm");
   }.property("createdAt"),
   noMagnet: function() {
     return ! this.get("magnet");

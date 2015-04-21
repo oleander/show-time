@@ -1,10 +1,10 @@
 export default Ember.Route.extend({
   setupController: function(controller) {
     controller.store.find('episode', { seen: false }).then(function(episodes) {
-      // episodes.forEach(function(episode) {
-      //   episode.deleteRecord();
-      //   episode.save();
-      // })
+    //   // episodes.forEach(function(episode) {
+    //   //   episode.deleteRecord();
+    //   //   episode.save();
+    //   // })
       controller.set('episodes', episodes.sortBy("createdAt"));
     })
 

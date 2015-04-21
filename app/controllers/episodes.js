@@ -17,6 +17,9 @@ export default Ember.Controller.extend({
         episode.loading()
       })
     },
+    download: function(obj) {
+      require('shell').openExternal(obj.magnet)
+    },
     updateAll: function() {
       console.info("Running update");
       var store = this.store;
@@ -40,12 +43,13 @@ export default Ember.Controller.extend({
   }
 });
 
+
 var getNewEpisodes = function(callback) {
-  var request = require('request');
-  var _ = require('underscore');
-  var zpad = require('zpad');
-  var util = require('util')
-  var moment = require("moment");
+  var request = nRequire('request');
+  var _ = nRequire('underscore');
+  var zpad = nRequire('zpad');
+  var util = nRequire('util')
+  var moment = nRequire("moment");
 
   var access_token = "c89ad7e48248156a18bad053b5b0eb15debddc3560005c9888ccd4e9e62add54"
   var refresh_token = "26a5d6d6d7a8a0e825626d9ce51435140d6c6b2d3334f08f975f43add03aab82"

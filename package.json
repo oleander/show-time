@@ -2,7 +2,6 @@
   "name": "never-again",
   "version": "0.0.0",
   "description": "Small description for never-again goes here",
-  "private": true,
   "main": "main.js",
   "directories": {
     "doc": "doc",
@@ -34,8 +33,8 @@
     "ember-cli-uglify": "1.0.1",
     "ember-data": "1.0.0-beta.16.1",
     "ember-export-application-global": "^1.0.2",
-    "nw": "^0.12.1",
-    "require": "*",
+    "electron-prebuilt": "*",
+    "request": "*",
     "underscore": "*",
     "zpad": "*",
     "moment": "*"
