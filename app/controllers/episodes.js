@@ -2,9 +2,11 @@ export default Ember.Controller.extend({
   episodes: [],
   actions: {
     remove: function(obj) {
-      this.episodes.removeObject(obj)
+      obj.deleteRecord();
+      obj.save();
     },
     seen: function(obj) {
+      obj.hasSeen();
       this.episodes.removeObject(obj)
     },
     reload: function(obj) {

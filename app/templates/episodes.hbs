@@ -15,30 +15,31 @@
   <button class="btn btn-default btn-sm">Removed</button>
 </div>
 
+<div class="well">
+  <table class="table">
+    <tbody>
+      {{#each episode in episodes}}
+        <tr>
+          <td>{{episode.show}}</td>
+          <td>{{episode.what}}</td>
+          <td>
+            <button class="btn btn-sm btn-default" disabled={{episode.noMagnet}} href="{{episode.magnet}}">
+              <i class="fa fa-download"></i>
+            </button>
+            <button class="btn btn-sm btn-default" {{action "remove" episode}}>
+              <i class="fa fa-times"></i>
+            </button>
+            <button class="btn btn-sm btn-default" {{action "seen" episode}}>
+              <i class="fa fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-default" {{action "reload" episode}}>
+              <i class="fa fa-refresh"></i>
+            </button>
 
-<table class="table">
-  <tbody>
-    {{#each episode in episodes}}
-      <tr>
-        <td>{{episode.show}}</td>
-        <td>{{episode.what}}</td>
-        <td>
-          <button class="btn btn-sm btn-default" disabled={{episode.noMagnet}} href="{{episode.magnet}}">
-            <i class="fa fa-download"></i>
-          </button>
-          <button class="btn btn-sm btn-default" {{action "remove" episode}}>
-            <i class="fa fa-times"></i>
-          </button>
-          <button class="btn btn-sm btn-default" {{action "seen" episode}}>
-            <i class="fa fa-eye"></i>
-          </button>
-          <button class="btn btn-sm btn-default" {{action "reload" episode}}>
-            <i class="fa fa-refresh"></i>
-          </button>
-
-          <i class="fa fa-spinner spin {{episode.isLoading}} loading"></i>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
+            <i class="fa fa-spinner spin {{episode.isLoading}} loading"></i>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
