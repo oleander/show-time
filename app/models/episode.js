@@ -1,7 +1,16 @@
-export default EPDB.Model.extend({
+export default DS.Model.extend({
   show: DS.attr('string'),
-  episode: DS.attr('string'),
-  serialize: function(){
-    return this.getProperties(['episode','show']);
-  }
+  what: DS.attr('string'),
+  magnet: DS.attr('string'),
+  isLoading: false,
+  noMagnet: function() {
+    return ! this.get("magnet");
+  }.property('magnet'),
+  loading: function() {
+    var self = this;
+    self.set("isLoading", ! self.get("isLoading"))
+    setTimeout(function() {
+      self.set("isLoading", ! self.get("isLoading"))
+    }, Math.random() * 10000);
+  },
 });

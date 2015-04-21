@@ -1,13 +1,14 @@
 export default Ember.Route.extend({
   setupController: function(controller) {
-    $.getJSON("/episodes.json", function(episodes) {
-      var ep = $.map(episodes, function(episode) {
-        episode.loading = false;
-        episode.noMagnet = ! episode.magnet;
-        return Ember.Object.create(episode);
-      });
-
-      controller.set('episodes', ep);
-    })
+    controller.set('episodes', controller.store.find('episode'))
+    // $.getJSON("/episodes.json", function(episodes) {
+    //   $.each(episodes, function(_, episode) {
+    //     controller.store.createRecord('episode', {
+    //       show: episode.show,
+    //       what: episode.what,
+    //       magnet: episode.magnet
+    //     }).save()
+    //   })
+    // })
   }
 })

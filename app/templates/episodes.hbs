@@ -7,6 +7,15 @@
     display: inline;
   }
 </style>
+
+<div class="well">
+  <button class="btn btn-default btn-sm">Login</button>
+  <button {{action "reloadAll"}} class="btn btn-default btn-sm">Reload</button>
+  <button class="btn btn-default btn-sm">Seen</button>
+  <button class="btn btn-default btn-sm">Removed</button>
+</div>
+
+
 <table class="table">
   <tbody>
     {{#each episode in episodes}}
@@ -27,7 +36,7 @@
             <i class="fa fa-refresh"></i>
           </button>
 
-          <i class="fa fa-spinner spin {{episode.loading}} loading"></i>
+          <i class="fa fa-spinner spin {{episode.isLoading}} loading"></i>
         </td>
       </tr>
     {{/each}}
