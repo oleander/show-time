@@ -2,6 +2,7 @@ export default Ember.Controller.extend({
   episodes: [],
   actions: {
     remove: function(obj) {
+      this.episodes.removeObject(obj);
       obj.deleteRecord();
       obj.save();
     },
@@ -18,24 +19,25 @@ export default Ember.Controller.extend({
       })
     },
     download: function(obj) {
-      require('shell').openExternal(obj.magnet)
+      nRequire('shell').openExternal(obj.get("magnet"))
     },
     updateAll: function() {
       console.info("Running update");
       var store = this.store;
+      var self = this;
       getNewEpisodes(function(episodes) {
-        console.info("Gets" + episodes.length);
         $.each(episodes, function(_, episode) {
-          console.info("Add", episode)
           var record = store.createRecord('episode', {
             show: episode.show,
             what: episode.what,
             magnet: null,
             createdAt: new Date(),
             seen: false
-          })
+          });
 
-          record.save()
+          record.save();
+
+          self.episodes.unshiftObject(record);
           record.loading()
         })
       })
@@ -78,8 +80,8 @@ var getNewEpisodes = function(callback) {
       var season = zpad(episode["season"], 2);
       var number = zpad(episode["number"], 2);
       var show = data["show"]["title"]
-      return { 
-        "show": show, 
+      return {
+        "show": show,
         "what": util.format('s%se%s', season, number)
       }
     });

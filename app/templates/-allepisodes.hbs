@@ -26,9 +26,9 @@
           <td>{{episode.formatCreatedAt}}</td>
           <td>
             <div class="pull-right">
-              <a target="_blank" class="btn btn-sm btn-default" disabled={{episode.noMagnet}} href="{{episode.magnet}}" target="_blank">
+              <button {{action "download" episode}} class="btn btn-sm btn-default" disabled={{episode.noMagnet}} target="_blank">
                 <i class="fa fa-download"></i>
-              </a>
+              </button>
               <button class="btn btn-sm btn-default" {{action "remove" episode}}>
                 <i class="fa fa-times"></i>
               </button>
