@@ -1,5 +1,7 @@
 export default Ember.Controller.extend({
   episodes: [],
+  isReloading: false,
+  isUpdating: false,
   actions: {
     remove: function(obj) {
       this.episodes.removeObject(obj);
@@ -11,20 +13,30 @@ export default Ember.Controller.extend({
       this.episodes.removeObject(obj)
     },
     reload: function(obj) {
-      obj.loading()
+      obj.loading();
     },
     reloadAll: function() {
-      this.episodes.forEach(function(episode) {
-        episode.loading()
-      })
+      var self = this;
+      self.set("isReloading", true);
+      var promises = this.episodes.map(function(episode) {
+        return new Promise(function(resolve) {
+          episode.loading(resolve);
+        });
+      });
+
+      Promise.all(promises).then(function(){
+        self.set("isReloading", false);
+      });
     },
     download: function(obj) {
       nRequire('shell').openExternal(obj.get("magnet"))
     },
     updateAll: function() {
+      this.set("isUpdating", true);
       var store = this.store;
       var self = this;
       getNewEpisodes(function(episodes) {
+        self.set("isUpdating", false);
         episodes.forEach(function(episode) {
           var res = store.find("episode", {
             show: episode.show,
@@ -33,13 +45,16 @@ export default Ember.Controller.extend({
 
           setTimeout(function(){
             if(res.get("length") > 0) { return; }
+            if(episode.firstAired > new Date()) { return; }
+
             var record = store.createRecord('episode', {
               show: episode.show,
               what: episode.what,
               magnet: null,
               title: episode.title,
               createdAt: new Date(),
-              seen: false
+              seen: false,
+              firstAired: episode.firstAired
             });
 
             record.save();
@@ -81,10 +96,10 @@ var getNewEpisodes = function(callback) {
   };
 
   request(options, function(error, response, body){
-    var raw = JSON.parse(body)
+    var raw = JSON.parse(body);
     var episodes = _.map(raw, function(data) {
       var episode = data["episode"];
-      var episode = data["episode"];
+      var firstAired = data["first_aired"];
       var title = episode["title"];
       var season = zpad(episode["season"], 2);
       var number = zpad(episode["number"], 2);
@@ -92,7 +107,8 @@ var getNewEpisodes = function(callback) {
       return {
         "show": show,
         "what": util.format('s%se%s', season, number),
-        "title": title
+        "title": title,
+        "firstAired": new Date(firstAired)
       }
     });
 

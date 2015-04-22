@@ -1,20 +1,44 @@
 <div class="well">
-  <button class="btn btn-default btn-sm">Login</button>
-  <button {{action "reloadAll"}} class="btn btn-default btn-sm">Reload</button>
-  <button class="btn btn-default btn-sm">Seen</button>
-  <button {{action "updateAll"}} class="btn btn-default btn-sm">Update</button>
-  <button class="btn btn-default btn-sm">Removed</button>
+  <button class="btn btn-default btn-sm">
+    <i class="fa fa-lock"></i>
+    Login
+  </button>
+  <button {{action "reloadAll"}} disabled={{isReloading}} class="btn btn-default btn-sm">
+    <i class="fa fa-refresh"></i>
+    Reload magnets
+  </button>
+  <button class="btn btn-default btn-sm">
+    <i class="fa fa-eye"></i>
+    Seen
+  </button>
+  <button {{action "updateAll"}} disabled={{isUpdating}} class="btn btn-default btn-sm">
+    <i class="fa fa-refresh"></i>
+    Reload episodes
+  </button>
+  <button class="btn btn-default btn-sm">
+    <i class="fa fa-times"></i>
+    Removed episodes
+  </button>
 </div>
 
 <div class="well">
   <table class="table">
+    <thead>
+      <tr>
+        <th>Show</th>
+        <th>Episode</th>
+        <th>Title</th>
+        <th>Aired</th>
+        <th></th>
+      </tr>
+    </thead>
     <tbody>
       {{#each episode in episodes}}
         <tr>
           <td>{{episode.show}}</td>
           <td>{{episode.what}}</td>
-          <td>{{episode.title}}</td>
-          <td>{{episode.formatCreatedAt}}</td>
+          <td>{{truncate episode.title}}</td>
+          <td>{{time-ago-in-words episode.firstAired}}</td>
           <td>
             <div class="pull-right">
               <button {{action "download" episode}} class="btn btn-sm btn-default" disabled={{episode.noMagnet}} target="_blank">

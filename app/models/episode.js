@@ -3,6 +3,7 @@ export default DS.Model.extend({
   what: DS.attr('string'),
   magnet: DS.attr('string'),
   createdAt: DS.attr('date'),
+  firstAired: DS.attr('date'),
   title: DS.attr("string"),
   seen: DS.attr('boolean', { defaultValue: false }),
   isLoading: false,
@@ -13,10 +14,14 @@ export default DS.Model.extend({
     var moment = nRequire("moment");
     return moment(this.get("createdAt")).format("YYYY-MM-DD HH:mm");
   }.property("createdAt"),
+  formatFirstAired: function() {
+    var moment = nRequire("moment");
+    return moment(this.get("firstAired")).format("YYYY-MM-DD HH:mm");
+  }.property("createdAt"),
   noMagnet: function() {
     return ! this.get("magnet");
   }.property('magnet'),
-  loading: function() {
+  loading: function(resolve, reject) {
     var self = this;
     if(self.get("isLoading")){ return; }
     self.set("isLoading", true);
@@ -48,6 +53,7 @@ export default DS.Model.extend({
         self.save()
       }
       self.set("isLoading", false);
+      if(resolve){ resolve(); }
     });
   },
 });
