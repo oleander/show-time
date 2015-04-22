@@ -7,18 +7,34 @@
     <i class="fa fa-refresh"></i>
     Reload magnets
   </button>
-  <button class="btn btn-default btn-sm">
-    <i class="fa fa-eye"></i>
-    Seen
-  </button>
+  {{#if seenView}}
+    {{#link-to "current" class="btn btn-default btn-sm"}}
+      <i class="fa fa-star"></i>
+      Current episodes
+    {{/link-to}}
+  {{else}}
+    {{#link-to "seen" class="btn btn-default btn-sm"}}
+      <i class="fa fa-eye"></i>
+      Seen episodes
+    {{/link-to}}
+  {{/if}}
+
   <button {{action "updateAll"}} disabled={{isUpdating}} class="btn btn-default btn-sm">
     <i class="fa fa-refresh"></i>
     Reload episodes
   </button>
-  <button class="btn btn-default btn-sm">
-    <i class="fa fa-times"></i>
-    Removed episodes
-  </button>
+
+  {{#if removedView}}
+    {{#link-to "current" class="btn btn-default btn-sm"}}
+      <i class="fa fa-star"></i>
+      Current episodes
+    {{/link-to}}
+  {{else}}
+    {{#link-to "removed" class="btn btn-default btn-sm"}}
+      <i class="fa fa-times"></i>
+      Removed episodes
+    {{/link-to}}
+  {{/if}}
 </div>
 
 <div class="well">

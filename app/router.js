@@ -17,5 +17,7 @@ var Router = Ember.Router.extend({
 });
 
 export default Router.map(function() {
-  this.route('episodes', { path: '/' });
+  this.route('current', { path: '/' });
+  this.route('removed', { path: '/removed' });
+  this.route('seen', { path: '/seen' });
 });

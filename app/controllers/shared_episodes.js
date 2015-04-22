@@ -1,5 +1,7 @@
-export default Ember.Controller.extend({
+export default Ember.Mixin.create({
   episodes: [],
+  removedView: false,
+  seenView: false,
   isReloading: false,
   isUpdating: false,
   actions: {
