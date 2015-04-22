@@ -1,20 +1,15 @@
-export default Ember.Mixin.create({
+export default Ember.Controller.extend({
   episodes: [],
   removedView: false,
   seenView: false,
   isReloading: false,
   isUpdating: false,
+  showAll: true,
   actions: {
-    remove: function(obj) {
-      this.episodes.removeObject(obj);
-      obj.isRemoved();
-    },
-    seen: function(obj) {
-      obj.hasSeen();
-      this.episodes.removeObject(obj)
-    },
-    reload: function(obj) {
-      obj.loading();
+    logout: function() {
+      var user = this.get("currentUser");
+      user.destroyRecord();
+      this.set("currentUser", null);
     },
     reloadAll: function() {
       var self = this;
@@ -66,7 +61,6 @@ export default Ember.Mixin.create({
     }
   }
 });
-
 
 var getNewEpisodes = function(callback) {
   var request = nRequire('request');

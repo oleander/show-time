@@ -1,1 +1,44 @@
+<div class="well">
+  {{#if currentUser}}
+    <button {{action "logout"}} class="btn btn-default btn-sm">
+      <i class="fa fa-share"></i>
+      Logout
+    </button>
+  {{else}}
+    {{#link-to "login" class="btn btn-default btn-sm"}}
+      <i class="fa fa-lock"></i>
+      Login
+    {{/link-to}}
+  {{/if}}
+
+  <button {{action "reloadAll"}} disabled={{isReloading}} class="btn btn-default btn-sm">
+    <i class="fa fa-refresh"></i>
+    Reload magnets
+  </button>
+
+  {{#link-to "seen" class="btn btn-default btn-sm"}}
+    <i class="fa fa-eye"></i>
+    Seen episodes
+  {{/link-to}}
+
+  <button {{action "updateAll"}} disabled={{isUpdating}} class="btn btn-default btn-sm">
+    <i class="fa fa-refresh"></i>
+    Reload episodes
+  </button>
+
+  {{#link-to "removed" class="btn btn-default btn-sm"}}
+    <i class="fa fa-times"></i>
+    Removed episodes
+  {{/link-to}}
+
+  <div class="pull-right">
+    {{#if showAll}}
+      {{#link-to "current" class="btn btn-default btn-sm"}}
+        <i class="fa fa-star"></i>
+        Current episodes
+      {{/link-to}}
+    {{/if}}
+  </div>
+</div>
+
 {{outlet}}

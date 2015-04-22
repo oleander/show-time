@@ -1,8 +1,11 @@
 export default Ember.Route.extend({
   setupController: function(controller) {
+    var self = this;
     controller.store.find('episode', { seen: false, removed: false }).
     then(function(episodes) {
-      controller.set('episodes', episodes.sortBy("createdAt"));
+      episodes = episodes.sortBy("createdAt");
+      self.controllerFor("episodes").set("episodes", episodes);
+      self.controllerFor("application").set("episodes", episodes);
     });
   }
 });

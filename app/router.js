@@ -9,9 +9,6 @@ Ember.Handlebars.helper('truncate', function(text, options){
   return text;
 });
 
-// setInterval(function(){
-//
-// }, 1 * 60 * 60 * 1000)
 var Router = Ember.Router.extend({
   location: config.locationType
 });
@@ -20,4 +17,6 @@ export default Router.map(function() {
   this.route('current', { path: '/' });
   this.route('removed', { path: '/removed' });
   this.route('seen', { path: '/seen' });
+  this.route('login', { path: '/login' });
+  this.route('logout', { path: '/logout' });
 });
