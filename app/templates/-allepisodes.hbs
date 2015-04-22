@@ -1,13 +1,3 @@
-<style type="text/css">
-  i.loading.false {
-    visibility: hidden;
-  }
-
-  i.loading.true {
-    display: inline;
-  }
-</style>
-
 <div class="well">
   <button class="btn btn-default btn-sm">Login</button>
   <button {{action "reloadAll"}} class="btn btn-default btn-sm">Reload</button>
@@ -23,6 +13,7 @@
         <tr>
           <td>{{episode.show}}</td>
           <td>{{episode.what}}</td>
+          <td>{{episode.title}}</td>
           <td>{{episode.formatCreatedAt}}</td>
           <td>
             <div class="pull-right">
@@ -35,11 +26,9 @@
               <button class="btn btn-sm btn-default" {{action "seen" episode}}>
                 <i class="fa fa-eye"></i>
               </button>
-              <button class="btn btn-sm btn-default" {{action "reload" episode}}>
+              <button disabled={{episode.isLoading}} class="btn btn-sm btn-default" {{action "reload" episode}}>
                 <i class="fa fa-refresh"></i>
               </button>
-
-              <i class="fa fa-spinner spin {{episode.isLoading}} loading"></i>
             </div>
           </td>
         </tr>

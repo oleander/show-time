@@ -3,6 +3,7 @@ export default DS.Model.extend({
   what: DS.attr('string'),
   magnet: DS.attr('string'),
   createdAt: DS.attr('date'),
+  title: DS.attr("string"),
   seen: DS.attr('boolean', { defaultValue: false }),
   isLoading: false,
   hasSeen: function() {

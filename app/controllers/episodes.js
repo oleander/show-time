@@ -22,23 +22,30 @@ export default Ember.Controller.extend({
       nRequire('shell').openExternal(obj.get("magnet"))
     },
     updateAll: function() {
-      console.info("Running update");
       var store = this.store;
       var self = this;
       getNewEpisodes(function(episodes) {
-        $.each(episodes, function(_, episode) {
-          var record = store.createRecord('episode', {
+        episodes.forEach(function(episode) {
+          var res = store.find("episode", {
             show: episode.show,
-            what: episode.what,
-            magnet: null,
-            createdAt: new Date(),
-            seen: false
-          });
+            what: episode.what
+          })
 
-          record.save();
+          setTimeout(function(){
+            if(res.get("length") > 0) { return; }
+            var record = store.createRecord('episode', {
+              show: episode.show,
+              what: episode.what,
+              magnet: null,
+              title: episode.title,
+              createdAt: new Date(),
+              seen: false
+            });
 
-          self.episodes.unshiftObject(record);
-          record.loading()
+            record.save();
+            self.episodes.unshiftObject(record);
+            record.loading();
+          }, 1000);
         })
       })
     }
@@ -76,13 +83,16 @@ var getNewEpisodes = function(callback) {
   request(options, function(error, response, body){
     var raw = JSON.parse(body)
     var episodes = _.map(raw, function(data) {
-      var episode = data["episode"]
+      var episode = data["episode"];
+      var episode = data["episode"];
+      var title = episode["title"];
       var season = zpad(episode["season"], 2);
       var number = zpad(episode["number"], 2);
-      var show = data["show"]["title"]
+      var show = data["show"]["title"];
       return {
         "show": show,
-        "what": util.format('s%se%s', season, number)
+        "what": util.format('s%se%s', season, number),
+        "title": title
       }
     });
 
