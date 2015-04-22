@@ -5,8 +5,7 @@ export default Ember.Controller.extend({
   actions: {
     remove: function(obj) {
       this.episodes.removeObject(obj);
-      obj.deleteRecord();
-      obj.save();
+      obj.isRemoved();
     },
     seen: function(obj) {
       obj.hasSeen();
@@ -53,7 +52,6 @@ export default Ember.Controller.extend({
               magnet: null,
               title: episode.title,
               createdAt: new Date(),
-              seen: false,
               firstAired: episode.firstAired
             });
 

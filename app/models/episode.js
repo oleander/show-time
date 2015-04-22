@@ -6,10 +6,15 @@ export default DS.Model.extend({
   firstAired: DS.attr('date'),
   title: DS.attr("string"),
   seen: DS.attr('boolean', { defaultValue: false }),
+  removed: DS.attr('boolean', { defaultValue: false }),
   isLoading: false,
   hasSeen: function() {
     this.set("seen", true).save();
   },
+  isRemoved: function() {
+    this.set("removed", true).save();
+  },
+
   formatCreatedAt: function() {
     var moment = nRequire("moment");
     return moment(this.get("createdAt")).format("YYYY-MM-DD HH:mm");
