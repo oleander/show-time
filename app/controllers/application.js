@@ -1,12 +1,12 @@
 import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes"
 
 export default Ember.Controller.extend({
-  episodes: [],
   removedView: false,
   seenView: false,
   isReloading: false,
   isUpdating: false,
   showAll: true,
+  needs: ["episodes"],
   actions: {
     logout: function() {
       var user = this.get("currentUser");
@@ -39,6 +39,7 @@ export default Ember.Controller.extend({
       });
     },
     clearDB: function(){
+      this.get("controllers.episodes").set("episodes", [])
       window.localStorage.clear();
     }
   }
