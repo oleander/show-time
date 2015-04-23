@@ -11,25 +11,25 @@
     {{/link-to}}
   {{/if}}
 
-  <button {{action "reloadAll"}} disabled={{isReloading}} class="btn btn-default btn-sm">
-    <i class="fa fa-refresh"></i>
-    Reload magnets
-  </button>
-
   {{#link-to "seen" class="btn btn-default btn-sm"}}
     <i class="fa fa-eye"></i>
     Seen episodes
   {{/link-to}}
 
-  <button {{action "updateAll"}} disabled={{isUpdating}} class="btn btn-default btn-sm">
-    <i class="fa fa-refresh"></i>
-    Reload episodes
-  </button>
-
   {{#link-to "removed" class="btn btn-default btn-sm"}}
     <i class="fa fa-times"></i>
     Removed episodes
   {{/link-to}}
+
+  <button {{action "updateAll"}} disabled={{isUpdating}} class="btn btn-default btn-sm">
+    <i class="fa fa-refresh"></i>
+    Fetch new episodes
+  </button>
+
+  <button {{action "reloadAll"}} disabled={{isReloading}} class="btn btn-default btn-sm">
+    <i class="fa fa-refresh"></i>
+    Reload magnets
+  </button>
 
   <div class="pull-right">
     {{#if showAll}}

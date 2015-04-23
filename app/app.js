@@ -24,6 +24,21 @@ Ember.Application.initializer({
   }
 });
 
+Ember.Application.initializer({
+  name: 'fetchLoop',
+
+  initialize: function(container, application) {
+    // var loop = function() {
+      setInterval(function() {
+        console.debug("LOOP...");
+      }, 1000)
+    // };
+    // application.register('fetch:loop', loop , { instantiate: false });
+    // application.inject('controller', 'fetchLoop', 'fetch:loop');
+
+  }
+});
+
 App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
