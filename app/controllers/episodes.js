@@ -10,6 +10,9 @@ export default Ember.Controller.extend({
     },
     reload: function(obj) {
       obj.loading();
-    }
+    },
+    download: function(obj) {
+      nRequire("shell").openExternal(obj.get("magnet"))
+    },
   }
 })

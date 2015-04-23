@@ -26,9 +26,6 @@ export default Ember.Controller.extend({
         self.set("isReloading", false);
       });
     },
-    download: function(obj) {
-      nRequire('shell').openExternal(obj.get("magnet"))
-    },
     updateAll: function() {
       this.set("isUpdating", true);
       var self = this;
@@ -40,6 +37,9 @@ export default Ember.Controller.extend({
         });
         self.set("isUpdating", false);
       });
+    },
+    clearDB: function(){
+      window.localStorage.clear();
     }
   }
 });

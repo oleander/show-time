@@ -39,7 +39,8 @@
     "request": "*",
     "underscore": "*",
     "zpad": "*",
-    "cheerio": "*"
+    "cheerio": "*",
+    "node-notifier": "*"
   },
   "window": {
     "width": 960,

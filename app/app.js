@@ -2,6 +2,7 @@ import Ember from 'ember';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
+import getAndInitNewEpisodes from "./lib/getAndInitNewEpisodes"
 
 var App;
 
@@ -24,18 +25,41 @@ Ember.Application.initializer({
   }
 });
 
+var notifier = nRequire('node-notifier');
+var episodesToString = function(episodes){
+  var episode = episodes[0];
+
+  if(episodes.length == 1) {
+    var episode = episodes[0];
+    return episode.get("show")  + " " + episode.get("what") + " was released";
+  }
+
+
+  return episode.get("show")  + " " + episode.get("what") + " and " + 
+    (episodes.length - 1) + " others";
+}
+
 Ember.Application.initializer({
-  name: 'fetchLoop',
-
+  name: "fetchLoop",
   initialize: function(container, application) {
-    // var loop = function() {
-      setInterval(function() {
-        console.debug("LOOP...");
-      }, 1000)
-    // };
-    // application.register('fetch:loop', loop , { instantiate: false });
-    // application.inject('controller', 'fetchLoop', 'fetch:loop');
+    setTimeout(function(){
+      var store = container.lookup("store:main");
+      var appController = container.lookup('controller:application');
 
+      getAndInitNewEpisodes(store, function(episodes) {
+        episodes.forEach(function(episode) {
+          appController.get("episodes").unshiftObject(episode);
+          episode.loading();
+        });
+
+        if(episodes.length > 0){
+          notifier.notify({
+            'title': 'New episodes',
+            'message': episodesToString(episodes)
+          });
+        }
+      });
+    }, 10000);
   }
 });
 

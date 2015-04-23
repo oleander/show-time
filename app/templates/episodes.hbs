@@ -1,4 +1,3 @@
-{{#if currentUser}}
   <div class="well">
     {{#if episodes}}
       <table class="table">
@@ -42,7 +41,3 @@
       No episodes to show.
     {{/if}}
   </div>
-{{else}}
-  You must login!
-  {{#link-to "login"}}Login!{{/link-to}}
-{{/if}}
