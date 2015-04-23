@@ -1,5 +1,9 @@
 export default Ember.Controller.extend({
   episodes: [],
+  needs: ["application"],
+  currentUser: function() {
+    return this.get('controllers.application.currentUser');
+  }.property('controllers.application.currentUser'),
   actions: {
     remove: function(obj) {
       this.episodes.removeObject(obj);

@@ -1,6 +1,10 @@
 export default Ember.Controller.extend({
   isLoading: false,
   error: false,
+  needs: ["application"],
+  currentUser: function() {
+    return this.get('controllers.application.currentUser');
+  }.property('controllers.application.currentUser'),
   actions: {
     login: function () {
       var self = this;
@@ -26,12 +30,16 @@ export default Ember.Controller.extend({
             expiresAt.getSeconds() + token["expires_in"]
           );
 
-          self.store.createRecord("user", {
+          var user = self.store.createRecord("user", {
             accessToken: token["access_token"],
             refreshToken: token["refresh_token"],
             expiresAt: expiresAt
-          }).save();
+          })
 
+          user.save();
+
+          self.get("controllers.application").
+            set("currentUser", user);
           self.transitionToRoute("current");
         });
       });

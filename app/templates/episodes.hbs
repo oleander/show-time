@@ -1,3 +1,4 @@
+{{#if currentUser }}
   <div class="well">
     {{#if episodes}}
       <table class="table">
@@ -41,3 +42,6 @@
       No episodes to show.
     {{/if}}
   </div>
+{{else}}
+  Nope
+{{/if}}

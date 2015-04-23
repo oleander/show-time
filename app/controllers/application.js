@@ -6,6 +6,7 @@ export default Ember.Controller.extend({
   isReloading: false,
   isUpdating: false,
   showAll: true,
+  currentUser: null,
   needs: ["episodes"],
   actions: {
     logout: function() {
