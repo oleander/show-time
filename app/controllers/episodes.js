@@ -1,4 +1,5 @@
 export default Ember.Controller.extend({
+  episodes: [],
   actions: {
     remove: function(obj) {
       this.episodes.removeObject(obj);

@@ -44,11 +44,10 @@ Ember.Application.initializer({
   initialize: function(container, application) {
     setTimeout(function(){
       var store = container.lookup("store:main");
-      var appController = container.lookup('controller:application');
-
+      var epController = container.lookup('controller:episodes');
       getAndInitNewEpisodes(store, function(episodes) {
         episodes.forEach(function(episode) {
-          appController.get("episodes").unshiftObject(episode);
+          epController.get("episodes").unshiftObject(episode);
           episode.loading();
         });
 
