@@ -5,6 +5,9 @@ export default Ember.Route.extend({
     episodes.then(function(episodes) {
       episodes = episodes.sortBy("firstAired").reverse();
       self.controllerFor("episodes").set("episodes", episodes);
+    }, function() {
+      self.controllerFor("episodes").set("episodes", []);
+      self.controllerFor("application").set("episodes", []);
     });
   }
 });
