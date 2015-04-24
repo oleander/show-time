@@ -1,11 +1,10 @@
-export default function(callback) {
+export default function(accessToken, callback) {
   var request = nRequire('request');
   var _ = nRequire('underscore');
   var zpad = nRequire('zpad');
   var util = nRequire('util')
   var moment = nRequire("moment");
 
-  var accessToken = "c89ad7e48248156a18bad053b5b0eb15debddc3560005c9888ccd4e9e62add54"
   var apiKey = "123eaefe74369e41a98369af821d59a52c9283b20d79fead29e284ada23a1874"
   var headers = {
     "Content-Type": "application/json",

@@ -8,6 +8,18 @@ export default Ember.Controller.extend({
   showAll: true,
   currentUser: null,
   needs: ["episodes"],
+  deactivateUpdateAll: function() {
+    return ! this.get("currentUser") || this.get("isUpdating")
+  }.property("currentUser", "isUpdating"),
+  deactivateReloadAll: function() {
+    return ! this.get("currentUser") || this.get("isReloading")
+  }.property("currentUser", "isReloading"),
+  getEpisodes: function() {
+    return this.get("controllers.episodes").get("episodes")
+  },
+  setEpisodes: function(data) {
+    return this.get("controllers.episodes").set("episodes", data)
+  },
   actions: {
     logout: function() {
       var user = this.get("currentUser");
@@ -17,7 +29,7 @@ export default Ember.Controller.extend({
     reloadAll: function() {
       var self = this;
       self.set("isReloading", true);
-      var promises = this.episodes.map(function(episode) {
+      var promises = this.getEpisodes().map(function(episode) {
         return new Promise(function(resolve) {
           episode.loading(resolve);
         });
@@ -33,14 +45,15 @@ export default Ember.Controller.extend({
 
       getAndInitNewEpisodes(this.store, function(episodes) {
         episodes.forEach(function(episode) {
-          self.episodes.unshiftObject(episode);
+          self.getEpisodes().unshiftObject(episode);
           episode.loading();
         });
         self.set("isUpdating", false);
       });
     },
     clearDB: function(){
-      this.get("controllers.episodes").set("episodes", [])
+      this.setEpisodes([]);
+      this.set("currentUser", null);
       window.localStorage.clear();
     }
   }

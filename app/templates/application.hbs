@@ -21,12 +21,12 @@
     Removed episodes
   {{/link-to}}
 
-  <button {{action "updateAll"}} disabled={{isUpdating}} class="btn btn-default btn-sm">
+  <button {{action "updateAll"}} disabled={{deactivateUpdateAll}} class="btn btn-default btn-sm">
     <i class="fa fa-refresh"></i>
     Fetch new episodes
   </button>
 
-  <button {{action "reloadAll"}} disabled={{isReloading}} class="btn btn-default btn-sm">
+  <button {{action "reloadAll"}} disabled={{deactivateReloadAll}} class="btn btn-default btn-sm">
     <i class="fa fa-refresh"></i>
     Reload magnets
   </button>

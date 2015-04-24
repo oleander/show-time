@@ -8,32 +8,13 @@ var App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
-// Ember.Application.initializer({
-//   name: 'currentUser',
-
-//   initialize: function(container, application) {
-//     var store = container.lookup('store:main')
-//     store.find('user').then(function(users) {
-//       if(users.get("length") > 0){
-//         var user = function() {
-//           return users.get("firstObject");
-//         }.property("currentUser");
-//         application.register('user:current', user , { instantiate: false });
-//         application.inject('controller', 'currentUser', 'user:current');
-//       }
-//     });
-//   }
-// });
-
 var notifier = nRequire('node-notifier');
 var episodesToString = function(episodes){
   var episode = episodes[0];
-
   if(episodes.length == 1) {
-    var episode = episodes[0];
-    return episode.get("show")  + " " + episode.get("what") + " was released";
+    return episode.get("show")  + " " + episode.get("what") + 
+      " was released";
   }
-
 
   return episode.get("show")  + " " + episode.get("what") + " and " + 
     (episodes.length - 1) + " others";
@@ -58,7 +39,7 @@ Ember.Application.initializer({
           });
         }
       });
-    }, 10000);
+    }, 100000);
   }
 });
 

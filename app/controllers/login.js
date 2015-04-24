@@ -15,15 +15,26 @@ export default Ember.Controller.extend({
       self.set("isLoading", true)
       self.set("error", false);
 
-      login(this.get("token"), function(token, error){
+      login(self.get("token"), function(token, error){
         self.set("isLoading", false);
+        self.set("token", "");
 
         if(error){
           return self.set("error", true);
         }
 
+        var setAndRedirectUser = function(user){
+          self.get("controllers.application").
+            set("currentUser", user);
+          self.transitionToRoute("current");
+          self.get("controllers.application").
+            send("updateAll");
+        };
+
         self.store.find("user").then(function(users){
-          if(users.get("length") > 0) { return; }
+          if(users.get("length") > 0) {
+            return setAndRedirectUser(users.get("firstObject"));
+          }
 
           var expiresAt = new Date();
           expiresAt.setSeconds(
@@ -38,9 +49,7 @@ export default Ember.Controller.extend({
 
           user.save();
 
-          self.get("controllers.application").
-            set("currentUser", user);
-          self.transitionToRoute("current");
+          setAndRedirectUser(user);
         });
       });
     }
