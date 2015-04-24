@@ -5,7 +5,7 @@ import config from './config/environment';
 import getAndInitNewEpisodes from "./lib/getAndInitNewEpisodes"
 
 var App;
-
+var ipc = nRequire("ipc");
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var notifier = nRequire('node-notifier');
@@ -23,7 +23,7 @@ var episodesToString = function(episodes){
 Ember.Application.initializer({
   name: "fetchLoop",
   initialize: function(container, application) {
-    setTimeout(function(){
+    setInterval(function(){
       var store = container.lookup("store:main");
       var epController = container.lookup('controller:episodes');
       getAndInitNewEpisodes(store, function(episodes) {
@@ -37,9 +37,11 @@ Ember.Application.initializer({
             'title': 'New episodes',
             'message': episodesToString(episodes)
           });
+
+          ipc.sendSync('newBackgroundEpisodes', 1);
         }
       });
-    }, 100000);
+    }, 1 * 60 * 60 * 1000);
   }
 });
 

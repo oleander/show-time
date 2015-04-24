@@ -39,7 +39,16 @@
         </tbody>
       </table>
     {{else}}
-      No episodes to show.
+      <div class="nothing">
+        <span>
+          No new episodes.
+          {{#unless deactivateUpdateAll}}
+            <a href="#" {{action "updateAll"}}>Reload?</a>
+          {{else}}
+            Loading ...
+          {{/unless}}
+        </span>
+      </div>
     {{/if}}
   </div>
 {{else}}
