@@ -1,4 +1,14 @@
-<div class="well">
+<style type="text/css">
+  .token-input {
+    height: 30px;
+    position: relative;
+    top: 2px;
+    width: 93%;
+    margin-left: 10px;
+  }
+</style>
+
+<div class="well" style="clear: both; height: 70px">
   {{#if error}}
     <div class="alert alert-warning">
       Login failed, please try again
@@ -8,7 +18,7 @@
   {{#if isLoading}}
     Loading ...
   {{else}}
-    <a href="http://trakt.tv/pin/3829" target="_blank">Open</a>
-    {{input type="text" value=token size="50" action="login" on="enter"}}
+      <a class="btn btn-primary btn-sm pull-left" href="http://trakt.tv/pin/3829" target="_blank">Open</a>
+      {{input placeholder="Click on the button and enter your token" type="text" value=token size="50" class="token-input form-control pull-left" action="login" on="enter"}}
   {{/if}}
 </div>
