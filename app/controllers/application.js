@@ -8,6 +8,8 @@ export default Ember.Controller.extend({
   showAll: true,
   currentUser: null,
   needs: ["episodes"],
+  errorMessage: null,
+  successMessage: null,
   deactivateUpdateAll: function() {
     return ! this.get("currentUser") || this.get("isUpdating")
   }.property("currentUser", "isUpdating"),
@@ -55,6 +57,12 @@ export default Ember.Controller.extend({
       this.setEpisodes([]);
       this.set("currentUser", null);
       window.localStorage.clear();
+    },
+    closeSuccessMessage: function() {
+      this.set("successMessage", null);
+    },
+    closeErrorMessage: function() {
+      this.set("errorMessage", null);
     }
   }
 });

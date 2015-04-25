@@ -40,7 +40,9 @@
     "underscore": "*",
     "zpad": "*",
     "cheerio": "*",
-    "node-notifier": "*"
+    "node-notifier": "*",
+    "jrpc2": "*",
+    "js-base64": "*"
   },
   "window": {
     "width": 960,

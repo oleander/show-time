@@ -32,6 +32,10 @@
                   <button disabled={{episode.isLoading}} class="btn btn-sm btn-default" {{action "reload" episode}}>
                     <i class="fa fa-refresh"></i>
                   </button>
+
+                  <button disabled={{episode.loadingPopcorn}} disabled={{episode.noMagnet}} class="btn btn-sm btn-default" {{action "playInPopcornTime" episode}}>
+                    <i class="fa fa-play"></i>
+                  </button>
                 </div>
               </td>
             </tr>
@@ -41,7 +45,7 @@
     {{else}}
       <div class="nothing">
         <span>
-          No new episodes.
+         Awesome, you've already seen everything.
           {{#unless deactivateUpdateAll}}
             <a href="#" {{action "updateAll"}}>Reload?</a>
           {{else}}

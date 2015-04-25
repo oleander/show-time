@@ -8,13 +8,20 @@ export default DS.Model.extend({
   seen: DS.attr('boolean', { defaultValue: false }),
   removed: DS.attr('boolean', { defaultValue: false }),
   isLoading: false,
+  loadingPopcorn: false,
   hasSeen: function() {
     this.set("seen", true).save();
   },
   isRemoved: function() {
     this.set("removed", true).save();
   },
-
+  completeTitle: function(){
+    return this.get("show") + " - " + this.get("what") + 
+      " - " + this.get("title");
+  }.property("show", "what", "title"),
+  shortTitle: function(){
+    return this.get("show") + " - " + this.get("what");
+  }.property("show", "what"),
   formatCreatedAt: function() {
     var moment = nRequire("moment");
     return moment(this.get("createdAt")).format("YYYY-MM-DD HH:mm");

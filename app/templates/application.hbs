@@ -45,4 +45,20 @@
   </div>
 </div>
 
+{{#if errorMessage}}
+  <div class="alert alert-warning">
+    <button type="button" {{action "closeErrorMessage"}} class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+    {{errorMessage}}
+  </div>
+{{/if}}
+
+{{#if successMessage}}
+  <div class="alert alert-success">
+    <button type="button" {{action "closeSuccessMessage"}} class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+    {{successMessage}}
+  </div>
+{{/if}}
+
 {{outlet}}
