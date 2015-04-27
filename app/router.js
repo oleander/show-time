@@ -15,6 +15,8 @@ var Router = Ember.Router.extend({
 
 export default Router.map(function() {
   this.route('current', { path: '/' });
+  this.route('torrents', { path: '/torrents' });
+  this.route('torrent', { path: '/torrent/:torrent' });
   this.route('removed', { path: '/removed' });
   this.route('seen', { path: '/seen' });
   this.route('login', { path: '/login' });

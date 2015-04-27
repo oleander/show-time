@@ -1,0 +1,12 @@
+HELLO!
+<ul>
+  {{#each torrent in torrents}}
+    <li>
+      <button {{action "play" torrent}}>Play {{torrent}}</button>
+    </li>
+  {{/each}}
+</ul>
+
+{{#if video}}
+  <video src="{{video}}" controls></video>
+{{/if}}

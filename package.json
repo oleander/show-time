@@ -47,5 +47,9 @@
   "window": {
     "width": 960,
     "height": 600
+  },
+  "dependencies": {
+    "express": "^4.12.3",
+    "torrent-stream": "^0.18.1"
   }
 }

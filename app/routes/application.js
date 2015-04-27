@@ -5,6 +5,6 @@ export default Ember.Route.extend({
         var user = users.get("firstObject");
         controller.set("currentUser", user);
       }
-    })
+    });
   }
 });

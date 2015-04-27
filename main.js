@@ -13,7 +13,14 @@ var ipc = require('ipc');
 // app.dock.hide();
 
 app.on('ready', function() {
-  mainWindow = new BrowserWindow({width: 1000, height: 600});
+  app.commandLine.appendSwitch('disable-web-security');
+  mainWindow = new BrowserWindow({
+    width: 1000, 
+    height: 600,
+    "web-preferences": {
+      "web-security": false
+    }
+  });
 
   mainWindow.loadUrl("http://localhost:4200/");
   mainWindow.openDevTools();
