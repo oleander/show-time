@@ -1,5 +1,14 @@
 #!/bin/sh -e
 
+if [ -v $APP ]
+then
+  APP=MyApp
+fi
+echo "Creating" `echo $APP`
+
+echo "Remove old app"
+rm -rf `echo $APP`.app
+
 echo "Remove current build path"
 rm -rf build
 
@@ -13,11 +22,11 @@ echo "Create .env file"
 echo "ENV=production" > "build/.env"
 
 echo "Build package using electron-packager"
-electron-packager build Hello
+electron-packager build `echo $APP`
 
 echo "Remove build path"
 rm -rf build
 
 echo "Install dependencies"
-cd Hello.app/Contents/Resources/app
+cd `echo $APP`.app/Contents/Resources/app
 npm install --production

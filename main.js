@@ -32,15 +32,17 @@ app.on("ready", function() {
     mainWindow.setSkipTaskbar(true);
     mainWindow.setSkipTaskbar(false);
     mainWindow.openDevTools();
+    mainWindow.setSize(1200, 1200);
     mainWindow.loadUrl("http://localhost:4200/");
   } else if (environment === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
-    mainWindow.setSize(1200, 1200);
     // app.dock.hide();
     mainWindow.setResizable(false);
   } else {
     throw "not supported " + environment;
   }
+
+  mainWindow.center();
 
   var template = [
     {
