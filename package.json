@@ -21,6 +21,7 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
     "electron-prebuilt": "*",
+    "boom": "*",
     "ember-cli": "0.2.3",
     "ember-cli-app-version": "0.3.3",
     "ember-cli-babel": "^5.0.0",
@@ -34,22 +35,21 @@
     "ember-cli-qunit": "0.3.10",
     "ember-cli-uglify": "1.0.1",
     "ember-data": "1.0.0-beta.16.1",
-    "ember-export-application-global": "^1.0.2",
-    "moment": "*",
-    "request": "*",
-    "underscore": "*",
-    "zpad": "*",
-    "cheerio": "*",
-    "node-notifier": "*",
-    "jrpc2": "*",
-    "js-base64": "*"
+    "ember-export-application-global": "^1.0.2"
   },
   "window": {
     "width": 960,
     "height": 600
   },
   "dependencies": {
-    "express": "^4.12.3",
-    "torrent-stream": "^0.18.1"
+    "cheerio": "*",
+    "jrpc2": "*",
+    "js-base64": "*",
+    "moment": "*",
+    "node-env-file": "^0.1.7",
+    "node-notifier": "*",
+    "request": "*",
+    "underscore": "*",
+    "zpad": "*"
   }
 }
