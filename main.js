@@ -44,46 +44,10 @@ app.on("ready", function() {
 
   mainWindow.center();
 
-  var template = [
-    {
-      label: "NeverAgain",
-      submenu: [
-        {
-          type: "separator"
-        },
-        {
-          label: "Hide NeverAgain",
-          accelerator: "Command+H",
-          selector: "hide:"
-        },
-        {
-          label: "Hide Others",
-          accelerator: "Command+Shift+H",
-          selector: "hideOtherApplications:"
-        },
-        {
-          label: "Show All",
-          selector: "unhideAllApplications:"
-        },
-        {
-          type: "separator"
-        },
-        {
-          label: "Quit",
-          accelerator: "Command+Q",
-          click: function() { app.quit(); }
-        }
-      ]
-    }
-  ];
-
-  // menu = Menu.buildFromTemplate(template);
-  // Menu.setApplicationMenu(menu); 
-
-  var toggle = {
-    "true":  "assets/star-o.png",
-    "false": "assets/star.png"
-  }
+  // var toggle = {
+  //   "true":  "assets/star-o.png",
+  //   "false": "assets/star.png"
+  // }
 
   // appIcon = new Tray(toggle["true"]);
   // appIcon.on("clicked", function() {

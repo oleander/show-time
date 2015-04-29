@@ -19,9 +19,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "broccoli-asset-rev": "^2.0.2",
-    "electron-prebuilt": "*",
     "boom": "*",
+    "broccoli-asset-rev": "^2.0.2",
+    "electron-packager": "^3.1.0",
+    "electron-prebuilt": "*",
     "ember-cli": "0.2.3",
     "ember-cli-app-version": "0.3.3",
     "ember-cli-babel": "^5.0.0",

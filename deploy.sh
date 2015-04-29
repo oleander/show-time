@@ -7,7 +7,7 @@ fi
 echo "Creating" `echo $APP`
 
 echo "Remove old app"
-rm -rf `echo $APP`.app
+rm -rf dist/`echo $APP`.app
 
 echo "Remove current build path"
 rm -rf build
@@ -22,11 +22,9 @@ echo "Create .env file"
 echo "ENV=production" > "build/.env"
 
 echo "Build package using electron-packager"
-electron-packager build `echo $APP`
+electron-packager build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.ico --prune
 
 echo "Remove build path"
 rm -rf build
 
-echo "Install dependencies"
-cd `echo $APP`.app/Contents/Resources/app
-npm install --production
+echo dist/`echo $APP`.app "has been created"
