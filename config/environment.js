@@ -44,13 +44,13 @@ module.exports = function(environment) {
   }
 
   ENV.contentSecurityPolicy = {
-    'default-src': "'none' file://",
-    'script-src': "'self' file:// 'unsafe-inline' 'unsafe-eval' http://localhost:4200 https://code.jquery.com https://maxcdn.bootstrapcdn.com https://cdn.mxpnl.com", // Allow scripts from https://cdn.mxpnl.com
-    'font-src': "'self' file:// https://maxcdn.bootstrapcdn.com http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
-    'connect-src': "'self' file:// https://api.mixpanel.com http://custom-api.local", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
-    'img-src': "'self' file://",
-    'style-src': "'self' file:// http://localhost:4200 https://maxcdn.bootstrapcdn.com 'unsafe-inline' http://fonts.googleapis.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com 
-    'media-src': "'self' file://"
+    'default-src': "'none' ",
+    'script-src': "'self' http://maxcdn.bootstrapcdn.com  'unsafe-inline' 'unsafe-eval' http://localhost:4200 https://code.jquery.com https://maxcdn.bootstrapcdn.com https://cdn.mxpnl.com", // Allow scripts from https://cdn.mxpnl.com
+    'font-src': "'self'  https://maxcdn.bootstrapcdn.com http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
+    'connect-src': "'self'  https://api.mixpanel.com http://custom-api.local", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
+    'img-src': "'self' ",
+    'style-src': "'self'  http://localhost:4200 https://maxcdn.bootstrapcdn.com 'unsafe-inline' http://fonts.googleapis.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com 
+    'media-src': "'self' "
   }
 
   return ENV;

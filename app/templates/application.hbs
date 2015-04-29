@@ -1,64 +1,80 @@
-<div class="well">
-  {{#if currentUser}}
-    <button {{action "logout"}} class="btn btn-default btn-sm">
-      <i class="fa fa-share"></i>
-      Logout
-    </button>
-  {{else}}
-    {{#link-to "login" class="btn btn-default btn-sm"}}
-      <i class="fa fa-lock"></i>
-      Login
-    {{/link-to}}
-  {{/if}}
+<div class="wrapper">
+  <header class="main-header">
+    <a href="index2.html" class="logo"><b>Never</b>Again</a>
+    <nav class="navbar navbar-static-top" role="navigation">
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success">4</span>
+            </a>
+          </li>
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">10</span>
+            </a>
+          </li>
+          <li class="dropdown tasks-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-flag-o"></i>
+              <span class="label label-danger">9</span>
+            </a>
+          </li>
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="hidden-xs">Alexander Pierce</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <aside class="main-sidebar">
+    <section class="sidebar">
+      <ul class="sidebar-menu">
+        <li class="header">MY EPISODES</li>
+        <li><a href="documentation/index.html"><i class="fa fa-star"></i> 
+          New
+          <span class="label label-primary pull-right">4</span>
+        </a></li>
+        <li><a href="documentation/index.html"><i class="fa fa-eye"></i> Seen</a></li>
+        <li><a href="documentation/index.html"><i class="fa fa-times"></i> Deleted</a></li>
 
-  {{#link-to "seen" class="btn btn-default btn-sm"}}
-    <i class="fa fa-eye"></i>
-    Seen episodes
-  {{/link-to}}
+        <li class="header">PROFILE</li>
+        <li><a href="documentation/index.html"><i class="fa fa-user"></i> Settings</a></li>
+      </ul>
+    </section>
+  </aside>
 
-  {{#link-to "removed" class="btn btn-default btn-sm"}}
-    <i class="fa fa-times"></i>
-    Removed episodes
-  {{/link-to}}
-
-  <button {{action "updateAll"}} disabled={{deactivateUpdateAll}} class="btn btn-default btn-sm">
-    <i class="fa fa-refresh"></i>
-    Fetch new episodes
-  </button>
-
-  <button {{action "reloadAll"}} disabled={{deactivateReloadAll}} class="btn btn-default btn-sm">
-    <i class="fa fa-refresh"></i>
-    Reload magnets
-  </button>
-
-  <div class="pull-right">
-    {{#if showAll}}
-      {{#link-to "current" class="btn btn-default btn-sm"}}
-        <i class="fa fa-star"></i>
-        Current episodes
-      {{/link-to}}
-    {{/if}}
-
-    <button {{action "clearDB"}} class="btn btn-default btn-sm">
-      <i class="fa fa-flash"></i>
-    </button>
+  <div class="content-wrapper">
+    <section class="content-header">
+      <h1>
+        New episodes
+        <small>Updated 10 min ago</small>
+      </h1>
+    </section>
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-default">
+            <div class="box-body">
+              {{outlet}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
-
-{{#if errorMessage}}
-  <div class="alert alert-warning">
-    <button type="button" {{action "closeErrorMessage"}} class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-    {{errorMessage}}
-  </div>
-{{/if}}
-
-{{#if successMessage}}
-  <div class="alert alert-success">
-    <button type="button" {{action "closeSuccessMessage"}} class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-
-    {{successMessage}}
-  </div>
-{{/if}}
-
-{{outlet}}
