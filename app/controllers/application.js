@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   needs: ["episodes"],
   errorMessage: null,
   successMessage: null,
+  updatedAt: null,
   deactivateUpdateAll: function() {
     return ! this.get("currentUser") || this.get("isUpdating")
   }.property("currentUser", "isUpdating"),
@@ -51,12 +52,14 @@ export default Ember.Controller.extend({
           episode.loading();
         });
         self.set("isUpdating", false);
+        self.set("updatedAt", new Date());
       });
     },
     clearDB: function(){
       this.setEpisodes([]);
       this.set("currentUser", null);
       window.localStorage.clear();
+      this.set("successMessage", "The database has been cleared.");
     },
     closeSuccessMessage: function() {
       this.set("successMessage", null);

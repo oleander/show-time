@@ -1,1 +1,35 @@
-{{render "episodes"}}
+<section class="content-header">
+  <h1>
+    New episodes
+    {{#if updatedAt}}
+      <small>Updated {{ago updatedAt}}</small>
+    {{/if}}
+  </h1>
+</section>
+
+{{#if episodes}}
+  {{render "episodes"}}
+{{else}}
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-default">
+          <div class="box-body">
+            <div class="nothing">
+              <span>
+                Yay, you don't have any unseen episodes.
+                {{#if isUpdating}}
+                  Loading...
+                {{else}}
+                  <a href="#" {{action "updateAll"}}>
+                    Try reloading.
+                  </a>
+                {{/if}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{/if}}

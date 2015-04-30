@@ -3,7 +3,7 @@ import getNewEpisodes from "../lib/getNewEpisodes"
 export default function(store, callback) {
   store.find("user").then(function(users) {
     if(!users.get("length")){
-      return; // TODO: return error
+      return callback([]); // TODO: return error
     }
 
     var prom = users.get("firstObject").getAccessToken();
