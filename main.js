@@ -13,6 +13,7 @@ app.on("window-all-closed", function() {
 var Tray = require("tray");
 var Menu = require("menu");
 var ipc = require("ipc");
+var path = require("path");
 
 app.on("ready", function() {
   app.commandLine.appendSwitch("disable-web-security");
@@ -44,20 +45,22 @@ app.on("ready", function() {
 
   mainWindow.center();
 
-  // var toggle = {
-  //   "true":  "assets/star-o.png",
-  //   "false": "assets/star.png"
-  // }
+  var currentPath = path.dirname(require.main.filename);
+  var toggle = {
+    "true":  currentPath + "/assets/star-o.png",
+    "false": currentPath + "/assets/star.png"
+  }
 
-  // appIcon = new Tray(toggle["true"]);
-  // appIcon.on("clicked", function() {
-  //   appIcon.setImage(toggle["false"])
-  //   mainWindow.focus();
-  // });
+  appIcon = new Tray(toggle["true"]);
+
+  appIcon.on("clicked", function() {
+    appIcon.setImage(toggle["false"])
+    mainWindow.focus();
+  });
 
   ipc.on("newBackgroundEpisodes", function(event, arg) {
     if(!mainWindow.isFocused()){
-      // appIcon.setImage(toggle["false"]);
+      appIcon.setImage(toggle["false"]);
     }
   });
 
@@ -67,6 +70,6 @@ app.on("ready", function() {
   });
 
   mainWindow.on("focus", function() {
-    // appIcon.setImage(toggle["true"]);
+    appIcon.setImage(toggle["true"]);
   });
 });
