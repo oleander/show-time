@@ -33,7 +33,7 @@
 
           {{#if currentUser}}
             <li class="dropdown user user-menu">
-              <a href="#">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="hidden-xs">oleander</span>
               </a>
               <ul class="dropdown-menu">
@@ -42,7 +42,10 @@
                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                   </div>
                   <div class="pull-right">
-                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                    <a href="#" {{action "logout"}} class="btn btn-default btn-flat">
+                      <i class="fa fa-share"></i>
+                      Sign out
+                    </a>
                   </div>
                 </li>
               </ul>
@@ -66,7 +69,6 @@
           {{#link-to "current"}}
             <i class="fa fa-star"></i> 
             New
-            <span class="label label-primary pull-right">4</span>
           {{/link-to}}
         </li>
         <li>
@@ -82,9 +84,6 @@
             Deleted
           {{/link-to}}
         </li>
-
-        <li class="header">PROFILE</li>
-        <li><a href="documentation/index.html"><i class="fa fa-user"></i> Settings</a></li>
       </ul>
     </section>
   </aside>

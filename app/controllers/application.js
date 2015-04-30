@@ -6,8 +6,10 @@ export default Ember.Controller.extend({
   isReloading: false,
   isUpdating: false,
   showAll: true,
-  currentUser: null,
-  needs: ["episodes"],
+  currentUser: function(){
+    return this.get("model")
+  }.property("model"),
+  needs: ["episodes", "current"],
   errorMessage: null,
   successMessage: null,
   updatedAt: null,
@@ -46,13 +48,20 @@ export default Ember.Controller.extend({
       this.set("isUpdating", true);
       var self = this;
 
-      getAndInitNewEpisodes(this.store, function(episodes) {
+      var done = function(){
+        self.set("isUpdating", false);
+        self.set("updatedAt", new Date());
+      }
+
+      getAndInitNewEpisodes(this.store).then(function(episodes){
+        done();
         episodes.forEach(function(episode) {
           self.getEpisodes().unshiftObject(episode);
           episode.loading();
         });
-        self.set("isUpdating", false);
-        self.set("updatedAt", new Date());
+      }, function(error){
+        done();
+        self.set("errorMessage", error);
       });
     },
     clearDB: function(){

@@ -1,4 +1,6 @@
-export default Ember.Route.extend({
+import UserFilter from "../mixins/user";
+
+export default Ember.Route.extend(UserFilter, {
   setupController: function(controller) {
     var self = this;
     var episodes = controller.store.find("episode", { seen: true })

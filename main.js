@@ -18,7 +18,7 @@ var path = require("path");
 app.on("ready", function() {
   app.commandLine.appendSwitch("disable-web-security");
   mainWindow = new BrowserWindow({
-    width: 1000, 
+    width: 1100, 
     height: 800,
     "web-preferences": {
       "web-security": false
@@ -54,7 +54,7 @@ app.on("ready", function() {
   appIcon = new Tray(toggle["true"]);
 
   appIcon.on("clicked", function() {
-    appIcon.setImage(toggle["false"])
+    appIcon.setImage(toggle["true"])
     mainWindow.focus();
   });
 

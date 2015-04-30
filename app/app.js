@@ -23,7 +23,7 @@ var episodesToString = function(episodes){
 Ember.Application.initializer({
   name: "fetchLoop",
   initialize: function(container, application) {
-    setInterval(function(){
+    var checkForEp = function(){
       var store = container.lookup("store:main");
       var epController = container.lookup('controller:episodes');
       getAndInitNewEpisodes(store, function(episodes) {
@@ -41,7 +41,9 @@ Ember.Application.initializer({
           ipc.sendSync('newBackgroundEpisodes', 1);
         }
       });
-    }, 1 * 60 * 60 * 1000);
+    }
+    setInterval(checkForEp, 1 * 60 * 60 * 1000);
+    checkForEp();
   }
 });
 
@@ -50,7 +52,6 @@ App = Ember.Application.extend({
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver
 });
-
 
 loadInitializers(App, config.modulePrefix);
 

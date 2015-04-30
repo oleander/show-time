@@ -24,6 +24,9 @@ echo "ENV=production" > "build/.env"
 echo "Build package using electron-packager"
 electron-packager build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.ico --prune
 
+echo "Copy assets"
+cp -a assets/. dist/`echo $APP`.app/Contents/Resources/app/assets
+
 echo "Remove build path"
 rm -rf build
 

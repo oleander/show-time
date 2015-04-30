@@ -7,17 +7,27 @@
   }
 </style>
 
-<div class="well" style="clear: both; height: 70px">
-  {{#if error}}
-    <div class="alert alert-warning">
-      Login failed, please try again
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-default">
+        <div class="box-body">
+          <div style="height: 50px">
+            {{#if error}}
+              <div class="alert alert-warning">
+                Login failed, please try again
+              </div>
+            {{/if}}
+            
+            {{#if isLoading}}
+              Loading ...
+            {{else}}
+              <a class="btn btn-primary btn-sm pull-left" href="http://trakt.tv/pin/3829" target="_blank">Open</a>
+              {{input placeholder="Click on the button and enter your token" type="text" value=token size="50" class="token-input form-control pull-left" action="login" on="enter"}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
     </div>
-  {{/if}}
-  
-  {{#if isLoading}}
-    Loading ...
-  {{else}}
-      <a class="btn btn-primary btn-sm pull-left" href="http://trakt.tv/pin/3829" target="_blank">Open</a>
-      {{input placeholder="Click on the button and enter your token" type="text" value=token size="50" class="token-input form-control pull-left" action="login" on="enter"}}
-  {{/if}}
-</div>
+  </div>
+</section>
