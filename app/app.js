@@ -47,12 +47,14 @@ Ember.Application.initializer({
   }
 });
 
+import User from "./lib/user";
+
 Ember.Application.initializer({
   name: "initUser",
   initialize: function(container, app) {
-    app.inject('service:session', 'store', 'store:main');
-    app.inject('route', 'session', 'service:session');
-    app.inject('controller', 'session', 'service:session');
+    app.register('service:user', User, { instantiate: true, singleton: true });
+    app.inject('controller', 'currentUser', "service:user");
+    app.inject('route', 'currentUser', "service:user");
   }
 });
 

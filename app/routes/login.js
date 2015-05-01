@@ -1,8 +1,6 @@
 export default Ember.Route.extend({
   afterModel: function(){
-    var application = this.controllerFor("application")
-    console.info("OKOKOK", application.get("currentUser"));
-    if(application.get("currentUser")){
+    if(this.currentUser.isLoggedIn){
       this.transitionTo("current");
     }
   }

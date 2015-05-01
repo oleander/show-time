@@ -6,19 +6,16 @@ export default Ember.Controller.extend({
   isReloading: false,
   isUpdating: false,
   showAll: true,
-  currentUser: function(){
-    return this.get("model")
-  }.property("model"),
   needs: ["episodes", "current"],
   errorMessage: null,
   successMessage: null,
   updatedAt: null,
   deactivateUpdateAll: function() {
-    return ! this.get("currentUser") || this.get("isUpdating")
-  }.property("currentUser", "isUpdating"),
+    return ! this.currentUser.get("isLoggedIn") || this.get("isUpdating")
+  }.property("currentUser.isLoggedIn", "isUpdating"),
   deactivateReloadAll: function() {
-    return ! this.get("currentUser") || this.get("isReloading")
-  }.property("currentUser", "isReloading"),
+    return ! this.currentUser.get("isLoggedIn") || this.get("isReloading")
+  }.property("currentUser.isLoggedIn", "isReloading"),
   getEpisodes: function() {
     return this.get("controllers.episodes").get("episodes")
   },
@@ -27,9 +24,8 @@ export default Ember.Controller.extend({
   },
   actions: {
     logout: function() {
-      var user = this.get("currentUser");
-      user.destroyRecord();
-      this.set("currentUser", null);
+      this.currentUser.logout();
+      this.transitionToRoute("current");
     },
     reloadAll: function() {
       var self = this;
@@ -53,12 +49,15 @@ export default Ember.Controller.extend({
         self.set("updatedAt", new Date());
       }
 
-      getAndInitNewEpisodes(this.session.currentUser(), this.store).then(function(episodes){
-        done();
+      console.info("User => ", this.session.get("currentUser"))
+      getAndInitNewEpisodes(this.session.get("currentUser"), this.store).then(function(episodes){
+        console.info("episodes", episodes)
         episodes.forEach(function(episode) {
           self.getEpisodes().unshiftObject(episode);
           episode.loading();
         });
+
+        done();
       }, function(error){
         done();
         self.set("errorMessage", error);
@@ -66,9 +65,10 @@ export default Ember.Controller.extend({
     },
     clearDB: function(){
       this.setEpisodes([]);
-      this.set("currentUser", null);
+      this.session.logout();
       window.localStorage.clear();
       this.set("successMessage", "The database has been cleared.");
+      this.transitionToRoute("login");
     },
     closeSuccessMessage: function() {
       this.set("successMessage", null);

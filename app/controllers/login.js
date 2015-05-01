@@ -7,20 +7,21 @@ export default Ember.Controller.extend({
       var self = this;
 
       self.set("isLoading", true)
-      self.set("error", false);
 
       var doneLoading = function(){
         self.set("isLoading", false);
         self.set("token", "");
       }
 
-      self.session.login(self.get("token")).then(function(){
+      self.currentUser.login(self.get("token")).then(function(){
         doneLoading();
         self.transitionToRoute("current");
         self.get("controllers.application").send("updateAll");
-      }, function(){
+        self.get("controllers.application").set("errorMessage", null);
+      }, function(errorMessage){
         doneLoading();
-        self.set("error", true);
+        self.get("controllers.application").
+          set("errorMessage", errorMessage)
       })
     }
   }
