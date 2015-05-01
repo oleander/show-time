@@ -53,7 +53,7 @@ export default Ember.Controller.extend({
         self.set("updatedAt", new Date());
       }
 
-      getAndInitNewEpisodes(this.store).then(function(episodes){
+      getAndInitNewEpisodes(this.session.currentUser(), this.store).then(function(episodes){
         done();
         episodes.forEach(function(episode) {
           self.getEpisodes().unshiftObject(episode);

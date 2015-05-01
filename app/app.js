@@ -12,11 +12,11 @@ var notifier = nRequire('node-notifier');
 var episodesToString = function(episodes){
   var episode = episodes[0];
   if(episodes.length == 1) {
-    return episode.get("show")  + " " + episode.get("what") + 
+    return episode.get("show")  + " " + episode.get("what") +
       " was released";
   }
 
-  return episode.get("show")  + " " + episode.get("what") + " and " + 
+  return episode.get("show")  + " " + episode.get("what") + " and " +
     (episodes.length - 1) + " others";
 }
 
@@ -44,6 +44,15 @@ Ember.Application.initializer({
     }
     setInterval(checkForEp, 1 * 60 * 60 * 1000);
     checkForEp();
+  }
+});
+
+Ember.Application.initializer({
+  name: "initUser",
+  initialize: function(container, app) {
+    app.inject('service:session', 'store', 'store:main');
+    app.inject('route', 'session', 'service:session');
+    app.inject('controller', 'session', 'service:session');
   }
 });
 

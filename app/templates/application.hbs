@@ -30,8 +30,7 @@
               <i class="fa fa-flash"></i>
             </a>
           </li>
-
-          {{#if currentUser}}
+          {{#if session.currentUser}}
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <span class="hidden-xs">oleander</span>
@@ -67,7 +66,7 @@
         <li class="header">MY EPISODES</li>
         <li>
           {{#link-to "current"}}
-            <i class="fa fa-star"></i> 
+            <i class="fa fa-star"></i>
             New
           {{/link-to}}
         </li>
@@ -104,6 +103,9 @@
         {{successMessage}}
       </div>
     {{/if}}
+
+    loggedIn={{session.currentUser.id}}
+
 
     {{outlet}}
   </div>
