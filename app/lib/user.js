@@ -85,7 +85,6 @@ export default Ember.Object.extend({
     var self = this;
     return new Promise(function(resolve, reject) {
       if(self.get("isLoggedIn")){ 
-        console.info("reject")
         return reject("Already logged in"); 
       }
 
