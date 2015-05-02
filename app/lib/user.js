@@ -100,6 +100,14 @@ export default Ember.Object.extend({
     window.localStorage.setItem("user", null);
     this.set("isLoggedIn", false);
   },
+  clearFields: function(){
+    if(this.get("isLoggedIn")) { return; }
+    this.set("accessToken", null);
+    this.set("expiresAt", null);
+    this.set("refreshToken", null);
+    this.set("avatar", null);
+    this.set("username", null);
+  }.observes("isLoggedIn"),
   login: function(authToken){
     var self = this;
     return new Promise(function(resolve, reject) {
