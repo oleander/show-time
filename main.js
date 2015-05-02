@@ -5,11 +5,6 @@ var env = require("node-env-file");
 var mainWindow = null;
 var environment = env(__dirname + "/.env")["ENV"];
 
-app.on("window-all-closed", function() {
-  if (process.platform != "darwin")
-    app.quit();
-});
-
 var Tray = require("tray");
 var Menu = require("menu");
 var ipc = require("ipc");
@@ -18,8 +13,10 @@ var path = require("path");
 app.on("ready", function() {
   app.commandLine.appendSwitch("disable-web-security");
   mainWindow = new BrowserWindow({
-    width: 1100, 
+    "min-width": 1200,
+    "min-height": 800,
     height: 800,
+    width: 1200,
     "web-preferences": {
       "web-security": false
     }
@@ -33,12 +30,10 @@ app.on("ready", function() {
     mainWindow.setSkipTaskbar(true);
     mainWindow.setSkipTaskbar(false);
     mainWindow.openDevTools();
-    mainWindow.setSize(1200, 1200);
     mainWindow.loadUrl("http://localhost:4200/");
   } else if (environment === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
-    // app.dock.hide();
-    mainWindow.setResizable(false);
+    app.dock.hide();
   } else {
     throw "not supported " + environment;
   }
@@ -47,15 +42,20 @@ app.on("ready", function() {
 
   var currentPath = path.dirname(require.main.filename);
   var toggle = {
-    "true":  currentPath + "/assets/star-o.png",
-    "false": currentPath + "/assets/star.png"
+    "true":  currentPath + "/assets/star.png",
+    "false": currentPath + "/assets/star-o.png"
   }
 
   appIcon = new Tray(toggle["true"]);
 
   appIcon.on("clicked", function() {
-    appIcon.setImage(toggle["true"])
-    mainWindow.focus();
+    appIcon.setImage(toggle["true"]);
+    if(mainWindow.isVisible()){
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+      mainWindow.focus();
+    }
   });
 
   ipc.on("newBackgroundEpisodes", function(event, arg) {
