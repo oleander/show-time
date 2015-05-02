@@ -6,6 +6,7 @@ import getAndInitNewEpisodes from "./lib/getAndInitNewEpisodes"
 
 var App;
 var ipc = nRequire("ipc");
+var truncate = nRequire('truncate');
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
 var notifier = nRequire('node-notifier');
@@ -22,6 +23,7 @@ var episodesToString = function(episodes){
 
 Ember.Application.initializer({
   name: "fetchLoop",
+  after: "store",
   initialize: function(container, application) {
     var checkForEp = function(){
       var store = container.lookup("store:main");
@@ -35,7 +37,7 @@ Ember.Application.initializer({
         if(episodes.length > 0){
           notifier.notify({
             'title': 'New episodes',
-            'message': episodesToString(episodes)
+            'message': truncate(episodesToString(episodes), 10)
           });
 
           ipc.sendSync("newBackgroundEpisodes", 1);
@@ -51,6 +53,7 @@ import User from "./lib/user";
 
 Ember.Application.initializer({
   name: "initUser",
+  before: "store",
   initialize: function(container, app) {
     app.register('service:user', User, { instantiate: true, singleton: true });
     app.inject('controller', 'currentUser', "service:user");
