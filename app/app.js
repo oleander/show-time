@@ -26,7 +26,7 @@ Ember.Application.initializer({
     var checkForEp = function(){
       var store = container.lookup("store:main");
       var epController = container.lookup('controller:episodes');
-      getAndInitNewEpisodes(store, function(episodes) {
+      getAndInitNewEpisodes(epController.currentUser, store).then(function(episodes) {
         episodes.forEach(function(episode) {
           epController.get("episodes").unshiftObject(episode);
           episode.loading();
@@ -38,7 +38,7 @@ Ember.Application.initializer({
             'message': episodesToString(episodes)
           });
 
-          ipc.sendSync('newBackgroundEpisodes', 1);
+          ipc.sendSync("newBackgroundEpisodes", 1);
         }
       });
     }
