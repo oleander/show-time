@@ -1,5 +1,6 @@
 var request = nRequire("request");
 import login from "./login";
+import getProfile from "../lib/getProfile";
 
 export default Ember.Object.extend({
   isLoggedIn: false,
@@ -12,6 +13,8 @@ export default Ember.Object.extend({
     this.set("accessToken", self.accessToken);
     this.set("expiresAt", self.expiresAt);
     this.set("refreshToken", self.refreshToken);
+    this.set("avatar", self.avatar);
+    this.set("username", self.username);
   },
   getAccessToken: function() {
     var today = new Date();
@@ -68,15 +71,31 @@ export default Ember.Object.extend({
       });
     });
   },
+  loadProfile: function(){
+    var self = this;
+    return new Promise(function(resolve, reject){
+      self.getAccessToken().then(function(token){
+        getProfile(token).then(function(data){
+          self.set("username", data.user.username);
+          self.set("avatar", data.user.images.avatar.full);
+          self.set("joinedAt", data.user.joined_at);
+          resolve();
+        }, reject);
+      }, reject);
+    })
+  },
   save: function(){
     var self = {
       accessToken: this.get("accessToken"),
       expiresAt: this.get("expiresAt"),
-      refreshToken: this.get("refreshToken")
+      refreshToken: this.get("refreshToken"),
+      avatar: this.get("avatar"),
+      username: this.get("username"),
+      joinedAt: this.get("joinedAt")
     };
 
     window.localStorage.setItem("user", JSON.stringify(self));
-  }.observes("accessToken", "expiresAt", "refreshToken"),
+  }.observes("accessToken", "expiresAt", "refreshToken", "username", "avatar", "joinedAt"),
   logout: function(){
     window.localStorage.setItem("user", null);
     this.set("isLoggedIn", false);
@@ -98,8 +117,8 @@ export default Ember.Object.extend({
         self.set("expiresAt", expiresAt);
         self.set("refreshToken", token.refresh_token);
         self.set("isLoggedIn", true);
+        self.loadProfile();
         resolve();
-
       }, reject);
     });
   }

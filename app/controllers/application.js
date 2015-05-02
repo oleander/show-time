@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   errorMessage: null,
   successMessage: null,
   updatedAt: null,
+  isReloadingProfile: false,
   deactivateUpdateAll: function() {
     return ! this.currentUser.get("isLoggedIn") || this.get("isUpdating")
   }.property("currentUser.isLoggedIn", "isUpdating"),
@@ -26,6 +27,15 @@ export default Ember.Controller.extend({
     logout: function() {
       this.currentUser.logout();
       this.transitionToRoute("current");
+    },
+    reloadProfile: function(){
+      this.set("isReloadingProfile", true);
+      var self = this;
+      this.currentUser.loadProfile().then(function(){
+        self.set("isReloadingProfile", false);
+      }, function() {
+        self.set("isReloadingProfile", false);
+      })
     },
     reloadAll: function() {
       var self = this;

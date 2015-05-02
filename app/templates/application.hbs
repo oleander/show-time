@@ -33,7 +33,13 @@
           {{#if currentUser.isLoggedIn}}
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <span class="hidden-xs">oleander</span>
+                <span class="hidden-xs">
+                  {{#if currentUser.username}}
+                    {{currentUser.username}}
+                  {{else}}
+                    Unknown
+                  {{/if}}
+                </span>
               </a>
               <ul class="dropdown-menu">
                 <li class="user-footer">
@@ -43,6 +49,32 @@
                   <div class="pull-right">
                     <a href="#" {{action "logout"}} class="btn btn-default btn-flat">
                       <i class="fa fa-share"></i>
+                      Sign out
+                    </a>
+                  </div>
+                </li>
+              </ul>
+
+              <ul class="dropdown-menu">
+                <li class="user-header">
+                  <img src="{{currentUser.avatar}}" class="img-circle" alt="User Image">
+                  <p>
+                    {{currentUser.username}}
+                    <small>{{moment currentUser.joinedAt}}</small>
+                  </p>
+                </li>
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="#" {{action "reloadProfile"}} class="btn btn-default btn-flat">
+                      {{#if isReloadingProfile}}
+                        Loading...
+                      {{else}}
+                        Reload
+                      {{/if}}
+                    </a>
+                  </div>
+                  <div class="pull-right">
+                    <a href="#" {{action "logout"}} class="btn btn-default btn-flat">
                       Sign out
                     </a>
                   </div>
