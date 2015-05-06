@@ -45,7 +45,7 @@ export default function(user, store) {
             episodes.push(episode);
           });
 
-          resolve(episodes);
+          resolve(episodes.sortBy("firstAired").reverse());
         }, function(){
           reject("Could not load data from trakt.tv");
         });
