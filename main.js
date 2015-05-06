@@ -1,14 +1,13 @@
-var app = require("app");
 var BrowserWindow = require("browser-window");
-var env = require("node-env-file");
+var app           = require("app");
+var env           = require("node-env-file");
+var Tray          = require("tray");
+var Menu          = require("menu");
+var ipc           = require("ipc");
+var path          = require("path");
 
-var mainWindow = null;
 var environment = env(__dirname + "/.env")["ENV"];
-
-var Tray = require("tray");
-var Menu = require("menu");
-var ipc = require("ipc");
-var path = require("path");
+var mainWindow = null;
 
 app.on("ready", function() {
   app.commandLine.appendSwitch("disable-web-security");
@@ -33,7 +32,7 @@ app.on("ready", function() {
     mainWindow.loadUrl("http://localhost:4200/");
   } else if (environment === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
-    app.dock.hide();
+    // app.dock.hide();
   } else {
     throw "not supported " + environment;
   }
