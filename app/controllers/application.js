@@ -70,16 +70,17 @@ export default Ember.Controller.extend({
         done();
       }, function(error){
         done();
-        self.set("errorMessage", error);
+        if(typeof(error) == "object"){
+          self.set("errorMessage", JSON.stringify(error));
+        } else {
+          self.set("errorMessage", error);
+        }
       });
     },
-    clearDB: function(){
+    clearEpisodes: function(){
       this.setEpisodes([]);
-      this.currentUser.logout();
-      window.localStorage.clear();
       window.localStorage.removeItem("again");
-      this.set("successMessage", "The database has been cleared.");
-      this.transitionToRoute("login");
+      this.set("successMessage", "All episodes has been removed");
     },
     closeSuccessMessage: function() {
       this.set("successMessage", null);

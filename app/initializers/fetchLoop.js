@@ -1,7 +1,6 @@
 import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes"
-var notifier = nRequire("node-notifier");
-var ipc = nRequire("ipc");
 import episodesToString from "../lib/episodesToString";
+var ipc = nRequire("ipc");
 
 export default {
   name: "fetchLoop",
@@ -24,15 +23,13 @@ export default {
         apController.set("isUpdating", false);
 
         if(episodes.get("length")){
-          notifier.notify({
-            "title": "New episodes",
-            "message": truncate(episodesToString(episodes), 50)
+          new Notification("New episodes", {
+            body: episodesToString(episodes)
           });
 
           ipc.send("newBackgroundEpisodes", 1);
         }
       }, function(err) {
-        apController.set("errorMessage", JSON.stringify(err));
         apController.set("isUpdating", false);
       });
     }
