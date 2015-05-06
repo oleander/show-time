@@ -22,7 +22,7 @@ echo "Create .env file"
 echo "ENV=production" > "build/.env"
 
 echo "Build package using electron-packager"
-electron-packager build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.ico --prune
+electron-packager build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.icns --prune
 
 echo "Copy assets"
 cp -a assets/. dist/`echo $APP`.app/Contents/Resources/app/assets
