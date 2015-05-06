@@ -75,8 +75,8 @@ export default Ember.Controller.extend({
     },
     clearDB: function(){
       this.setEpisodes([]);
-      // this.currentUser.logout();
-      // window.localStorage.clear();
+      this.currentUser.logout();
+      window.localStorage.clear();
       window.localStorage.removeItem("again");
       this.set("successMessage", "The database has been cleared.");
       this.transitionToRoute("login");
