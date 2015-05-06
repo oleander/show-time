@@ -1,15 +1,15 @@
-import Ember from 'ember';
-import Resolver from 'ember/resolver';
-import loadInitializers from 'ember/load-initializers';
-import config from './config/environment';
+import Ember from "ember";
+import Resolver from "ember/resolver";
+import loadInitializers from "ember/load-initializers";
+import config from "./config/environment";
 import getAndInitNewEpisodes from "./lib/getAndInitNewEpisodes"
 
 var App;
 var ipc = nRequire("ipc");
-var truncate = nRequire('truncate');
+var truncate = nRequire("truncate");
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
-var notifier = nRequire('node-notifier');
+var notifier = nRequire("node-notifier");
 var episodesToString = function(episodes){
   var episode = episodes[0];
   if(episodes.length == 1) {
@@ -27,23 +27,33 @@ Ember.Application.initializer({
   initialize: function(container, application) {
     var checkForEp = function(){
       var store = container.lookup("store:main");
-      var epController = container.lookup('controller:episodes');
+      var epController = container.lookup("controller:episodes");
+      var apController = container.lookup("controller:application");
+
+      apController.set("isUpdating", true);
+
       getAndInitNewEpisodes(epController.currentUser, store).then(function(episodes) {
+        epController.get("episodes").pushObjects(episodes);
+
         episodes.forEach(function(episode) {
-          epController.get("episodes").unshiftObject(episode);
           episode.loading();
         });
 
-        if(episodes.length > 0){
+        apController.set("isUpdating", false);
+
+        if(episodes.get("length")){
           notifier.notify({
-            'title': 'New episodes',
-            'message': truncate(episodesToString(episodes), 10)
+            "title": "New episodes",
+            "message": truncate(episodesToString(episodes), 20)
           });
 
-          ipc.sendSync("newBackgroundEpisodes", 1);
+          ipc.send("newBackgroundEpisodes", 1);
         }
+      }, function() {
+        apController.set("isUpdating", false);
       });
     }
+
     setInterval(checkForEp, 1 * 60 * 60 * 1000);
     checkForEp();
   }
@@ -55,9 +65,9 @@ Ember.Application.initializer({
   name: "initUser",
   before: "store",
   initialize: function(container, app) {
-    app.register('service:user', User, { instantiate: true, singleton: true });
-    app.inject('controller', 'currentUser', "service:user");
-    app.inject('route', 'currentUser', "service:user");
+    app.register("service:user", User, { instantiate: true, singleton: true });
+    app.inject("controller", "currentUser", "service:user");
+    app.inject("route", "currentUser", "service:user");
   }
 });
 

@@ -61,8 +61,9 @@ export default Ember.Controller.extend({
       }
 
       getAndInitNewEpisodes(this.currentUser, this.store).then(function(episodes){
+        self.get("controllers.episodes.episodes").pushObjects(episodes);
+
         episodes.forEach(function(episode) {
-          self.getEpisodes().unshiftObject(episode);
           episode.loading();
         });
 
@@ -74,8 +75,9 @@ export default Ember.Controller.extend({
     },
     clearDB: function(){
       this.setEpisodes([]);
-      this.currentUser.logout();
-      window.localStorage.clear();
+      // this.currentUser.logout();
+      // window.localStorage.clear();
+      window.localStorage.removeItem("again");
       this.set("successMessage", "The database has been cleared.");
       this.transitionToRoute("login");
     },
