@@ -5,7 +5,7 @@ export default function(user, store) {
     if(!user) {
       return reject("No user found in the database, are you logged in?");
     }
-    
+
     user.getAccessToken().then(function(token){
       getNewEpisodes(token, function(episodes) {
         var prom = episodes.map(function(episode) {
@@ -49,7 +49,7 @@ export default function(user, store) {
         }, function(){
           reject("Could not load data from trakt.tv");
         });
-      });
-    });
+      }, reject);
+    }, reject);
   });
 };
