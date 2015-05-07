@@ -19,7 +19,7 @@ echo "Copy static files to build"
 cp package.json main.js build
 
 echo "Create .env file"
-echo "ENV=production" > "build/.env"
+echo "mode=production" > "build/.env"
 
 echo "Build package using electron-packager"
 electron-packager build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.icns --prune

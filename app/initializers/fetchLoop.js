@@ -14,7 +14,7 @@ export default {
       apController.set("isUpdating", true);
 
       getAndInitNewEpisodes(epController.currentUser, store).then(function(episodes) {
-        epController.get("episodes").pushObjects(episodes);
+        epController.get("episodes").unshiftObjects(episodes);
 
         episodes.forEach(function(episode) {
           episode.loading();

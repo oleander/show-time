@@ -1,14 +1,15 @@
-export default function(accessToken, callback) {
-  var request = nRequire('request');
-  var _ = nRequire('underscore');
-  var zpad = nRequire('zpad');
-  var util = nRequire('util')
-  var moment = nRequire("moment");
+var request = nRequire("request");
+var _       = nRequire("underscore");
+var zpad    = nRequire("zpad");
+var util    = nRequire("util")
+var moment  = nRequire("moment");
 
-  var apiKey = "123eaefe74369e41a98369af821d59a52c9283b20d79fead29e284ada23a1874"
+import globals from "./globals";
+
+export default function(accessToken, callback) {
   var headers = {
     "Content-Type": "application/json",
-    "trakt-api-key": apiKey,
+    "trakt-api-key": globals.getClientID(),
     "trakt-api-version": "2",
     "Authorization": "Bearer " + accessToken
   }
@@ -34,7 +35,7 @@ export default function(accessToken, callback) {
       var show = data["show"]["title"];
       return {
         "show": show,
-        "what": util.format('s%se%s', season, number),
+        "what": util.format("s%se%s", season, number),
         "title": title,
         "firstAired": new Date(firstAired)
       }

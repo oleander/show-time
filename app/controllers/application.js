@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
       }
 
       getAndInitNewEpisodes(this.currentUser, this.store).then(function(episodes){
-        self.get("controllers.episodes.episodes").pushObjects(episodes);
+        self.get("controllers.episodes.episodes").unshiftObjects(episodes);
 
         episodes.forEach(function(episode) {
           episode.loading();

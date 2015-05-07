@@ -1,4 +1,5 @@
 var request = nRequire("request");
+import globals from "./globals";
 import login from "./login";
 import getProfile from "../lib/getProfile";
 
@@ -20,11 +21,11 @@ export default Ember.Object.extend({
     var today = new Date();
 
     var data = {
-       "client_id": "123eaefe74369e41a98369af821d59a52c9283b20d79fead29e284ada23a1874",
-       "client_secret": "d56b08ccf707fff156b8993d520c0e851c0e7ff18386a394aa6d10ed285b2a20",
-       "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
-       "grant_type": "refresh_token",
-       "refresh_token": this.get("refreshToken")
+      "client_id": globals.getClientID(),
+      "client_secret": globals.getClientSecret(),
+      "redirect_uri": "urn:ietf:wg:oauth:2.0:oob",
+      "grant_type": "refresh_token",
+      "refresh_token": this.get("refreshToken")
     };
 
     var headers = {

@@ -6,8 +6,19 @@ var Menu          = require("menu");
 var ipc           = require("ipc");
 var path          = require("path");
 
-var environment = env(__dirname + "/.env")["ENV"];
-var mainWindow = null;
+var environment = env(__dirname + "/.env");
+
+if(!environment.mode) {
+  throw "invalid .env file, mode not set";
+}
+
+if(!environment.client_id) {
+  throw "invalid .env file, client_id not set";
+}
+
+if(!environment.client_secret) {
+  throw "invalid .env file, client_secret not set";
+}
 
 app.on("ready", function() {
   app.commandLine.appendSwitch("disable-web-security");
@@ -21,16 +32,18 @@ app.on("ready", function() {
     }
   });
 
+  mainWindow.environment = environment;
+
   mainWindow.module = undefined;
   mainWindow.setTitle("NeverAgain");
-  if(environment === "development"){
+  if(environment.mode === "development"){
     mainWindow.setMenuBarVisibility(false);
     mainWindow.setAutoHideMenuBar(true);
     mainWindow.setSkipTaskbar(true);
     mainWindow.setSkipTaskbar(false);
     mainWindow.openDevTools();
     mainWindow.loadUrl("http://localhost:4200/");
-  } else if (environment === "production"){
+  } else if (environment.mode === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
     // app.dock.hide();
   } else {

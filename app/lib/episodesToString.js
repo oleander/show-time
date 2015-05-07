@@ -7,6 +7,11 @@ export default function(episodes){
       " was released";
   }
 
+  if(episodes.length == 2) {
+    return episode.get("show")  + " " + episode.get("what") + 
+      " and one other";
+  }
+
   return episode.get("show")  + " " + episode.get("what") + " and " +
     (episodes.length - 1) + " others";
 }
