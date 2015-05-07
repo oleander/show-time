@@ -19,6 +19,7 @@ echo "Copy static files to build"
 cp package.json main.js build
 
 echo "Create .env file"
+cp config.json build/
 echo "mode=production" > "build/.env"
 
 echo "Build package using electron-packager"

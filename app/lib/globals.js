@@ -1,23 +1,18 @@
 var env         = nRequire("node-env-file");
 var path        = nRequire("path");
 var remote      = nRequire("remote");
-var environment = remote.getCurrentWindow().environment;
+
+var config = remote.getCurrentWindow().config;
+var mode   = remote.getCurrentWindow().mode;
 
 export default {
   getClientSecret: function() {
-    if(!environment.client_secret){
-      throw "client secret in .env not set";
-    }
-
-    return environment.client_secret;
+    return config.clientSecret;
   },
   getClientID: function() {
-    if(!environment.client_id){
-      throw "client id in .env not set";
-    }
-    return environment.client_id;
+    return config.clientID;
   },
   isDev: function() {
-    return environment.mode == "development";
+    return mode == "development";
   }
 }

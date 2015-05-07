@@ -6,18 +6,19 @@ var Menu          = require("menu");
 var ipc           = require("ipc");
 var path          = require("path");
 
+var config = require("./config.json")
 var environment = env(__dirname + "/.env");
 
 if(!environment.mode) {
   throw "invalid .env file, mode not set";
 }
 
-if(!environment.client_id) {
-  throw "invalid .env file, client_id not set";
+if(!config.clientID) {
+  throw "invalid config.json file, clientID not set";
 }
 
-if(!environment.client_secret) {
-  throw "invalid .env file, client_secret not set";
+if(!config.clientSecret) {
+  throw "invalid config.json file, clientSecret not set";
 }
 
 app.on("ready", function() {
@@ -32,7 +33,8 @@ app.on("ready", function() {
     }
   });
 
-  mainWindow.environment = environment;
+  mainWindow.mode = environment.mode;
+  mainWindow.config = config;
 
   mainWindow.module = undefined;
   mainWindow.setTitle("NeverAgain");
