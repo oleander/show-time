@@ -7,7 +7,8 @@ var ipc           = require("ipc");
 var path          = require("path");
 
 var config = require("./config.json")
-var environment = env(__dirname + "/.env");
+var envPath = path.join(__dirname, "environment");
+var environment = env(envPath);
 
 if(!environment.mode) {
   throw "invalid .env file, mode not set";
@@ -43,7 +44,6 @@ app.on("ready", function() {
     mainWindow.setAutoHideMenuBar(true);
     mainWindow.setSkipTaskbar(true);
     mainWindow.setSkipTaskbar(false);
-    mainWindow.openDevTools();
     mainWindow.loadUrl("http://localhost:4200/");
   } else if (environment.mode === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
@@ -54,13 +54,12 @@ app.on("ready", function() {
 
   mainWindow.center();
 
-  var currentPath = path.dirname(require.main.filename);
   var toggle = {
-    "true":  currentPath + "/assets/star.png",
-    "false": currentPath + "/assets/star-o.png"
+    "true":  path.join(__dirname, "assets/star.png"),
+    "false": path.join(__dirname, "/assets/star-o.png")
   }
 
-  appIcon = new Tray(toggle["true"]);
+  var appIcon = new Tray(toggle["true"]);
 
   appIcon.on("clicked", function() {
     appIcon.setImage(toggle["true"]);

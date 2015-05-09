@@ -17,3 +17,4 @@ npm-debug.log
 testem.log
 public/torrent-stream/
 *.app
+build/

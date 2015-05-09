@@ -1,10 +1,6 @@
 #!/bin/sh -e
 
-if [ -v $APP ]
-then
-  APP=MyApp
-fi
-echo "Creating" `echo $APP`
+APP=NeverAgain
 
 echo "Remove old app"
 rm -rf dist/`echo $APP`.app
@@ -17,16 +13,12 @@ ember build --environment=production --output-path=build/
 
 echo "Copy static files to build"
 cp package.json main.js build
-
-echo "Create .env file"
 cp config.json build/
-echo "mode=production" > "build/.env"
+echo "mode=production" > "build/environment"
+cp -r assets/ build/assets
 
 echo "Build package using electron-packager"
-electron-packager build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.icns --prune
-
-echo "Copy assets"
-cp -a assets/. dist/`echo $APP`.app/Contents/Resources/app/assets
+./node_modules/electron-packager/cli.js build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.icns --prune --asar
 
 echo "Remove build path"
 rm -rf build

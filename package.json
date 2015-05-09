@@ -21,7 +21,7 @@
   "devDependencies": {
     "boom": "*",
     "broccoli-asset-rev": "^2.0.2",
-    "electron-packager": "^3.1.0",
+    "electron-packager": "maxogden/electron-packager",
     "electron-prebuilt": "*",
     "ember-cli": "0.2.3",
     "ember-cli-app-version": "0.3.3",
