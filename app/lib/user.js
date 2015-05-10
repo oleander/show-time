@@ -109,6 +109,7 @@ export default Ember.Object.extend({
     this.set("refreshToken", null);
     this.set("avatar", null);
     this.set("username", null);
+    this.set("joinedAt", null);
   }.observes("isLoggedIn"),
   login: function(authToken){
     var self = this;
