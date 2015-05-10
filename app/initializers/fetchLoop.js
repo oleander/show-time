@@ -6,10 +6,12 @@ export default {
   name: "fetchLoop",
   after: "store",
   initialize: function(container, application) {
+    var store = container.lookup("store:main");
+    var epController = container.lookup("controller:episodes");
+    var apController = container.lookup("controller:application");
+    
     var checkForEp = function(){
-      var store = container.lookup("store:main");
-      var epController = container.lookup("controller:episodes");
-      var apController = container.lookup("controller:application");
+      if(apController.get("isUpdating")) { return; }
 
       apController.set("isUpdating", true);
 
@@ -34,7 +36,46 @@ export default {
       });
     }
 
+    var checkForNewMagnets = function(){
+      if(apController.get("isReloading")) { return; }
+
+      apController.set("isReloading", true);
+      store.find("episode", {
+        seen: false, 
+        removed: false,
+        magnet: null
+      }).then(function(episodes) {
+        var promises = episodes.map(function(episode) {
+          return new Promise(function(resolve, reject) {
+            episode.loading(resolve, reject);
+          });
+        });
+
+        Ember.RSVP.allSettled(promises).then(function(){
+          if(episodes.get("length")){
+            new Notification("New magnet links", {
+              body: episodesToString(episodes.toArray())
+            });
+
+            ipc.send("newBackgroundEpisodes", 1);
+          }
+
+          apController.set("isReloading", false);
+        }, function() {
+          apController.set("isReloading", false);
+        });
+
+      }, function(err) {
+        apController.set("isReloading", false);
+      });
+    }
+
+    // Update releases every 60 min
     setInterval(checkForEp, 1 * 60 * 60 * 1000);
+    // Update magnets every 30 min
+    setInterval(checkForNewMagnets, 1 * 30 * 60 * 1000);
+
     checkForEp();
+    checkForNewMagnets();
   }
 };

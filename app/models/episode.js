@@ -1,12 +1,15 @@
+var request = nRequire("request");
+var cheerio = nRequire("cheerio");
+
 export default DS.Model.extend({
-  show: DS.attr('string'),
-  what: DS.attr('string'),
-  magnet: DS.attr('string'),
-  createdAt: DS.attr('date'),
-  firstAired: DS.attr('date'),
+  show: DS.attr("string"),
+  what: DS.attr("string"),
+  magnet: DS.attr("string"),
+  createdAt: DS.attr("date"),
+  firstAired: DS.attr("date"),
   title: DS.attr("string"),
-  seen: DS.attr('boolean', { defaultValue: false }),
-  removed: DS.attr('boolean', { defaultValue: false }),
+  seen: DS.attr("boolean", { defaultValue: false }),
+  removed: DS.attr("boolean", { defaultValue: false }),
   isLoading: false,
   loadingPopcorn: false,
   hasSeen: function() {
@@ -32,14 +35,14 @@ export default DS.Model.extend({
   }.property("createdAt"),
   noMagnet: function() {
     return ! this.get("magnet");
-  }.property('magnet'),
+  }.property("magnet"),
   loading: function(resolve, reject) {
     var self = this;
-    if(self.get("isLoading")){ return; }
-    self.set("isLoading", true);
+    if(self.get("isLoading")){ 
+      return reject("Episode is already loading");
+    }
 
-    var request = nRequire('request');
-    var cheerio = nRequire('cheerio');
+    self.set("isLoading", true);
 
     var searchTorrent = function(query, cb) {
       var term = encodeURIComponent(query)
@@ -51,7 +54,7 @@ export default DS.Model.extend({
           return $(el).find('img[alt="VIP"]');
         });
 
-        var links = $(tds).find("a > img[alt='Magnet link']").map(function(i, el){
+        var links = $(tds).find('a > img[alt="Magnet link"]').map(function(i, el){
           return $(el).parent("a").attr("href");
         }).get()
 

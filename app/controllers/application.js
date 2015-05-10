@@ -71,6 +71,10 @@ export default Ember.Controller.extend({
       }, function(error){
         done();
         if(typeof(error) == "object"){
+          if(error["error"] === "invalid_grant") {
+            this.currentUser.logout();
+            this.transitionToRoute("login");
+          }
           self.set("errorMessage", JSON.stringify(error));
         } else {
           self.set("errorMessage", error);

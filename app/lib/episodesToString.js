@@ -2,6 +2,10 @@ var truncate = nRequire("truncate");
 
 export default function(episodes){
   var episode = episodes[0];
+  if(!episode) {
+    throw "no episodes passed";
+  }
+
   if(episodes.length == 1) {
     return episode.get("show")  + " " + episode.get("what") +
       " was released";
