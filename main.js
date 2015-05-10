@@ -55,7 +55,7 @@ app.on("ready", function() {
 
   var toggle = {
     "true":  path.join(__dirname, "assets/star.png"),
-    "false": path.join(__dirname, "/assets/star-o.png")
+    "false": path.join(__dirname, "assets/star-o.png")
   }
 
   var appIcon = new Tray(toggle["true"]);

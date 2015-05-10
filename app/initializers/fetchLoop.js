@@ -52,9 +52,14 @@ export default {
         });
 
         Ember.RSVP.allSettled(promises).then(function(){
-          if(episodes.get("length")){
+          // Remove all episodes which doesn't have a magnet link
+          var filteredEps = episodes.reject(function(episode) {
+            return ! episode.get("magnet");
+          });
+
+          if(filteredEps.length){
             new Notification("New magnet links", {
-              body: episodesToString(episodes.toArray())
+              body: episodesToString(filteredEps)
             });
 
             ipc.send("newBackgroundEpisodes", 1);
