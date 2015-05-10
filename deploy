@@ -17,10 +17,13 @@ cp config.json build/
 echo "mode=production" > "build/environment"
 cp -r assets/ build/assets
 
+echo "Copy packages"
+cp -R node_modules/ build/node_modules/
+
 echo "Build package using electron-packager"
-./node_modules/electron-packager/cli.js build `echo $APP` --out=dist/ --app-version=0.25.1 --icon=assets/icon.icns --prune --asar
+./node_modules/electron-packager/cli.js build/ `echo $APP` --out=dist/ --version=0.25.3 --icon=assets/icon.icns --prune --platform=darwin --arch=x64 --asar
 
 echo "Remove build path"
-rm -rf build
+rm -rf build/
 
 echo dist/`echo $APP`.app "has been created"

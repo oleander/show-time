@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "cheerio": "*",
+    "electron-packager": "^4.0.0",
     "jrpc2": "*",
     "js-base64": "*",
     "moment": "*",

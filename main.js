@@ -47,7 +47,6 @@ app.on("ready", function() {
     mainWindow.loadUrl("http://localhost:4200/");
   } else if (environment.mode === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
-    // app.dock.hide();
   } else {
     throw "not supported " + environment;
   }
