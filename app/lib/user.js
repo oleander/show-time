@@ -16,6 +16,7 @@ export default Ember.Object.extend({
     this.set("refreshToken", self.refreshToken);
     this.set("avatar", self.avatar);
     this.set("username", self.username);
+    this.set("joinedAt", self.joinedAt);
   },
   getAccessToken: function() {
     var today = new Date();
@@ -79,7 +80,7 @@ export default Ember.Object.extend({
         getProfile(token).then(function(data){
           self.set("username", data.user.username);
           self.set("avatar", data.user.images.avatar.full);
-          self.set("joinedAt", data.user.joined_at);
+          self.set("joinedAt", new Date(data.user.joined_at));
           resolve();
         }, reject);
       }, reject);
