@@ -22,7 +22,7 @@ if(!config.clientSecret) {
   throw "invalid config.json file, clientSecret not set";
 }
 
-app.on("ready", function() {
+var init = function() {
   app.commandLine.appendSwitch("disable-web-security");
   mainWindow = new BrowserWindow({
     "min-width": 1200,
@@ -84,4 +84,12 @@ app.on("ready", function() {
   mainWindow.on("focus", function() {
     appIcon.setImage(toggle["true"]);
   });
+};
+
+app.on("activate-with-no-open-windows", function() {
+  init();
+});
+
+app.on("ready", function() {
+  init();
 });
