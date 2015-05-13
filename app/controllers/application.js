@@ -26,7 +26,6 @@ export default Ember.Controller.extend({
   actions: {
     logout: function() {
       this.currentUser.logout();
-      this.set("successMessage", "You're now logged out");
       this.transitionToRoute("login");
     },
     reloadProfile: function(){

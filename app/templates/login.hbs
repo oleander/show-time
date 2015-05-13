@@ -1,117 +1,46 @@
-<style type="text/css">
-.outer {
-    display: table;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-
-.middle {
-  display: table-cell;
-  vertical-align: middle;
-  top: -50px;
-  position: relative;
-}
-
-
-#login-form {
-  width: 300px;
-  border-radius: 5px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  box-shadow: 0px 0px 20px #666666;
-  padding: 20px;
-  background-color: white;
-}
-
-.bottom-wrapper input {
-  height: 45px;
-  top: 10px;
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 25px;
-}
-
-.to-trakt a {
-  color: #f1f1f1;
-}
-
-.to-trakt {
-  height: 45px;
-  padding-top: 6px;
-
-}
-
-.next-step {
-  color: white;
-}
-
-h1 {
-  padding-bottom: 10px;
-}
-
-a.trakt {
-  text-decoration: none;
-}
-
-.text {
-  font-size: 16px;
-  color: #4A4A4A;
-}
-
-.outer {
-  background-image: url(http://trakt.tv/assets/auth/oblivion-blur-152fa265a9893cd4d88e9130770afbea.jpg)
-}
-
-.text.error {
-  color: #F33A2D;
-}
-</style>
-
-<div class="outer">
-  <div class="middle">
-    <div class="inner">
-      <div id="login-form">
-        <a href="/">
-          <div class="logo-wrapper">
-            <div class="base"></div>
-            <div class="logo"></div>
-          </div>
-        </a>
-
-        <div class="form-signin">
-          <h1>NeverAgain</h1>
-        </div>
-
-        <hr>
-
-        <div class="bottom-wrapper text">
-          Click on the button below, login to Trakt.tv and copy the token.
-        </div>
-
-        {{#if error}}
-          <hr>
-          <div class="bottom-wrapper error text">{{error}}</div>
-        {{/if}}
-        <hr>
-
-        <h2 class="error label-primary to-trakt">
-          {{#if isLoading}}
-            <i class="fa fa-spinner spin"></i>
-          {{else}}
-            <a class="trakt" target="_blank" href="http://trakt.tv/pin/3829">
-              To Trakt.tv
-              <i class="fa fa-angle-double-right"></i>
-            </a>
-          {{/if}}
-        </h2>
-
-        <div class="bottom-wrapper">
-          {{input placeholder="Enter your token" type="text" value=token class="text" action="login" on="enter"}}
-        </div>
-      </div>
+<div id="login-form">
+  <a href="/">
+    <div class="logo-wrapper">
+      <div class="base"></div>
+      <div class="logo"></div>
     </div>
+  </a>
+
+  <div class="form-signin">
+    <h1>NeverAgain</h1>
+  </div>
+
+  <hr>
+
+  <div class="bottom-wrapper text">
+    Click on the button below, login to Trakt.tv and copy the token.
+  </div>
+
+  {{#if error}}
+    <hr>
+    <div class="bottom-wrapper error text">{{error}}</div>
+  {{/if}}
+  <hr>
+
+  <h2 class="error label-primary to-trakt">
+    {{#if isLoading}}
+      <i class="fa fa-spinner spin"></i>
+    {{else}}
+      <a class="trakt" target="_blank" href="http://trakt.tv/pin/3829">
+        To Trakt.tv
+        <i class="fa fa-angle-double-right"></i>
+      </a>
+    {{/if}}
+  </h2>
+
+  <div class="bottom-wrapper">
+    {{input 
+      placeholder="Enter your token" 
+      type="text" 
+      value=token 
+      class="text" 
+      action="login" 
+      on="enter"
+    }}
   </div>
 </div>

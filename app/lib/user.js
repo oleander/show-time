@@ -10,7 +10,7 @@ export default Ember.Object.extend({
     if(!raw){ return; }
     var self = JSON.parse(raw);
     if(!self){ return; }
-    this.set("isLoggedIn", true);
+    this.set("isLoggedIn", !! self.accessToken);
     this.set("accessToken", self.accessToken);
     this.set("expiresAt", self.expiresAt);
     this.set("refreshToken", self.refreshToken);
