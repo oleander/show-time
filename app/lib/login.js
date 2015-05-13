@@ -22,7 +22,7 @@ export default function(token) {
 
   return new Promise(function(resolve, reject) {
     request.post(options, function(error, response, raw){
-      if(error) { reject(error) }
+      if(error) { return reject(error); }
       var body = JSON.parse(raw);
       if(body["access_token"]) {
         resolve(body);

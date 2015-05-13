@@ -6,8 +6,8 @@ var Menu          = require("menu");
 var ipc           = require("ipc");
 var path          = require("path");
 
-var config = require("./config.json")
-var envPath = path.join(__dirname, "environment");
+var config      = require("./config.json")
+var envPath     = path.join(__dirname, "environment");
 var environment = env(envPath);
 
 if(!environment.mode) {
@@ -39,13 +39,14 @@ var init = function() {
 
   mainWindow.module = undefined;
   mainWindow.setTitle("NeverAgain");
-  if(environment.mode === "development"){
+  if(environment.mode === "development" || true){
+    mainWindow.loadUrl("http://localhost:4200/");
+    mainWindow.openDevTools()
+  } else if (environment.mode === "production"){
     mainWindow.setMenuBarVisibility(false);
     mainWindow.setAutoHideMenuBar(true);
     mainWindow.setSkipTaskbar(true);
     mainWindow.setSkipTaskbar(false);
-    mainWindow.loadUrl("http://localhost:4200/");
-  } else if (environment.mode === "production"){
     mainWindow.loadUrl("file://" + __dirname + "/index.html");
   } else {
     throw "not supported " + environment;
