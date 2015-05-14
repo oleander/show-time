@@ -10,10 +10,14 @@ export default Ember.Controller.extend({
 
       var doneLoading = function(){
         self.set("isLoading", false);
+        self.set("error", null);
       }
 
       self.currentUser.login(self.get("token")).then(function(){
         doneLoading();
+        $(".vegas-background").hide();
+        $(".vegas-overlay").hide();
+        self.set("token", null);
         self.transitionToRoute("current");
         self.get("controllers.application").send("updateAll");
         self.get("controllers.application").set("error", null);

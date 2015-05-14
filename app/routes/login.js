@@ -1,7 +1,14 @@
+import loadBackground from "../lib/loadBackground";
+
 export default Ember.Route.extend({
   afterModel: function(){
     if(this.currentUser.isLoggedIn){
-      this.transitionTo("current");
+      return this.transitionTo("current");
     }
+
+    loadBackground.fetch().then(function(background) {
+      $.vegas({ src: background });
+      $.vegas("overlay", { opacity:0.2 });
+    });
   }
 });

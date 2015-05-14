@@ -1,10 +1,10 @@
 var request = nRequire('request');
+import globals from "./globals";
 
 export default function(accessToken) {
-  var apiKey = "123eaefe74369e41a98369af821d59a52c9283b20d79fead29e284ada23a1874"
   var headers = {
     "Content-Type": "application/json",
-    "trakt-api-key": apiKey,
+    "trakt-api-key": globals.getClientID(),
     "trakt-api-version": "2",
     "Authorization": "Bearer " + accessToken
   }

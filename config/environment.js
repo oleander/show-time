@@ -48,7 +48,7 @@ module.exports = function(environment) {
     'script-src': "'self' http://maxcdn.bootstrapcdn.com  'unsafe-inline' 'unsafe-eval' http://localhost:4200 https://code.jquery.com https://maxcdn.bootstrapcdn.com https://cdn.mxpnl.com", // Allow scripts from https://cdn.mxpnl.com
     'font-src': "'self'  https://maxcdn.bootstrapcdn.com http://fonts.gstatic.com", // Allow fonts to be loaded from http://fonts.gstatic.com
     'connect-src': "'self'  https://api.mixpanel.com http://custom-api.local", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
-    'img-src': "'self' http://trakt.tv https://secure.gravatar.com https://i0.wp.com",
+    'img-src': "'self' http://walter.trakt.us https://walter.trakt.us http://trakt.tv https://secure.gravatar.com https://i0.wp.com",
     'style-src': "'self'  http://localhost:4200 https://maxcdn.bootstrapcdn.com 'unsafe-inline' http://fonts.googleapis.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com 
     'media-src': "'self' "
   }

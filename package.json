@@ -52,7 +52,7 @@
     "node-env-file": "^0.1.7",
     "request": "*",
     "truncate": "^1.0.4",
-    "underscore": "*",
+    "underscore": "^1.8.3",
     "zpad": "*"
   }
 }
