@@ -1,53 +1,30 @@
-# Never-again
+# ShowTime
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+A desktop client for [Trakt.tv](http://trakt.tv) with live updates from [thepiratebay.org](http://thepiratebay.se/) which integrates nicely with [Popcorn-Time](http://popcorntime.io/).
 
-## Prerequisites
+## Screenshots
 
-You will need the following things properly installed on your computer.
+![Login Screen](resources/login.png)
 
-* [Git](http://git-scm.com/)
-* [Node.js](http://nodejs.org/) (with NPM)
-* [Bower](http://bower.io/)
-* [Ember CLI](http://www.ember-cli.com/)
-* [PhantomJS](http://phantomjs.org/)
+![Dashboard](resources/dashboard.png)
 
-## Installation
+## Functionality
 
-* `git clone <repository-url>` this repository
-* change into the new directory
-* `npm install`
-* `bower install`
+- Runs in the menu bar and notifies you about new releases
+- Play episodes directly in [Popcorn-Time](http://popcorntime.io/)
+- Mark seen episodes
 
-## Running / Development
+## Pre-compiled binaries
 
-* `ember server`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+Visit the [release page](https://github.com/oleander/git-fame-rb/releases) for pre-compiled binaries.
 
-### Code Generators
+## Development
 
-Make use of the many generators for code, try `ember help generate` for more details
+1. Insert your own trakt.tv credentials into `config.copy.json` and copy it to `config.json`. You'll find your credentials [on your settings page](http://trakt.tv/oauth/applications).
+2. Install all dependencies
+3. Start ember using `ember server`
+4. Start Electron using `./start`
 
-### Running Tests
+## Deploy
 
-* `ember test`
-* `ember test --server`
-
-### Building
-
-* `ember build` (development)
-* `ember build --environment production` (production)
-
-### Deploying
-
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
-
-* [ember.js](http://emberjs.com/)
-* [ember-cli](http://www.ember-cli.com/)
-* Development Browser Extensions
-  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
-  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
-
+Run `./deploy` to create a runnable binary. Note that it only support OS X at the moment, but PR are welcome.
