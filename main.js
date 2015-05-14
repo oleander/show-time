@@ -35,11 +35,6 @@ var init = function() {
     }
   });
 
-  mainWindow.on("close", function(e) {
-    e.preventDefault();
-    mainWindow.hide();
-  });
-
   mainWindow.mode = environment.mode;
   mainWindow.config = config;
 
@@ -219,10 +214,6 @@ var init = function() {
   menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 };
-
-app.on("activate-with-no-open-windows", function() {
-  mainWindow.show();
-});
 
 app.on("ready", function() {
   init();
