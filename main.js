@@ -44,7 +44,7 @@ var init = function() {
   mainWindow.config = config;
 
   mainWindow.module = undefined;
-  mainWindow.setTitle("NeverAgain");
+  mainWindow.setTitle("ShowTime");
   if(environment.mode === "development"){
     mainWindow.loadUrl("http://localhost:4200/");
     mainWindow.openDevTools();
@@ -95,10 +95,10 @@ var init = function() {
   // main.js
   var template = [
     {
-      label: 'NeverAgain',
+      label: 'ShowTime',
       submenu: [
         {
-          label: 'About NeverAgain',
+          label: 'About ShowTime',
           selector: 'orderFrontStandardAboutPanel:'
         },
         {
