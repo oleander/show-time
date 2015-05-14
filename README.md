@@ -20,7 +20,7 @@ A torrent desktop client for [Trakt.tv](http://trakt.tv) with live updates from 
 
 ## Pre-compiled binaries
 
-Visit the [release page](https://github.com/oleander/git-fame-rb/releases) for pre-compiled binaries.
+Visit the [release page](https://github.com/oleander/show-time/releases) for pre-compiled binaries.
 
 ## Development
 
