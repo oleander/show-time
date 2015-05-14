@@ -1,6 +1,9 @@
+import globals from "../lib/globals";
+
 export default Ember.Controller.extend({
   isLoading: false,
   error: false,
+  pinUrl: globals.getUrl(),
   needs: ["application"],
   actions: {
     login: function () {

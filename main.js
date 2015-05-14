@@ -14,6 +14,10 @@ if(!environment.mode) {
   throw "invalid .env file, mode not set";
 }
 
+if(!config.pinUrl) {
+  throw "invalid config.json file, pinUrl not set";
+}
+
 if(!config.clientID) {
   throw "invalid config.json file, clientID not set";
 }

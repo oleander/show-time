@@ -1,6 +1,6 @@
 # ShowTime
 
-A torrent desktop client for [Trakt.tv](http://trakt.tv) with live updates from [thepiratebay.org](http://thepiratebay.se/). It integrates nicely with [Popcorn-Time](http://popcorntime.io/).
+A torrent desktop client for [Trakt.tv](http://trakt.tv) with live updates from [thepiratebay.org](http://thepiratebay.se/) and [Popcorn-Time](http://popcorntime.io/) integration.
 
 ## Screenshots
 

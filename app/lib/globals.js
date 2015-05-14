@@ -12,6 +12,9 @@ export default {
   getClientID: function() {
     return config.clientID;
   },
+  getUrl: function() {
+    return config.pinUrl;
+  },
   isDev: function() {
     return mode == "development";
   }

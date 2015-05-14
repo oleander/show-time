@@ -1,4 +1,5 @@
 {
   "clientID": "secret",
-  "clientSecret": "secret"
+  "clientSecret": "secret",
+  "pinUrl": "http://trakt.tv/pin/<1234>"
 }
