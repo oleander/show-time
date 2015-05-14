@@ -22,6 +22,7 @@ if(!config.clientSecret) {
   throw "invalid config.json file, clientSecret not set";
 }
 
+var mainWindow = null;
 var init = function() {
   app.commandLine.appendSwitch("disable-web-security");
   mainWindow = new BrowserWindow({
@@ -32,6 +33,11 @@ var init = function() {
     "web-preferences": {
       "web-security": false
     }
+  });
+
+  mainWindow.on("close", function(e) {
+    e.preventDefault();
+    mainWindow.hide();
   });
 
   mainWindow.mode = environment.mode;
@@ -52,7 +58,7 @@ var init = function() {
     throw "not supported " + environment;
   }
 
-  mainWindow.center();
+  mainWindow.maximize();
 
   var toggle = {
     "true":  path.join(__dirname, "assets/star.png"),
@@ -215,7 +221,7 @@ var init = function() {
 };
 
 app.on("activate-with-no-open-windows", function() {
-  init();
+  mainWindow.show();
 });
 
 app.on("ready", function() {
