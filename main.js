@@ -89,10 +89,10 @@ var init = function() {
   // main.js
   var template = [
     {
-      label: 'Electron',
+      label: 'NeverAgain',
       submenu: [
         {
-          label: 'About Electron',
+          label: 'About NeverAgain',
           selector: 'orderFrontStandardAboutPanel:'
         },
         {
@@ -210,10 +210,8 @@ var init = function() {
     },
   ];
 
-  if(environment.mode === "development"){
-    menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
-  }
+  menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
 };
 
 app.on("activate-with-no-open-windows", function() {
