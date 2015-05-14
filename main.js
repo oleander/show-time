@@ -39,9 +39,9 @@ var init = function() {
 
   mainWindow.module = undefined;
   mainWindow.setTitle("NeverAgain");
-  if(environment.mode === "development" || true){
+  if(environment.mode === "development"){
     mainWindow.loadUrl("http://localhost:4200/");
-    mainWindow.openDevTools()
+    mainWindow.openDevTools();
   } else if (environment.mode === "production"){
     mainWindow.setMenuBarVisibility(false);
     mainWindow.setAutoHideMenuBar(true);
@@ -210,9 +210,10 @@ var init = function() {
     },
   ];
 
-  menu = Menu.buildFromTemplate(template);
-
-  Menu.setApplicationMenu(menu);
+  if(environment.mode === "development"){
+    menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+  }
 };
 
 app.on("activate-with-no-open-windows", function() {
