@@ -24,7 +24,7 @@ Visit the [release page](https://github.com/oleander/show-time/releases) for pre
 
 ## Development
 
-1. Add your own trakt.tv credentials into `config.copy.json` and movie it to `config.json`. You'll find your credentials [on the settings page](http://trakt.tv/oauth/applications)
+1. Add your own trakt.tv credentials into `config.copy.json` and move it to `config.json`. You'll find your credentials [on the settings page](http://trakt.tv/oauth/applications)
 2. Install dependencies using `npm install`
 3. Start ember using `ember server`
 4. Start Electron (the GUI) using `./start`
