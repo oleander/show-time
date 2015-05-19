@@ -75,12 +75,26 @@ export default {
       });
     }
 
+    var updateMagnets = function(){
+      store.find("episode", {
+        seen: false, 
+        removed: false
+      }).then(function(episodes) {
+        episodes.forEach(function(episode) {
+          episode.loading();
+        });
+      });
+    }
+
     // Update releases every 60 min
     setInterval(checkForEp, 1 * 60 * 60 * 1000);
-    // Update magnets every 30 min
+    // Find new magnets every 30 min
     setInterval(checkForNewMagnets, 1 * 30 * 60 * 1000);
+    // Update magnets every 40 min
+    setInterval(updateMagnets, 1 * 40 * 60 * 1000);
 
     checkForEp();
     checkForNewMagnets();
+    updateMagnets();
   }
 };
