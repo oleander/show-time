@@ -9,6 +9,12 @@ var path          = require("path");
 var config      = require("./config.json")
 var envPath     = path.join(__dirname, "environment");
 var environment = env(envPath);
+var mainWindow  = null;
+var appIcon     = null;
+var toggle      = {
+  "true":  path.join(__dirname, "assets/star.png"),
+  "false": path.join(__dirname, "assets/star-o.png")
+}
 
 if(!environment.mode) {
   throw "invalid .env file, mode not set";
@@ -26,7 +32,6 @@ if(!config.clientSecret) {
   throw "invalid config.json file, clientSecret not set";
 }
 
-var mainWindow = null;
 var init = function() {
   app.commandLine.appendSwitch("disable-web-security");
   mainWindow = new BrowserWindow({
@@ -59,29 +64,6 @@ var init = function() {
 
   mainWindow.maximize();
 
-  var toggle = {
-    "true":  path.join(__dirname, "assets/star.png"),
-    "false": path.join(__dirname, "assets/star-o.png")
-  }
-
-  var appIcon = new Tray(toggle["true"]);
-
-  appIcon.on("clicked", function() {
-    appIcon.setImage(toggle["true"]);
-    if(mainWindow.isVisible()){
-      mainWindow.hide();
-    } else {
-      mainWindow.show();
-      mainWindow.focus();
-    }
-  });
-
-  ipc.on("newBackgroundEpisodes", function(event, arg) {
-    if(!mainWindow.isFocused()){
-      appIcon.setImage(toggle["false"]);
-    }
-  });
-
   mainWindow.webContents.on("new-window", function(e, url) {
     require("shell").openExternal(url);
     e.preventDefault()
@@ -90,6 +72,10 @@ var init = function() {
   mainWindow.on("focus", function() {
     appIcon.setImage(toggle["true"]);
   });
+};
+
+app.on("ready", function() {
+  init();
 
   // main.js
   var template = [
@@ -173,32 +159,12 @@ var init = function() {
       ]
     },
     {
-      label: 'View',
-      submenu: [
-        {
-          label: 'Reload',
-          accelerator: 'Command+R',
-          click: function() { BrowserWindow.getFocusedWindow().reloadIgnoringCache(); }
-        },
-        {
-          label: 'Toggle DevTools',
-          accelerator: 'Alt+Command+I',
-          click: function() { BrowserWindow.getFocusedWindow().toggleDevTools(); }
-        },
-      ]
-    },
-    {
       label: 'Window',
       submenu: [
         {
           label: 'Minimize',
           accelerator: 'Command+M',
           selector: 'performMiniaturize:'
-        },
-        {
-          label: 'Close',
-          accelerator: 'Command+W',
-          selector: 'performClose:'
         },
         {
           type: 'separator'
@@ -217,8 +183,26 @@ var init = function() {
 
   menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
-};
 
-app.on("ready", function() {
+  appIcon = new Tray(toggle["true"]);
+
+  appIcon.on("clicked", function() {
+    appIcon.setImage(toggle["true"]);
+    if(mainWindow.isVisible()){
+      mainWindow.hide();
+    } else {
+      mainWindow.show();
+      mainWindow.focus();
+    }
+  });
+
+  ipc.on("newBackgroundEpisodes", function(event, arg) {
+    if(!mainWindow.isFocused()){
+      appIcon.setImage(toggle["false"]);
+    }
+  });
+});
+
+app.on("activate-with-no-open-windows", function() {
   init();
 });
