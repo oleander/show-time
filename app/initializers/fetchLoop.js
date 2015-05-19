@@ -93,8 +93,14 @@ export default {
     // Update magnets every 40 min
     setInterval(updateMagnets, 1 * 40 * 60 * 1000);
 
-    checkForEp();
-    checkForNewMagnets();
-    updateMagnets();
+    var check = function() {
+      checkForEp();
+      checkForNewMagnets();
+      updateMagnets();
+    };
+
+    check();
+
+    window.addEventListener("online",  check);
   }
 };
