@@ -99,8 +99,10 @@ export default {
       updateMagnets();
     };
 
+    // Check all on start up
     check();
 
+    // Check when online
     window.addEventListener("online",  check);
   }
 };
