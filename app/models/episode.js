@@ -37,6 +37,9 @@ export default DS.Model.extend({
     return ! this.get("magnet");
   }.property("magnet"),
   loading: function(resolve, reject) {
+    if(!resolve) { resolve = function() {}; }
+    if(!reject) { reject = function() {}; }
+
     var self = this;
     if(self.get("isLoading")){ 
       return reject("Episode is already loading");
@@ -68,7 +71,7 @@ export default DS.Model.extend({
         self.save()
       }
       self.set("isLoading", false);
-      if(resolve){ resolve(); }
+      resolve();
     });
   },
 });

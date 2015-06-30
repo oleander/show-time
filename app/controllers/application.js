@@ -46,7 +46,9 @@ export default Ember.Controller.extend({
         });
       });
 
-      Promise.all(promises).then(function(){
+      Ember.RSVP.allSettled(promises).then(function(){
+        self.set("isReloading", false);
+      }, function() {
         self.set("isReloading", false);
       });
     },
@@ -71,7 +73,9 @@ export default Ember.Controller.extend({
         done();
         if(typeof(error) == "object"){
           if(error["error"] === "invalid_grant") {
-            this.currentUser.logout();
+            if(this.currentUser) {
+              this.currentUser.logout();
+            }
             this.transitionToRoute("login");
           }
           self.set("errorMessage", JSON.stringify(error));

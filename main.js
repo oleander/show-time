@@ -157,8 +157,21 @@ app.on("ready", function() {
           selector: 'selectAll:'
         },
       ]
-    },
-    {
+    }, {
+      label: 'View',
+      submenu: [
+        {
+          label: 'Reload',
+          accelerator: 'Command+R',
+          click: function() { BrowserWindow.getFocusedWindow().reloadIgnoringCache(); }
+        },
+        {
+          label: 'Toggle DevTools',
+          accelerator: 'Alt+Command+I',
+          click: function() { BrowserWindow.getFocusedWindow().toggleDevTools(); }
+        },
+      ]
+    }, {
       label: 'Window',
       submenu: [
         {
