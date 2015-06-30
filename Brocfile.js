@@ -2,7 +2,14 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-var app = new EmberApp();
+var app = new EmberApp({
+  minifyCSS: {
+    enabled: false
+  },
+  minifyJS: {
+    enabled: false
+  }
+});
 
 app.import('bower_components/ember-localstorage-adapter/localstorage_adapter.js');
 app.import('vendor/app.js');
