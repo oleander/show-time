@@ -1,5 +1,4 @@
-var request = nRequire("request");
-var cheerio = nRequire("cheerio");
+var kickass = nRequire("kickass-torrent");
 
 export default DS.Model.extend({
   show: DS.attr("string"),
@@ -48,22 +47,19 @@ export default DS.Model.extend({
     self.set("isLoading", true);
 
     var searchTorrent = function(query, cb) {
-      var term = encodeURIComponent(query)
-      var url = "https://www.thepiratebay.se/search/" + term + "/0/99/205";
-
-      request({ url: url }, function(error, response, body){
-        var $ = cheerio.load(body);
-        var tds = $("td").filter(function(i, el){
-          return $(el).find('img[alt="VIP"]');
-        });
-
-        var links = $(tds).find('a > img[alt="Magnet link"]').map(function(i, el){
-          return $(el).parent("a").attr("href");
-        }).get()
-
-        cb(links[0]);
+      kickass({
+        q: query,
+        field:"seeders",
+        order:"desc",
+        url: "http://kat.cr",
+      }, function(e, data){
+        if(e || !data.list.length) {
+          cb(null);
+        } else {
+          cb(data.list[0].torrentLink);
+        }
       });
-    }
+    };
 
     searchTorrent(self.get("show") + " " + self.get("what"), function(magnet){
       if(magnet){
