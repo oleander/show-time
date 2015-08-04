@@ -6,9 +6,11 @@ export default Ember.Controller.extend({
   isReloading: false,
   isUpdating: false,
   showAll: true,
+  messageTimeout: 7000,
   needs: ["episodes", "current"],
   errorMessage: null,
   successMessage: null,
+  messageID: null,
   updatedAt: null,
   isReloadingProfile: false,
   deactivateUpdateAll: function() {
@@ -22,6 +24,34 @@ export default Ember.Controller.extend({
   },
   setEpisodes: function(data) {
     return this.get("controllers.episodes").set("episodes", data)
+  },
+  // Displays flash messages
+  flash: function(message, error) {
+    var messageID = Math.random();
+    var self      = this;
+    
+    if(error) {
+      this.set("errorMessage", message);
+      this.set("successMessage", null);
+    } else {
+      this.set("errorMessage", null);
+      this.set("successMessage", message);
+    }
+
+    this.set("messageID", messageID);
+
+    // Clear message after {messageTimeout} seconds
+    setTimeout(function() {
+      var currentMessageID = self.get("messageID");
+      // Another message has been used in-between
+      if(currentMessageID != messageID) { return; }
+
+      if(error) {
+        self.set("errorMessage", null);
+      } else {
+        self.set("successMessage", null);
+      }
+    }, this.get("messageTimeout"));
   },
   actions: {
     logout: function() {
@@ -87,7 +117,7 @@ export default Ember.Controller.extend({
     clearEpisodes: function(){
       this.setEpisodes([]);
       window.localStorage.removeItem("again");
-      this.set("successMessage", "All episodes has been removed");
+      this.flash("All episodes has been removed");
     },
     closeSuccessMessage: function() {
       this.set("successMessage", null);

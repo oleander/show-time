@@ -31,10 +31,10 @@ export default Ember.Controller.extend({
       var self = this;
       obj.set("loadingPopcorn", true);
       openPopcornTime(obj).then(function(message){
-        self.get("controllers.application").set("successMessage", message)
+        self.get("controllers.application").flash(message);
         obj.set("loadingPopcorn", false);
       }, function(err) {
-        self.get("controllers.application").set("errorMessage", err)
+        self.get("controllers.application").flash(err, true);
         obj.set("loadingPopcorn", false);
       })
     }
