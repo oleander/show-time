@@ -6,7 +6,7 @@ var moment  = nRequire("moment");
 
 import globals from "./globals";
 
-export default function(accessToken, callback) {
+export default function(accessToken) {
   var headers = {
     "Content-Type": "application/json",
     "trakt-api-key": globals.getClientID(),
@@ -24,23 +24,27 @@ export default function(accessToken, callback) {
     headers: headers
   };
 
-  request(options, function(error, response, body){
-    var raw = JSON.parse(body);
-    var episodes = _.map(raw, function(data) {
-      var episode = data["episode"];
-      var firstAired = data["first_aired"];
-      var title = episode["title"];
-      var season = zpad(episode["season"], 2);
-      var number = zpad(episode["number"], 2);
-      var show = data["show"]["title"];
-      return {
-        "show": show,
-        "what": util.format("s%se%s", season, number),
-        "title": title,
-        "firstAired": new Date(firstAired)
-      }
-    });
+  return new Promise(function(resolve, reject) {
+    request(options, function(error, response, body){
+      if(error) { return reject(error); }
 
-    callback(episodes)
+      var raw = JSON.parse(body);
+      var episodes = _.map(raw, function(data) {
+        var episode = data["episode"];
+        var firstAired = data["first_aired"];
+        var title = episode["title"];
+        var season = zpad(episode["season"], 2);
+        var number = zpad(episode["number"], 2);
+        var show = data["show"]["title"];
+        return {
+          "show": show,
+          "what": util.format("s%se%s", season, number),
+          "title": title,
+          "firstAired": new Date(firstAired)
+        }
+      });
+
+      resolve(episodes)
+    });
   });
 }

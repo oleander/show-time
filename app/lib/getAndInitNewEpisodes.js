@@ -7,7 +7,7 @@ export default function(user, store) {
     }
 
     user.getAccessToken().then(function(token){
-      getNewEpisodes(token, function(episodes) {
+      getNewEpisodes(token).then(function(episodes) {
         var prom = episodes.map(function(episode) {
           return new Promise(function(resolve, reject) {
             store.find("episode", {
