@@ -71,8 +71,8 @@ export default Ember.Controller.extend({
       var self = this;
       self.set("isReloading", true);
       var promises = this.getEpisodes().map(function(episode) {
-        return new Promise(function(resolve) {
-          episode.loading(resolve);
+        return new Promise(function(resolve, reject) {
+          episode.loading(resolve, reject);
         });
       });
 
