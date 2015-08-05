@@ -40,34 +40,30 @@ export default DS.Model.extend({
     if(!reject) { reject = function() {}; }
 
     var self = this;
+    var query = self.get("show") + " " + self.get("what");
+
     if(self.get("isLoading")){ 
       return reject("Episode is already loading");
     }
 
     self.set("isLoading", true);
 
-    var searchTorrent = function(query, cb) {
-      kickass({
-        q: query,
-        field:"seeders",
-        order:"desc",
-        url: "http://kat.cr",
-      }, function(e, data){
-        if(e || !data.list.length) {
-          cb(null);
-        } else {
-          cb(data.list[0].torrentLink);
-        }
-      });
-    };
-
-    searchTorrent(self.get("show") + " " + self.get("what"), function(magnet){
-      if(magnet){
-        self.set("magnet", magnet);
-        self.save()
+    kickass({
+      q: query,
+      field:"seeders",
+      order:"desc",
+      url: "http://kat.cr",
+    }, function(e, data){
+      if(e) {
+        reject(e);
+      } else if (!data.list.length) {
+        reject("No torrent matches when searching for " + query);
+      } else {
+        self.set("magnet", data.list[0].torrentLink);
+        self.save();
+        resolve();
       }
       self.set("isLoading", false);
-      resolve();
     });
-  },
+  }
 });
