@@ -86,12 +86,14 @@ export default {
       });
     }
 
+    var minute = 1000 * 60;
+
     // Update releases every 60 min
-    setInterval(checkForEp, 1 * 60 * 60 * 1000);
+    setInterval(checkForEp, 60 * minute);
     // Find new magnets every 30 min
-    setInterval(checkForNewMagnets, 1 * 30 * 60 * 1000);
+    setInterval(checkForNewMagnets, * 30 * minute);
     // Update magnets every 40 min
-    setInterval(updateMagnets, 1 * 40 * 60 * 1000);
+    setInterval(updateMagnets, 40 * minute);
 
     var check = function() {
       checkForEp();
@@ -99,10 +101,13 @@ export default {
       updateMagnets();
     };
 
+    // Check when online
+    window.addEventListener("online",  function() {
+      // Wait 5 sec to ensure connectivity
+      setTimeout(check, 5000);
+    });
+
     // Check all on start up
     check();
-
-    // Check when online
-    window.addEventListener("online",  check);
   }
 };
