@@ -91,7 +91,7 @@ export default {
     // Update releases every 60 min
     setInterval(checkForEp, 60 * minute);
     // Find new magnets every 30 min
-    setInterval(checkForNewMagnets, * 30 * minute);
+    setInterval(checkForNewMagnets, 30 * minute);
     // Update magnets every 40 min
     setInterval(updateMagnets, 40 * minute);
 
