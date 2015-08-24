@@ -1,4 +1,4 @@
-var kickass = nRequire("kickass-torrent");
+import getTorrentFromEpisode from "../lib/getTorrentFromEpisode"
 
 export default DS.Model.extend({
   show: DS.attr("string"),
@@ -40,7 +40,6 @@ export default DS.Model.extend({
     if(!reject) { reject = function() {}; }
 
     var self = this;
-    var query = self.get("show") + " " + self.get("what");
 
     if(self.get("isLoading")){ 
       return reject("Episode is already loading");
@@ -48,22 +47,14 @@ export default DS.Model.extend({
 
     self.set("isLoading", true);
 
-    kickass({
-      q: query,
-      field:"seeders",
-      order:"desc",
-      url: "http://kat.cr",
-    }, function(e, data){
-      if(e) {
-        reject(e);
-      } else if (!data.list.length) {
-        reject("No torrent matches when searching for " + query);
-      } else {
-        self.set("magnet", data.list[0].torrentLink);
-        self.save();
-        resolve();
-      }
+    getTorrentFromEpisode(self).then(function(magnet) {
+      self.set("magnet", magnet);
+      self.save();
       self.set("isLoading", false);
-    });
+      resolve();
+    }, function(error) {
+      self.set("isLoading", false);
+      reject(error);
+    })
   }
 });
