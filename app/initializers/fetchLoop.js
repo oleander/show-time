@@ -37,8 +37,6 @@ export default {
     }
 
     var checkForNewMagnets = function(){
-      if(apController.get("isReloading")) { return; }
-
       apController.set("isReloading", true);
       store.find("episode", {
         seen: false, 
@@ -76,12 +74,22 @@ export default {
     }
 
     var updateMagnets = function(){
+      apController.set("isReloading", true);
+
       store.find("episode", {
         seen: false, 
         removed: false
       }).then(function(episodes) {
-        episodes.forEach(function(episode) {
-          episode.loading();
+        var promises = episodes.map(function(episode) {
+          return new Promise(function(resolve, reject) {
+            episode.loading(resolve, reject);
+          });
+        });
+
+        Ember.RSVP.allSettled(promises).then(function(){
+          apController.set("isReloading", false);
+        }, function() {
+          apController.set("isReloading", false);
         });
       });
     }
