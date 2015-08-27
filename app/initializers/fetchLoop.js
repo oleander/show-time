@@ -36,6 +36,23 @@ export default {
       });
     }
 
+    var deleteOld = function() {
+      var deleteOnTerm = function(term) {
+        store.find("episode", term).then(function(episodes) {
+          episodes.forEach(function(episode) {
+            if(episode.isOlderThenDays(30)){
+              episode.destroyRecord();
+            }
+          });
+        });
+      }
+
+      deleteOnTerm({ removed: true });
+      deleteOnTerm({ seen: true });
+    };
+
+    window.deleteOld = deleteOld;
+
     var checkForNewMagnets = function(){
       apController.set("isReloading", true);
       store.find("episode", {
@@ -102,11 +119,14 @@ export default {
     setInterval(checkForNewMagnets, 30 * minute);
     // Update magnets every 40 min
     setInterval(updateMagnets, 40 * minute);
+    // Delete old episodes once every hour
+    setInterval(deleteOld, 60 * minute);
 
     var check = function() {
       checkForEp();
       checkForNewMagnets();
       updateMagnets();
+      deleteOld();
     };
 
     // Check when online

@@ -14,6 +14,12 @@ export default DS.Model.extend({
   hasSeen: function() {
     this.set("seen", true).save();
   },
+  isOlderThenDays: function(days) {
+    var now = new Date().getTime();
+    var expires = this.get("createdAt").getTime() + 
+      (days * 24 * 60 * 60 * 1000);
+    return expires <= now;
+  },
   isRemoved: function() {
     this.set("removed", true).save();
   },
