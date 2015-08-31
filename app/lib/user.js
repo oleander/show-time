@@ -63,7 +63,10 @@ export default Ember.Object.extend({
         }
 
         var expiresAt = new Date();
-        expiresAt.setSeconds(expiresAt.getSeconds() + data["expires_in"]);
+        expiresAt.setSeconds(
+          expiresAt.getSeconds() + 
+          data["expires_in"] - 60 * 60 * 24 * 2
+        );
 
         self.set("accessToken", data["access_token"]);
         self.set("refreshToken", data["refresh_token"]);
