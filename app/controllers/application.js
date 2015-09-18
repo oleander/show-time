@@ -11,7 +11,6 @@ export default Ember.Controller.extend({
   errorMessage: null,
   successMessage: null,
   messageID: null,
-  updatedAt: null,
   isReloadingProfile: false,
   deactivateUpdateAll: function() {
     return ! this.currentUser.get("isLoggedIn") || this.get("isUpdating")
@@ -88,7 +87,6 @@ export default Ember.Controller.extend({
 
       var done = function(){
         self.set("isUpdating", false);
-        self.set("updatedAt", new Date());
       }
 
       getAndInitNewEpisodes(this.currentUser, this.store).then(function(episodes){
