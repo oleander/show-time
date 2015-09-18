@@ -114,11 +114,6 @@ export default Ember.Controller.extend({
         }
       });
     },
-    clearEpisodes: function(){
-      this.setEpisodes([]);
-      window.localStorage.removeItem("again");
-      this.flash("All episodes has been removed");
-    },
     closeSuccessMessage: function() {
       this.set("successMessage", null);
     },
