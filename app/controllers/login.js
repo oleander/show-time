@@ -18,12 +18,14 @@ export default Ember.Controller.extend({
 
       self.currentUser.login(self.get("token")).then(function(){
         doneLoading();
+        var applicationController = self.get("controllers.application");
         $(".vegas-background").hide();
         $(".vegas-overlay").hide();
         self.set("token", null);
         self.transitionToRoute("current");
-        self.get("controllers.application").send("updateAll");
-        self.get("controllers.application").set("error", null);
+        applicationController.send("closeAllMessages");
+        applicationController.send("updateAll");
+        applicationController.set("error", null);
       }, function(errorMessage){
         doneLoading();
         if(typeof(errorMessage) == "object"){

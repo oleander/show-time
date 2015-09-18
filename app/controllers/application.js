@@ -119,6 +119,10 @@ export default Ember.Controller.extend({
     },
     closeErrorMessage: function() {
       this.set("errorMessage", null);
+    },
+    closeAllMessages: function() {
+      this.set("successMessage", null);
+      this.set("errorMessage", null);
     }
   }
 });
