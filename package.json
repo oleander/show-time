@@ -48,8 +48,6 @@
     "electron-packager": "^4.0.0",
     "jrpc2": "*",
     "js-base64": "*",
-    "kickass-torrent": "0.0.1",
-    "load-json": "0.0.1",
     "moment": "*",
     "node-env-file": "^0.1.7",
     "request": "*",
