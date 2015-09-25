@@ -6,7 +6,9 @@ export default {
   name: "fetchLoop",
   after: "store",
   initialize: function(container, application) {
-    var store = container.lookup("store:main");
+    // TODO: Fix this
+    // var store = container.lookup("store:main");
+    return;
     var epController = container.lookup("controller:episodes");
     var apController = container.lookup("controller:application");
     
