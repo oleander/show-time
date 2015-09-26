@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
   actions: {
     logout: function() {
       this.currentUser.logout();
-      this.transitionToRoute("guest.login");
+      this.transitionToRoute("login");
     },
     reloadProfile: function(){
       this.set("isReloadingProfile", true);

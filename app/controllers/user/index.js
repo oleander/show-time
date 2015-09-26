@@ -67,7 +67,7 @@ export default Ember.Controller.extend({
             if(self.currentUser) {
               self.currentUser.logout();
             }
-            self.transitionToRoute("guest.login");
+            self.transitionToRoute("login");
           }
           self.get("userController").flash(JSON.stringify(error), true);
         } else {
