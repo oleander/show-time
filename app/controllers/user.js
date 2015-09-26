@@ -1,11 +1,6 @@
 import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes"
 
 export default Ember.Controller.extend({
-  afterModel: function(){
-    if(!this.currentUser.isLoggedIn){
-      this.transitionTo("guest.login");
-    }
-  },
   isReloading: false,
   isUpdating: false,
   messageTimeout: 7000,
