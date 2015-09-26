@@ -13,8 +13,9 @@
     "ember-resolver": "~0.1.18",
     "font-awesome": "~4.4.0",
     "loader.js": "ember-cli/loader.js#3.2.1",
-    "moment": "momentjs#~2.10.6",
+    "moment": ">= 2.8.0",
     "qunit": "1.17.1",
-    "ember-localstorage-adapter": "kurko/ember-localstorage-adapter#master"
+    "ember-localstorage-adapter": "kurko/ember-localstorage-adapter#master",
+    "moment-timezone": ">= 0.1.0"
   }
 }

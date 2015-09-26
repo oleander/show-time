@@ -38,7 +38,7 @@
                   <img src="{{currentUser.avatar}}" class="img-circle" alt="User Image">
                   <p>
                     {{currentUser.username}}
-                    <small>{{currentUser.joinedAt}}</small>
+                    <small>{{moment-format currentUser.joinedAt}}</small>
                   </p>
                 </li>
                 <li class="user-footer">

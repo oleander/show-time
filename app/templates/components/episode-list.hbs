@@ -16,10 +16,10 @@
             <tbody>
               {{#each episodes as |episode|}}
                 <tr>
-                  <td>{{episode.show}}</td>
+                  <td>{{truncate-multiline text=episode.show}}</td>
                   <td>{{episode.what}}</td>
                   <td>{{episode.title}}</td>
-                  <td>{{episode.firstAired}}</td>
+                  <td>{{moment-from-now episode.firstAired}}</td>
                   <td>
                     <div class="pull-right">
                       <button {{action "download" episode}} class="btn btn-sm btn-default" disabled={{episode.noMagnet}} target="_blank">
