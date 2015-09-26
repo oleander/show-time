@@ -40,8 +40,6 @@ export default function(user, store) {
               firstAired: rawEpisode.firstAired
             });
 
-            console.info("episode", episode.get("show"))
-
             episode.save();
             episode.loading();
             episodes.push(episode);
