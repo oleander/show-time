@@ -25,10 +25,10 @@
                       <button {{action "download" episode}} class="btn btn-sm btn-default" disabled={{episode.noMagnet}} target="_blank">
                         <i class="fa fa-download"></i>
                       </button>
-                      <button class="btn btn-sm btn-default" {{action "remove" episode}}>
+                      <button disabled={{episode.isNotVisible}} class="btn btn-sm btn-default" {{action "remove" episode}}>
                         <i class="fa fa-times"></i>
                       </button>
-                      <button class="btn btn-sm btn-default" {{action "seen" episode}}>
+                      <button disabled={{episode.isNotVisible}} class="btn btn-sm btn-default" {{action "seen" episode}}>
                         <i class="fa fa-eye"></i>
                       </button>
                       <button disabled={{episode.isLoading}} class="btn btn-sm btn-default" {{action "reload" episode}}>

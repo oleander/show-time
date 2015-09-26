@@ -5,22 +5,12 @@
   </h1>
 </section>
 
-{{#if episodes}}
-  {{render "episodes"}}
+{{#if model}}
+  {{episode-list 
+    episodes=model 
+  }}
 {{else}}
-  <section class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="box box-default">
-          <div class="box-body">
-            <div class="nothing">
-              <span>
-                You don't have seen episodes.
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  {{#no-episodes}}
+    You don't have seen episodes.
+  {{/no-episodes}}
 {{/if}}
