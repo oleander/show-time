@@ -63,6 +63,9 @@ export default Ember.Controller.extend({
       this.currentUser.logout();
       this.transitionToRoute("guest.login");
     },
+    updateAll: function() {
+      console.info(this.controllerFor("child"))
+    },
     reloadProfile: function(){
       this.set("isReloadingProfile", true);
       var self = this;
@@ -71,45 +74,6 @@ export default Ember.Controller.extend({
       }, function() {
         self.set("isReloadingProfile", false);
       })
-    },
-    reloadAll: function() {
-      var self = this;
-      self.set("isReloading", true);
-      var promises = this.getEpisodes().map(function(episode) {
-        return new Promise(function(resolve, reject) {
-          episode.loading(resolve, reject);
-        });
-      });
-
-      Ember.RSVP.allSettled(promises).then(function(){
-        self.set("isReloading", false);
-      }, function() {
-        self.set("isReloading", false);
-      });
-    },
-    updateAll: function() {
-      this.set("isUpdating", true);
-      var self = this;
-
-      var done = function(){
-        self.set("isUpdating", false);
-      }
-
-      getAndInitNewEpisodes(this.currentUser, this.store).then(done).catch(function() {
-        console.info("fail....")
-        done();
-        if(typeof(error) == "object"){
-          if(error["error"] === "invalid_grant") {
-            if(self.currentUser) {
-              self.currentUser.logout();
-            }
-            self.transitionToRoute("login");
-          }
-          self.set("errorMessage", JSON.stringify(error));
-        } else {
-          self.set("errorMessage", error);
-        }
-      });
     },
     closeSuccessMessage: function() {
       this.set("successMessage", null);
