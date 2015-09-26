@@ -6,14 +6,9 @@ export default Ember.Controller.extend({
       this.transitionTo("guest.login");
     }
   },
-  removedView: false,
-  seenView: false,
   isReloading: false,
   isUpdating: false,
-  episodes: [],
-  showAll: true,
   messageTimeout: 7000,
-  needs: ["episodes", "current"],
   errorMessage: null,
   successMessage: null,
   messageID: null,
@@ -62,9 +57,6 @@ export default Ember.Controller.extend({
     logout: function() {
       this.currentUser.logout();
       this.transitionToRoute("guest.login");
-    },
-    updateAll: function() {
-      console.info(this.controllerFor("child"))
     },
     reloadProfile: function(){
       this.set("isReloadingProfile", true);
