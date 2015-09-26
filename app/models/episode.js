@@ -23,7 +23,11 @@ export default DS.Model.extend({
   },
   isRemoved: function() {
     this.set("removed", true);
+    this.save();
   },
+  isNotVisible: function() {
+    return this.get("removed") || this.get("seen");
+  }.property("seen", "removed"),
   completeTitle: function(){
     return this.get("show") + " - " + this.get("what") + 
       " - " + this.get("title");
