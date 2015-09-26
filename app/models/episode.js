@@ -12,7 +12,8 @@ export default DS.Model.extend({
   isLoading: false,
   loadingPopcorn: false,
   hasSeen: function() {
-    this.set("seen", true).save();
+    this.set("seen", true);
+    this.save();
   },
   isOlderThenDays: function(days) {
     var now = new Date().getTime();
@@ -21,7 +22,7 @@ export default DS.Model.extend({
     return expires <= now;
   },
   isRemoved: function() {
-    this.set("removed", true).save();
+    this.set("removed", true);
   },
   completeTitle: function(){
     return this.get("show") + " - " + this.get("what") + 

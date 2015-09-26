@@ -10,7 +10,7 @@ export default function(user, store) {
       getNewEpisodes(token).then(function(episodes) {
         var prom = episodes.map(function(episode) {
           return new Promise(function(resolve, reject) {
-            store.find("episode", {
+            store.query("episode", {
               show: episode.show,
               what: episode.what
             }).then(function(episodes) {
@@ -40,11 +40,14 @@ export default function(user, store) {
               firstAired: rawEpisode.firstAired
             });
 
+            console.info("episode", episode.get("show"))
+
             episode.save();
+            episode.loading();
             episodes.push(episode);
           });
 
-          resolve(episodes.sortBy("firstAired").reverse());
+          resolve(episodes);
         }, function(){
           reject("Could not load data from trakt.tv");
         });

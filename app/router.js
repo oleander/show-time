@@ -11,12 +11,11 @@ import config from "./config/environment";
 // });
 
 var Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
 });
 
 export default Router.map(function() {
-  this.route("user", { resetNamespace: true, path: "user" }, function() {
-    this.route("current", { path: "/" });
+  this.route("user", function() {
     this.route("torrents", { path: "/torrents" });
     // this.route("torrent", { path: "/torrent/:torrent" });
     this.route("removed", { path: "/removed" });
