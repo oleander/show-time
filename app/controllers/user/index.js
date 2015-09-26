@@ -27,10 +27,10 @@ export default Ember.Controller.extend({
       var self = this;
       episode.set("loadingPopcorn", true);
       openPopcornTime(episode).then(function(message){
-        // self.get("controllers.application").flash(message);
+        self.get("userController").flash(message);
         episode.set("loadingPopcorn", false);
       }, function(err) {
-        // self.get("controllers.application").flash(err, true);
+        self.get("userController").flash(err, true);
         episode.set("loadingPopcorn", false);
       })
     },
@@ -69,9 +69,9 @@ export default Ember.Controller.extend({
             }
             self.transitionToRoute("login");
           }
-          self.set("errorMessage", JSON.stringify(error));
+          self.get("userController").flash(JSON.stringify(error), true);
         } else {
-          self.set("errorMessage", error);
+          self.get("userController").flash(error, true);
         }
       });
     },
