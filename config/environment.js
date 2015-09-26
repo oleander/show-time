@@ -13,6 +13,10 @@ module.exports = function(environment) {
       }
     },
 
+    moment: {
+      includeLocales: ["en-gb"]
+    },
+
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
