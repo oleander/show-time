@@ -12,19 +12,16 @@ import config from "./config/environment";
 
 var Router = Ember.Router.extend({
   location: config.locationType,
+  rootURL: "user.index"
 });
 
 export default Router.map(function() {
   this.route("user", function() {
-    this.route("torrents", { path: "/torrents" });
-    // this.route("torrent", { path: "/torrent/:torrent" });
     this.route("removed", { path: "/removed" });
     this.route("seen", { path: "/seen" });
   });
 
-  this.route("guest", { resetNamespace: true, path: "user" }, function() {
+  this.route("guest", function() {
     this.route("login", { path: "/login" });
   });
-
-  this.route("logout", { path: "/logout" });
 });

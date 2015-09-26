@@ -3,7 +3,7 @@ import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes"
 export default Ember.Controller.extend({
   afterModel: function(){
     if(!this.currentUser.isLoggedIn){
-      this.transitionTo("login");
+      this.transitionTo("guest.login");
     }
   },
   removedView: false,
