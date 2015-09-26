@@ -16,11 +16,9 @@ var Router = Ember.Router.extend({
 
 export default Router.map(function() {
   this.route("user", function() {
-    this.route("removed", { path: "/removed" });
-    this.route("seen", { path: "/seen" });
+    this.route("removed");
+    this.route("seen");
   });
 
-  this.route("guest", function() {
-    this.route("login", { path: "/login" });
-  });
+  this.route("login");
 });

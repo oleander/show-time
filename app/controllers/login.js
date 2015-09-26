@@ -1,8 +1,9 @@
-import globals from "../../lib/globals";
+import globals from "../lib/globals";
 
 export default Ember.Controller.extend({
   isLoading: false,
   error: false,
+  userController: Ember.inject.controller("user"),
   pinUrl: globals.getUrl(),
   actions: {
     login: function () {
@@ -17,15 +18,11 @@ export default Ember.Controller.extend({
 
       self.currentUser.login(self.get("token")).then(function(){
         doneLoading();
+        self.get("userController").send("closeAllMessages");
         $(".vegas-background").hide();
         $(".vegas-overlay").hide();
         self.set("token", null);
         self.transitionToRoute("user.index");
-        
-        // var applicationController = self.get("controllers.application");
-        // applicationController.send("closeAllMessages");
-        // applicationController.send("updateAll");
-        // applicationController.set("error", null);
       }, function(errorMessage){
         doneLoading();
         if(typeof(errorMessage) == "object"){

@@ -1,4 +1,4 @@
-import loadBackground from "../../lib/loadBackground";
+import loadBackground from "../lib/loadBackground";
 
 export default Ember.Route.extend({
   afterModel: function(){
@@ -8,7 +8,7 @@ export default Ember.Route.extend({
 
     loadBackground.fetch().then(function(background) {
       $.vegas({ src: background });
-      $.vegas("overlay", { opacity:0.2 });
+      $.vegas("overlay", { opacity: 0.2 });
     });
   }
 });
