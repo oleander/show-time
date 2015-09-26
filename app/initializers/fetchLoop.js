@@ -40,7 +40,7 @@ export default {
 
     var deleteOld = function() {
       var deleteOnTerm = function(term) {
-        store.find("episode", term).then(function(episodes) {
+        store.query("episode", term).then(function(episodes) {
           episodes.forEach(function(episode) {
             if(episode.isOlderThenDays(30)){
               episode.destroyRecord();
@@ -57,7 +57,7 @@ export default {
 
     var checkForNewMagnets = function(){
       apController.set("isReloading", true);
-      store.find("episode", {
+      store.query("episode", {
         seen: false, 
         removed: false,
         magnet: null
@@ -95,7 +95,7 @@ export default {
     var updateMagnets = function(){
       apController.set("isReloading", true);
 
-      store.find("episode", {
+      store.query("episode", {
         seen: false, 
         removed: false
       }).then(function(episodes) {

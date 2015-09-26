@@ -1,0 +1,40 @@
+<section class="content-header">
+  <h1>
+    <i class="fa fa-star"></i>
+    New episodes
+  </h1>
+</section>
+
+{{#if model}}
+  {{episode-list 
+    episodes=model 
+    seen="markEpisodeAsSeen"
+    remove="removeEpisode"
+    reload="reloadEpisode"
+    download="downloadEpisode"
+    play="playInPopcornTime"
+  }}
+{{else}}
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-default">
+          <div class="box-body">
+            <div class="nothing">
+              <span>
+                {{#if isUpdating}}
+                  <i class="fa fa-spinner spin" style="font-size: 60px"></i>
+                {{else}}
+                  Yay, you don't have any unseen episodes.
+                  <a href="#" {{action "updateAll"}}>
+                    Try reloading.
+                  </a>
+                {{/if}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{/if}}
