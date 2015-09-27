@@ -2,9 +2,8 @@
 
 module.exports = function(environment) {
   var ENV = {
-    modulePrefix: 'never-again',
+    modulePrefix: 'show-time',
     environment: environment,
-    baseURL: '/',
     locationType: 'hash',
     EmberENV: {
       FEATURES: {

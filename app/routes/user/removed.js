@@ -1,5 +1,7 @@
+import query from "../../lib/query";
+
 export default Ember.Route.extend({
   model: function() {
-    return this.store.query("episode", { removed: true });
+    return query(this.store, { removed: true });
   }
 });

@@ -3,7 +3,7 @@
 APP=ShowTime
 
 echo "Remove old app"
-rm -rf dist/`echo $APP`.app
+rm -rf dist/
 
 echo "Remove current build path"
 rm -rf build
@@ -17,11 +17,11 @@ cp config.json build/
 echo "mode=production" > "build/environment"
 cp -r assets/ build/assets
 
-echo "Copy packages"
-cp -R node_modules/ build/node_modules/
+echo "Installing packages"
+cd build/ && npm install --production && cd ..
 
 echo "Build package using electron-packager"
-./node_modules/electron-packager/cli.js build/ `echo $APP` --out=dist/ --version=0.25.3 --icon=assets/icon.icns --prune --platform=darwin --arch=x64 --asar
+./node_modules/electron-packager/cli.js build/ `echo $APP` --out=dist/ --version=0.33.1 --icon=assets/icon.icns --prune --platform=darwin --arch=x64
 
 echo "Remove build path"
 rm -rf build/

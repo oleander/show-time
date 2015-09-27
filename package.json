@@ -1,7 +1,7 @@
 {
-  "name": "never-again",
-  "version": "0.0.0",
-  "description": "Small description for never-again goes here",
+  "name": "show-time",
+  "version": "0.1.0",
+  "description": "A torrent desktop client for Trakt.tv with live updates from kickasstorrents and Popcorn-Time integration",
   "main": "main.js",
   "directories": {
     "doc": "doc",

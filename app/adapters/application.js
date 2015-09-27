@@ -1,3 +1,3 @@
 export default DS.LSAdapter.extend({
-    namespace: "again"
+  namespace: "again"
 });
