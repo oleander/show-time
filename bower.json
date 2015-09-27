@@ -1,5 +1,5 @@
 {
-  "name": "never-again",
+  "name": "show-time",
   "dependencies": {
     "bootstrap": "~3.3.5",
     "ember": "^2.0.0",
