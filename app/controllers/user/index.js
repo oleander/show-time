@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
       getAndInitNewEpisodes(this.currentUser, this.store).then(function(episodes){
         self.model.unshiftObjects(episodes);
       }).catch(function(error) {
-        if(typeof(error) == "object"){
+        if(error && typeof(error) == "object"){
           if(error["error"] === "invalid_grant") {
             if(self.currentUser) {
               self.currentUser.logout();

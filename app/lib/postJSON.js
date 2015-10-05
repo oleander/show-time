@@ -19,5 +19,5 @@ export default function(options) {
         }
       });
     });
-  }, 10, 100);
+  }, 8, 100);
 }
