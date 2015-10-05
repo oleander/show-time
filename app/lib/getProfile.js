@@ -1,5 +1,5 @@
-var request = nRequire('request');
 import globals from "./globals";
+import getJSON from "./getJSON";
 
 export default function(accessToken) {
   var headers = {
@@ -14,10 +14,5 @@ export default function(accessToken) {
     headers: headers
   };
 
-  return new Promise(function(resolve, reject) {
-    request.get(options, function(error, response, raw){
-      if(error) { return reject(error); }
-      resolve(JSON.parse(raw));
-    });
-  });
+  return getJSON(options);
 }

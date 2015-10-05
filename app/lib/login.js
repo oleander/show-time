@@ -1,5 +1,5 @@
 import globals from "./globals";
-var request = nRequire('request');
+import postJSON from "./postJSON";
 
 export default function(token) {
   var data = {
@@ -21,14 +21,12 @@ export default function(token) {
   };
 
   return new Promise(function(resolve, reject) {
-    request.post(options, function(error, response, raw){
-      if(error) { return reject(error); }
-      var body = JSON.parse(raw);
-      if(body["access_token"]) {
-        resolve(body);
+    postJSON(options).then(function(result){
+      if(result["access_token"]) {
+        resolve(result);
       } else {
-        reject(body);
+        reject(result);
       }
-    });
+    }).catch(reject);
   });
 }

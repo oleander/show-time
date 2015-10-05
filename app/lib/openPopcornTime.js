@@ -1,4 +1,4 @@
-var rpc = nRequire('jrpc2');
+var rpc = nRequire("jrpc2");
 var request = nRequire("request");
 var Base64 = nRequire('js-base64').Base64;
 
@@ -8,7 +8,7 @@ export default function(episode) {
       if(error) { return reject("Please start PopcornTime."); }
 
       var http = new rpc.httpTransport({
-        port: 8008, 
+        port: 8008,
         hostname: "localhost"
       });
 
@@ -16,8 +16,8 @@ export default function(episode) {
       http.setHeader("Authorization", "Basic " + auth);
       var client = new rpc.Client(http);
 
-      client.invoke('startstream', {
-        "imdb_id": null, 
+      client.invoke("startstream", {
+        "imdb_id": null,
         "torrent_url": episode.get("magnet"),
         "backdrop": null,
         "subtitle": null,
@@ -26,7 +26,7 @@ export default function(episode) {
         "quality": null,
         "type": "movie"
       }, function (err, raw) {
-        if(err) { 
+        if(err) {
           reject("Could not play episode in PopcornTime.");
         } else {
           resolve(episode.get("shortTitle") + " has been started in PopcornTime.");

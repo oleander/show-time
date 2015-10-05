@@ -5,6 +5,7 @@ var util    = nRequire("util")
 var moment  = nRequire("moment");
 
 import globals from "./globals";
+import getJSON from "./getJSON";
 
 export default function(accessToken) {
   var headers = {
@@ -24,12 +25,9 @@ export default function(accessToken) {
     headers: headers
   };
 
-  return new Promise(function(resolve, reject) {
-    request(options, function(error, response, body){
-      if(error) { return reject(error); }
-
-      var raw = JSON.parse(body);
-      var episodes = _.map(raw, function(data) {
+  return new Promise(function(resolve, reject){
+    getJSON(options).then(function(json){
+      var episodes = _.map(json, function(data) {
         var episode = data["episode"];
         var firstAired = data["first_aired"];
         var title = episode["title"];
@@ -43,8 +41,7 @@ export default function(accessToken) {
           "firstAired": new Date(firstAired)
         }
       });
-
       resolve(episodes)
-    });
+    }).catch(reject);
   });
 }
