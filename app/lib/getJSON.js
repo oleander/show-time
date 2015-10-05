@@ -9,6 +9,7 @@ export default function(options) {
         if(response.statusCode >= 400 && response.statusCode < 500) { 
           return abort(response.statusCode);
         }
+
         if(response.statusCode > 299) { return reject(response); }
 
         try {
@@ -18,5 +19,5 @@ export default function(options) {
         }
       });
     });
-  }, 10, 100);
+  }, 8, 100);
 }
