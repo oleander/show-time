@@ -1,5 +1,3 @@
-var truncate = nRequire("truncate");
-
 export default function(episodes){
   var episode = episodes[0];
   if(!episode) {
