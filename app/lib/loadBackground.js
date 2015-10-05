@@ -1,6 +1,6 @@
-var request = nRequire("request");
 var _ = nRequire("underscore");
 import globals from "./globals";
+import getJSON from "./getJSON";
 
 var headers = {
   "Content-Type": "application/json",
@@ -18,35 +18,25 @@ var processShows = function(shows, resolve, reject) {
     headers: headers
   };
 
-  request.get(options, function(error, response, raw){
-    if(error) { return reject(error) }
-    if(response.statusCode != 200) { 
-      return reject("Invalid status code"); 
-    }
-
-    var result = JSON.parse(raw)
+  getJSON(options).then(function(result){
     var fanart = result.images.fanart
 
     if(!fanart) { return processShows(shows, resolve, reject); }
     if(!fanart.full){ return processShows(shows, resolve, reject); }
 
     resolve(fanart.full);
-  });
+  }).catch(reject);
 };
 
 export default {
   fetch: function(){
     return new Promise(function(resolve, reject) {
-      request.get({
+      getJSON({
         url: "https://api-v2launch.trakt.tv/shows/trending",
         headers: headers
-      }, function(error, response, raw) {
-        if(error) { return reject(error); }
-        if(response.statusCode != 200) { 
-          return reject("Invalid status code"); 
-        }
-        processShows(_.shuffle(JSON.parse(raw)), resolve, reject);
-      });
+      }).then(function(result){
+        processShows(_.shuffle(result), resolve, reject);
+      }).catch(reject);
     });
   }
 }

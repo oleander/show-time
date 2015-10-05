@@ -22,7 +22,8 @@
     "boom": "*",
     "broccoli-asset-rev": "*",
     "electron-packager": "maxogden/electron-packager",
-    "electron-prebuilt": "*",
+    "electron-prebuilt": "0.33.1",
+    "ember-backoff": "/Users/linus/Documents/Projekt/ember-backoff",
     "ember-cli": "ember-cli/ember-cli#fc4d6ebc8dc3387797d51220b8a17b06c4c3ada6",
     "ember-cli-app-version": "*",
     "ember-cli-babel": "*",
@@ -42,15 +43,15 @@
   },
   "dependencies": {
     "cheerio": "*",
+    "ember-moment": "^4.0.1",
+    "ember-truncate": "0.0.2",
     "jrpc2": "*",
     "js-base64": "*",
+    "moment": "*",
     "node-env-file": "^0.1.7",
     "request": "*",
     "truncate": "^1.0.4",
     "underscore": "^1.8.3",
-    "zpad": "*",
-    "moment": "*",
-    "ember-moment": "^4.0.1",
-    "ember-truncate": "0.0.2"
+    "zpad": "*"
   }
 }

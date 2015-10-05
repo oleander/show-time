@@ -1,4 +1,4 @@
-var request = nRequire("request");
+import postJSON from "./postJSON";
 import globals from "./globals";
 import login from "./login";
 import getProfile from "../lib/getProfile";
@@ -8,7 +8,11 @@ export default Ember.Object.extend({
   init: function(){
     var raw = window.localStorage.getItem("user");
     if(!raw){ return; }
-    var self = JSON.parse(raw);
+
+    try {
+      var self = JSON.parse(raw);
+    } catch(e) { return; }
+
     if(!self){ return; }
     this.set("isLoggedIn", !! self.accessToken);
     this.set("accessToken", self.accessToken);
@@ -53,18 +57,14 @@ export default Ember.Object.extend({
         return resolve(self.get("accessToken"));
       }
 
-      request.post(options, function(error, response, raw){
-        if(error) { return failed(error); }
-
-        data = JSON.parse(raw);
-
+      postJSON(options).then(function(data){
         if(data["error"]) {
           return failed(data);
         }
 
         var expiresAt = new Date();
         expiresAt.setSeconds(
-          expiresAt.getSeconds() + 
+          expiresAt.getSeconds() +
           data["expires_in"] - 60 * 60 * 24 * 2
         );
 
@@ -73,7 +73,7 @@ export default Ember.Object.extend({
         self.set("expiresAt", expiresAt);
         self.set("isLoggedIn", true);
         resolve(data["access_token"]);
-      });
+      }).catch(failed);
     });
   },
   loadProfile: function(){
@@ -117,8 +117,8 @@ export default Ember.Object.extend({
   login: function(authToken){
     var self = this;
     return new Promise(function(resolve, reject) {
-      if(self.get("isLoggedIn")){ 
-        return reject("Already logged in"); 
+      if(self.get("isLoggedIn")){
+        return reject("Already logged in");
       }
 
       login(authToken).then(function(token){

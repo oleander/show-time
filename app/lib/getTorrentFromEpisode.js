@@ -1,7 +1,6 @@
-var request = nRequire("request");
+import getJSON from "./getJSON";
 
 export default function(episode) {
-  // Searches on kickass
   var search = function(query) {
     return new Promise(function(resolve, reject) {
       var params = {
@@ -13,21 +12,13 @@ export default function(episode) {
         url: "https://kat.cr/json.php"
       };
 
-      request(params, function(err, response, raw){
-        if(err) { return reject(err); }
-
-        try {
-          var data = JSON.parse(raw);
-        } catch(err) {
-          return reject(err);
-        }
-
+      getJSON(params).then(function(data){
         if (!data.list.length) {
           reject("No torrent matches when searching for '" + query + "'");
         } else {
           resolve(data.list[0]);
         }
-      });
+      }).catch(reject);
     });
   };
 
