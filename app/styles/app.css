@@ -43,3 +43,13 @@ html {
     transform: rotate(359deg);
   }
 }
+
+.main-header {
+  background-color: #3c8dbc;
+}
+
+.links a {
+  padding-left: 5px;
+  text-decoration: none;
+  color: inherit;
+}

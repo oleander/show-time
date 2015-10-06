@@ -3,16 +3,7 @@
     <div class="col-md-12">
       <div class="box box-default">
         <div class="box-body">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Show</th>
-                <th>Episode</th>
-                <th>Title</th>
-                <th>Aired</th>
-                <th></th>
-              </tr>
-            </thead>
+          <table class="table table-striped">
             <tbody>
               {{#each episodes as |episode|}}
                 <tr>
@@ -21,23 +12,33 @@
                   <td>{{episode.title}}</td>
                   <td>{{moment-from-now episode.firstAired}}</td>
                   <td>
-                    <div class="pull-right">
-                      <button {{action "download" episode}} class="btn btn-sm btn-default" disabled={{episode.noMagnet}} target="_blank">
-                        <i class="fa fa-download"></i>
-                      </button>
-                      <button disabled={{episode.isNotVisible}} class="btn btn-sm btn-default" {{action "remove" episode}}>
-                        <i class="fa fa-times"></i>
-                      </button>
-                      <button disabled={{episode.isNotVisible}} class="btn btn-sm btn-default" {{action "seen" episode}}>
-                        <i class="fa fa-eye"></i>
-                      </button>
-                      <button disabled={{episode.isLoading}} class="btn btn-sm btn-default" {{action "reload" episode}}>
-                        <i class="fa fa-refresh"></i>
-                      </button>
+                    <div class="pull-right links">
+                      {{#unless episode.noMagnet}}
+                        <a {{action "download" episode}} href="#">
+                          <i class="fa fa-download"></i>
+                        </a>
+                      {{/unless}}
+                      {{#unless episode.isNotVisible}}
+                        <a {{action "remove" episode}} href="#">
+                          <i class="fa fa-times"></i>
+                        </a>
 
-                      <button disabled={{episode.loadingPopcorn}} disabled={{episode.noMagnet}} class="btn btn-sm btn-default" {{action "play" episode}}>
-                        <i class="fa fa-play"></i>
-                      </button>
+                        <a {{action "seen" episode}} href="#">
+                          <i class="fa fa-eye"></i>
+                        </a>
+                      {{/unless}}
+                      {{#unless episode.isLoading}}
+                        <a {{action "reload" episode}} href="#">
+                          <i class="fa fa-refresh"></i>
+                        </a>
+                      {{/unless}}
+                      {{#unless episode.loadingPopcorn}}
+                        {{#unless episode.noMagnet}}
+                          <a {{action "play" episode}} href="#">
+                            <i class="fa fa-play"></i>
+                          </a>
+                        {{/unless}}
+                      {{/unless}}
                     </div>
                   </td>
                 </tr>
