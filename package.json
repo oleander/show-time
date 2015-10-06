@@ -23,7 +23,7 @@
     "broccoli-asset-rev": "*",
     "electron-packager": "maxogden/electron-packager",
     "electron-prebuilt": "0.33.1",
-    "ember-backoff": "/Users/linus/Documents/Projekt/ember-backoff",
+    "ember-backoff": "git://github.com/oleander/ember-backoff.git#abort",
     "ember-cli": "ember-cli/ember-cli#fc4d6ebc8dc3387797d51220b8a17b06c4c3ada6",
     "ember-cli-app-version": "*",
     "ember-cli-babel": "*",
