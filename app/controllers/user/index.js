@@ -6,10 +6,14 @@ export default Ember.Controller.extend({
   userController: Ember.inject.controller("user"),
   actions: {
     removeEpisode: function(episode) {
+      var should = confirm("Are you sure?");
+      if(!should) { return; }
       this.model.removeObject(episode)
       episode.isRemoved();
     },
     markEpisodeAsSeen: function(episode) {
+      var should = confirm("Are you sure?");
+      if(!should) { return; }
       this.model.removeObject(episode)
       episode.hasSeen();
     },

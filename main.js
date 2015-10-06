@@ -39,6 +39,7 @@ var init = function() {
     "min-height": 800,
     height: 800,
     width: 1200,
+    "title-bar-style": "hidden",
     "web-preferences": {
       "web-security": false
     }
