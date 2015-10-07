@@ -1,27 +1,26 @@
 import getJSON from "./getJSON";
+var search = function(query) {
+  return new Promise(function(resolve, reject) {
+    var params = {
+      qs: {
+        q: query,
+        field: "seeders",
+        order: "desc"
+      },
+      url: "https://kat.cr/json.php"
+    };
+
+    getJSON(params).then(function(data){
+      if (!data.list.length) {
+        reject("No torrent matches when searching for '" + query + "'");
+      } else {
+        resolve(data.list[0]);
+      }
+    }).catch(reject);
+  });
+};
 
 export default function(episode) {
-  var search = function(query) {
-    return new Promise(function(resolve, reject) {
-      var params = {
-        qs: {
-          q: query,
-          field: "seeders",
-          order: "desc"
-        },
-        url: "https://kat.cr/json.php"
-      };
-
-      getJSON(params).then(function(data){
-        if (!data.list.length) {
-          reject("No torrent matches when searching for '" + query + "'");
-        } else {
-          resolve(data.list[0]);
-        }
-      }).catch(reject);
-    });
-  };
-
   return new Promise(function(resolve, reject) {
     var query1 = episode.get("show") + " " + episode.get("what");
     var query2 = episode.get("show") + " " + episode.get("title");
@@ -42,7 +41,7 @@ export default function(episode) {
         resolve(resultToMagnet(result));
       }, function(err) {
         reject(err);
-      })
+      });
     });
   });
 }

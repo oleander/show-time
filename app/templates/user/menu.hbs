@@ -1,18 +1,18 @@
-<li class="dropdown messages-menu">
-  <a href="#" {{action "updateAll"}}>
+<li class="nav-item">
+  <a href="#" {{action "updateAll"}} class="nav-link active">
     {{#if isUpdating}}
-      <i class="fa fa-spinner spin"></i>
+      <i class="fa fa-spinner fa-spin fa-fw"></i>
     {{else}}
-      <i class="fa fa-refresh"></i>
+      <i class="fa fa-refresh fa-fw"></i>
     {{/if}}
   </a>
 </li>
-<li class="dropdown notifications-menu">
-  <a href="#" {{action "reloadAll"}}>
+<li class="nav-item">
+  <a href="#" {{action "reloadAll"}} class="nav-link active">
     {{#if isReloading}}
-      <i class="fa fa-spinner spin"></i>
+      <i class="fa fa-spinner fa-spin fa-fw"></i>
     {{else}}
-      <i class="fa fa-magnet"></i>
+      <i class="fa fa-magnet fa-fw"></i>
     {{/if}}
   </a>
 </li>

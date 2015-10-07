@@ -50,6 +50,8 @@ export default Ember.Controller.extend({
   },
   actions: {
     logout: function() {
+      var sure = confirm("Are you sure?");
+      if(!sure) { return; }
       this.currentUser.logout();
       this.transitionToRoute("login");
     },

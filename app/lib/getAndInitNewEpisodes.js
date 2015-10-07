@@ -32,7 +32,8 @@ export default function(user, store) {
           magnet: null,
           title: rawEpisode.title,
           createdAt: new Date(),
-          firstAired: rawEpisode.firstAired
+          firstAired: rawEpisode.firstAired,
+          image: rawEpisode.image
         });
 
         episode.save();

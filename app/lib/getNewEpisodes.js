@@ -21,10 +21,18 @@ export default function(accessToken) {
   var printableDate = moment(date).format("YYYY-MM-DD");
 
   var options = {
-    url: "https://api-v2launch.trakt.tv/calendars/my/shows/" + printableDate + "/" + (days + 1),
+    url: "https://api-v2launch.trakt.tv/calendars/my/shows/" + printableDate + "/" + (days + 1) + "?extended=images",
     headers: headers
   };
 
+  var getImage = function(episode) {
+    try {
+      return episode.images.screenshot.thumb
+    } catch(e) {
+      throw e;
+    }
+  };
+  
   return new Promise(function(resolve, reject){
     getJSON(options).then(function(json){
       var episodes = _.map(json, function(data) {
@@ -38,7 +46,8 @@ export default function(accessToken) {
           "show": show,
           "what": util.format("s%se%s", season, number),
           "title": title,
-          "firstAired": new Date(firstAired)
+          "firstAired": new Date(firstAired),
+          "image": getImage(episode)
         }
       });
       resolve(episodes)
