@@ -21,9 +21,11 @@ export default Ember.Controller.extend({
       episode.loading();
     },
     downloadEpisode: function(episode) {
+      if(episode.get("noMagnet")) { return; }
       nRequire("shell").openExternal(episode.get("magnet"));
     },
     playEpisodeInPopcornTime: function(episode) {
+      if(episode.get("noMagnet")) { return; }
       var self = this;
       episode.set("loadingPopcorn", true);
       openPopcornTime(episode).then(function(message){

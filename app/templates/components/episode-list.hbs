@@ -10,19 +10,19 @@
           <div class="fill" style="background: url({{episode.defaultImage}})"></div>
           <div class="card-block">
             <div class="links">
-              <a href="#" {{action "play" episode}} class="{{if episode.noMagnet 'disabled'}}">
+              <a href="#" {{action "play" episode}} class="nav-link {{if episode.noMagnet 'disabled'}}">
                 <i class="fa fa-play-circle-o fa-fw"></i>
               </a>
-              <a href="#" {{action "reload" episode}} class="{{if episode.isLoading 'disabled'}}">
+              <a href="#" {{action "reload" episode}} class="nav-link {{if episode.isLoading 'disabled'}}">
                 <i class="fa fa-refresh fa-fw {{if episode.isLoading 'fa-spin'}}"></i>
               </a>
-              <a href="#" {{action "seen" episode}} class="{{if episode.isNotVisible 'disabled'}}">
+              <a href="#" {{action "seen" episode}} class="nav-link {{if episode.isNotVisible 'disabled'}}">
                 <i class="fa fa-eye fa-fw"></i>
               </a>
-              <a href="#" {{action "remove" episode}} class="{{if episode.isNotVisible 'disabled'}}">
+              <a href="#" {{action "remove" episode}} class="nav-link {{if episode.isNotVisible 'disabled'}}">
                 <i class="fa fa-trash fa-fw"></i>
               </a>
-              <a href="#" {{action "download" episode}} class="{{if episode.noMagnet 'disabled'}}">
+              <a href="#" {{action "download" episode}} class="nav-link {{if episode.noMagnet 'disabled'}}">
                 <i class="fa fa-cloud-download fa-fw"></i>
               </a>
             </div>
