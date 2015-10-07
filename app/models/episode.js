@@ -3,6 +3,7 @@ import getTorrentFromEpisode from "../lib/getTorrentFromEpisode"
 export default DS.Model.extend({
   show: DS.attr("string"),
   what: DS.attr("string"),
+  image: DS.attr("string"),
   magnet: DS.attr("string"),
   createdAt: DS.attr("date"),
   firstAired: DS.attr("date"),
@@ -15,6 +16,9 @@ export default DS.Model.extend({
     this.set("seen", true);
     this.save();
   },
+  defaultImage: function() {
+    return this.get("image") || "/images/no-image.png"
+  }.property("image"),
   isOlderThenDays: function(days) {
     var now = new Date().getTime();
     var expires = this.get("createdAt").getTime() + 
