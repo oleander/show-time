@@ -42,13 +42,11 @@ export default Ember.Controller.extend({
   },
   actions: {
     showSettings: function(){
-      console.info("show", this.currentUser.get("exclude"))
       this.set("includeSetting", this.currentUser.get("include"));
       this.set("excludeSetting", this.currentUser.get("exclude"));
       this.toggleProperty("isShowingModal");
     },
     saveSettings: function() {
-      console.info("save", this.get("excludeSetting"))
       this.currentUser.set("include", this.get("includeSetting"));
       this.currentUser.set("exclude", this.get("excludeSetting"));
       this.toggleProperty("isShowingModal");

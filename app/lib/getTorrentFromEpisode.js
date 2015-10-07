@@ -15,7 +15,7 @@ var bestMatch = function(torrents){
     includes = include.split(",");
   }
 
-  return torrents.find(function(torrent){
+  return torrents.filter("verified").find(function(torrent){
     var excludeOK = true;
     if(excludes.length) {
       excludeOK = ! excludes.any(function(exclude){
