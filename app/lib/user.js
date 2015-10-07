@@ -21,6 +21,8 @@ export default Ember.Object.extend({
     this.set("avatar", self.avatar);
     this.set("username", self.username);
     this.set("joinedAt", self.joinedAt);
+    this.set("exclude", self.exclude);
+    this.set("include", self.include);
   },
   getAccessToken: function() {
     var today = new Date();
@@ -96,11 +98,13 @@ export default Ember.Object.extend({
       refreshToken: this.get("refreshToken"),
       avatar: this.get("avatar"),
       username: this.get("username"),
-      joinedAt: this.get("joinedAt")
+      joinedAt: this.get("joinedAt"),
+      exclude: this.get("exclude"),
+      include: this.get("include")
     };
 
     window.localStorage.setItem("user", JSON.stringify(self));
-  }.observes("accessToken", "expiresAt", "refreshToken", "username", "avatar", "joinedAt"),
+  }.observes("accessToken", "expiresAt", "refreshToken", "username", "avatar", "joinedAt", "include", "exclude"),
   logout: function(){
     window.localStorage.setItem("user", null);
     this.set("isLoggedIn", false);
@@ -113,6 +117,8 @@ export default Ember.Object.extend({
     this.set("avatar", null);
     this.set("username", null);
     this.set("joinedAt", null);
+    this.set("exclude", null);
+    this.set("include", null);
   }.observes("isLoggedIn"),
   login: function(authToken){
     var self = this;
