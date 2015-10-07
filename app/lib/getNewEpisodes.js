@@ -1,5 +1,4 @@
 var request = nRequire("request");
-var _       = nRequire("underscore");
 var zpad    = nRequire("zpad");
 var util    = nRequire("util")
 var moment  = nRequire("moment");
@@ -35,20 +34,24 @@ export default function(accessToken) {
   
   return new Promise(function(resolve, reject){
     getJSON(options).then(function(json){
-      var episodes = _.map(json, function(data) {
+      var episodes = [];
+      json.forEach(function(data) {
         var episode = data["episode"];
         var firstAired = data["first_aired"];
         var title = episode["title"];
         var season = zpad(episode["season"], 2);
         var number = zpad(episode["number"], 2);
         var show = data["show"]["title"];
-        return {
+
+        if(season === "00" || number === "00") { return; }
+
+        episodes.push({
           "show": show,
           "what": util.format("s%se%s", season, number),
           "title": title,
           "firstAired": new Date(firstAired),
           "image": getImage(episode)
-        }
+        });
       });
       resolve(episodes)
     }).catch(reject);
