@@ -1,25 +1,17 @@
 import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes"
 
 export default Ember.Controller.extend({
+  isShowingModal: false,
   isReloading: false,
   isUpdating: false,
   messageTimeout: 7000,
   errorMessage: null,
   successMessage: null,
   messageID: null,
+  includeSetting: null,
+  excludeSetting: null,
   isReloadingProfile: false,
-  deactivateUpdateAll: function() {
-    return ! this.currentUser.get("isLoggedIn") || this.get("isUpdating")
-  }.property("currentUser.isLoggedIn", "isUpdating"),
-  deactivateReloadAll: function() {
-    return ! this.currentUser.get("isLoggedIn") || this.get("isReloading")
-  }.property("currentUser.isLoggedIn", "isReloading"),
-  getEpisodes: function() {
-    return this.get("controllers.episodes").get("episodes")
-  },
-  setEpisodes: function(data) {
-    return this.get("controllers.episodes").set("episodes", data)
-  },
+  indexController: Ember.inject.controller("user.index"),
   // Displays flash messages
   flash: function(message, error) {
     var messageID = Math.random();
@@ -49,6 +41,19 @@ export default Ember.Controller.extend({
     }, this.get("messageTimeout"));
   },
   actions: {
+    showSettings: function(){
+      console.info("show", this.currentUser.get("exclude"))
+      this.set("includeSetting", this.currentUser.get("include"));
+      this.set("excludeSetting", this.currentUser.get("exclude"));
+      this.toggleProperty("isShowingModal");
+    },
+    saveSettings: function() {
+      console.info("save", this.get("excludeSetting"))
+      this.currentUser.set("include", this.get("includeSetting"));
+      this.currentUser.set("exclude", this.get("excludeSetting"));
+      this.toggleProperty("isShowingModal");
+      this.get("indexController").send("reloadAll");
+    },
     logout: function() {
       var sure = confirm("Are you sure?");
       if(!sure) { return; }

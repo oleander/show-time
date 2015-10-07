@@ -1,4 +1,37 @@
 import getJSON from "./getJSON";
+import User from "./user";
+
+var bestMatch = function(torrents){
+  var user = new User();
+  var includes = [];
+  var excludes = [];
+  var exclude = user.get("exclude");
+
+  if(exclude && exclude.length) {
+    excludes = exclude.split(",");
+  }
+  var include = user.get("include");
+  if(include && include.length) {
+    includes = include.split(",");
+  }
+
+  return torrents.find(function(torrent){
+    var excludeOK = true;
+    if(excludes.length) {
+      excludeOK = ! excludes.any(function(exclude){
+        return new RegExp(exclude.trim(), "i").test(torrent.title);
+      });
+    }
+    var includeOK = true;
+    if(includes.length) {
+      var includeOK = includes.every(function(include){
+        return new RegExp(include.trim(), "i").test(torrent.title);
+      });
+    }
+    return includeOK && excludeOK;
+  });
+}
+
 var search = function(query) {
   return new Promise(function(resolve, reject) {
     var params = {
@@ -14,7 +47,12 @@ var search = function(query) {
       if (!data.list.length) {
         reject("No torrent matches when searching for '" + query + "'");
       } else {
-        resolve(data.list[0]);
+        var match = bestMatch(data.list);
+        if(match) {
+          resolve(match);
+        } else {
+          reject(match);
+        }
       }
     }).catch(reject);
   });
@@ -27,7 +65,7 @@ export default function(episode) {
 
     var resultToMagnet = function(torrent) {
       // TODO: Make this shorter
-      return "magnet:?xt=urn:btih:" + torrent.hash + "&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337";
+      return "magnet:?xt=urn:btih:" + torrent.hash + "&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&dn=" + encodeURIComponent(torrent.title);
     };
 
     // First, search for show and episode number

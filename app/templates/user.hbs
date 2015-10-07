@@ -1,3 +1,33 @@
+{{#if isShowingModal}}
+  {{#modal-dialog close="showSettings"
+                  targetAttachment="center"
+                  translucentOverlay=true}}
+  <div class="modal-header">
+    <h4 class="modal-title">
+      <i class="fa fa-cogs"></i>
+      Settings
+    </h4>
+  </div>
+  <form {{action "saveSettings" on="submit"}}>
+    <div class="modal-body">
+      <fieldset class="form-group">
+        <label for="include">Releases to include</label>
+        {{input type="text" value=includeSetting class="form-control" placeholder="1080p, 720p" id="include"}}
+        <small class="text-muted">Seperate with a comma. Any of the words might exist in the relase.</small>
+      </fieldset>
+      <fieldset class="form-group">
+        <label for="exclude">Releases to exclude</label>
+        {{input type="text" value=excludeSetting class="form-control" placeholder="CAM, nuked, fake" id="exclude"}}
+        <small class="text-muted">Seperate with a comma. None of the words can exist in the relase.</small>
+      </fieldset>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-secondary" data-dismiss="modal">Save</button>
+    </div>
+  </form>
+  {{/modal-dialog}}
+{{/if}}
+
 <div class="container">
   <nav class="navbar navbar-fixed-top navbar-light bg-faded">
     <ul class="nav navbar-nav pull-right">
@@ -13,13 +43,16 @@
           <i class="fa fa-eye fa-fw"></i>
         {{/link-to}}
       </li>
-      
       <li class="nav-item">
         {{#link-to "user.removed" class="nav-link active"}}
           <i class="fa fa-trash fa-fw"></i>
         {{/link-to}}
       </li>
-
+      <li class="nav-item">
+        <a {{action "showSettings"}} href="#" class="nav-link active">
+          <i class="fa fa-cogs fa-fw"></i>
+        </a>
+      </li>
       <li class="nav-item">
         <a href="#" {{action "logout"}} class="nav-link active">
           <i class="fa fa-sign-out fa-fw"></i>

@@ -1,3 +1,6 @@
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+
 .nothing {
   min-height: 400px !important; 
   text-align: center;
@@ -24,7 +27,6 @@
    background-size: cover;
    background-position: center;
    height: 200px;
-   border-radius: 2px;
  }
 
  .links {
