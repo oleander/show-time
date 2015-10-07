@@ -15,7 +15,8 @@ var bestMatch = function(torrents){
     includes = include.split(",");
   }
 
-  return torrents.filter("verified").find(function(torrent){
+  return torrents.find(function(torrent){
+    if(!torrent.verified) { return false; }
     var excludeOK = true;
     if(excludes.length) {
       excludeOK = ! excludes.any(function(exclude){
@@ -38,7 +39,8 @@ var search = function(query) {
       qs: {
         q: query,
         field: "seeders",
-        order: "desc"
+        order: "desc",
+        verified: "1"
       },
       url: "https://kat.cr/json.php"
     };
