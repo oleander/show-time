@@ -68,6 +68,8 @@ export default DS.Model.extend({
       self.set("isLoading", false);
       resolve();
     }, function(error) {
+      self.set("magnet", null);
+      self.save();
       self.set("isLoading", false);
       reject(error);
     })
