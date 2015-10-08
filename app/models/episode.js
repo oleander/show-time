@@ -17,7 +17,7 @@ export default DS.Model.extend({
     this.save();
   },
   defaultImage: function() {
-    return this.get("image") || "/images/no-image.png"
+    return this.get("image") || "images/no-image.png"
   }.property("image"),
   isOlderThenDays: function(days) {
     var now = new Date().getTime();
