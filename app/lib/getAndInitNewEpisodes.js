@@ -14,7 +14,11 @@ export default function(user, store) {
         show: episode.show,
         what: episode.what
       }).then(function(episodes) {
-        if(episodes.get("length")) { return; }
+        if(episodes.get("length")) { 
+          var found = episodes.get("firstObject");
+          found.set("image", episode.image);
+          return;
+        }
         useEpisodes.push(episode);
       }, function() {
         useEpisodes.push(episode);
