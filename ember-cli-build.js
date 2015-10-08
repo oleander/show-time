@@ -3,10 +3,10 @@ var EmberApp = require("ember-cli/lib/broccoli/ember-app");
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     minifyCSS: {
-      enabled: false
+      enabled: true
     },
     minifyJS: {
-      enabled: false
+      enabled: true
     },
     fingerprint: {
       enabled: false
