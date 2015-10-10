@@ -53,7 +53,7 @@ module.exports = function(environment) {
     'connect-src': "'self'  https://api.mixpanel.com http://custom-api.local", // Allow data (ajax/websocket) from api.mixpanel.com and custom-api.local
     'img-src': "'self' http://walter.trakt.us https://walter.trakt.us http://trakt.tv https://secure.gravatar.com https://i0.wp.com",
     'style-src': "'self'  http://localhost:4200 https://maxcdn.bootstrapcdn.com 'unsafe-inline' http://fonts.googleapis.com", // Allow inline styles and loaded CSS from http://fonts.googleapis.com 
-    'media-src': "'self' "
+    'media-src': "'self' '*' "
   }
 
   return ENV;

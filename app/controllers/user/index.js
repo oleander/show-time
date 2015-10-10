@@ -1,6 +1,7 @@
 import openPopcornTime from "../../lib/openPopcornTime";
 import getAndInitNewEpisodes from "../../lib/getAndInitNewEpisodes";
 import forEach from "../../lib/forEach";
+var peerflix = nRequire("peerflix");
 
 export default Ember.Controller.extend({
   userController: Ember.inject.controller("user"),
@@ -23,18 +24,6 @@ export default Ember.Controller.extend({
     downloadEpisode: function(episode) {
       if(episode.get("noMagnet")) { return; }
       nRequire("shell").openExternal(episode.get("magnet"));
-    },
-    playEpisodeInPopcornTime: function(episode) {
-      if(episode.get("noMagnet")) { return; }
-      var self = this;
-      episode.set("loadingPopcorn", true);
-      openPopcornTime(episode).then(function(message){
-        self.get("userController").flash(message);
-        episode.set("loadingPopcorn", false);
-      }, function(err) {
-        self.get("userController").flash(err, true);
-        episode.set("loadingPopcorn", false);
-      })
     },
     reloadAll: function() {
       var self = this;
