@@ -10,9 +10,13 @@
           <div class="fill" style="background: url({{episode.defaultImage}})"></div>
           <div class="card-block">
             <div class="links">
-              <a href="#" {{action "play" episode}} class="nav-link {{if episode.noMagnet 'disabled'}}">
+{{!--               <a href="#" {{action "play" episode}} class="nav-link {{if episode.noMagnet 'disabled'}}">
                 <i class="fa fa-play-circle-o fa-fw"></i>
-              </a>
+              </a> --}}
+
+              {{#link-to "user.index.play" episode.id}}
+                <i class="fa fa-play-circle-o fa-fw"></i>
+              {{/link-to}}
               <a href="#" {{action "reload" episode}} class="nav-link {{if episode.isLoading 'disabled'}}">
                 <i class="fa fa-refresh fa-fw {{if episode.isLoading 'fa-spin'}}"></i>
               </a>

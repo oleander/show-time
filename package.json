@@ -22,12 +22,11 @@
     "boom": "*",
     "broccoli-asset-rev": "*",
     "electron-packager": "maxogden/electron-packager",
-    "electron-prebuilt": "0.33.1",
+    "electron-prebuilt": "0.33.3",
     "ember-backoff": "git://github.com/oleander/ember-backoff.git#abort",
     "ember-cli": "ember-cli/ember-cli#fc4d6ebc8dc3387797d51220b8a17b06c4c3ada6",
     "ember-cli-app-version": "*",
     "ember-cli-babel": "*",
-    "ember-cli-content-security-policy": "*",
     "ember-cli-dependency-checker": "*",
     "ember-cli-htmlbars": "*",
     "ember-cli-ic-ajax": "*",
@@ -46,11 +45,13 @@
     "height": 600
   },
   "dependencies": {
+    "wcjs-player": "*",
     "cheerio": "^0.19.0",
     "jrpc2": "^1.0.5",
     "js-base64": "^2.1.9",
     "moment": "^2.10.6",
     "node-env-file": "^0.1.7",
+    "peerflix": "^0.32.0",
     "request": "^2.64.0",
     "underscore": "^1.8.3",
     "zpad": "^0.5.0"
