@@ -17,10 +17,11 @@ module.exports = function(defaults) {
   app.import("bower_components/bootstrap/dist/js/bootstrap.js");
   app.import("vendor/app.js");
   app.import("vendor/vegas.js");
+  
   app.import("vendor/vegas.css");
-
   app.import("bower_components/bootstrap/dist/css/bootstrap.css");
   app.import("bower_components/font-awesome/css/font-awesome.css");
+
   
   return app.toTree();
 };

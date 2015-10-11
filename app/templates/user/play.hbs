@@ -1,4 +1,6 @@
-{{#if isLoading}}
+{{#if url}}
+  {{play-box url=url close="didCloseVideo"}}
+{{else}}
   <i class="fa fa-spinner fa-spin fa-5x"></i>
 {{/if}}
 
@@ -14,7 +16,7 @@
     height: 100%;
   }
 
-  #player {
+  #player, .player-box {
    position: absolute;
    z-index: 1000000;
        top:0;
@@ -22,6 +24,13 @@
        right:0;
        left:0;
   }
+
+  #close {
+    right: 10px;
+    top: 10px;
+    color: red;
+    position: absolute;
+    z-index: 10000000;
+  }
 </style>
 
-<div id="player"></div>
