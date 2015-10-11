@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
   player: null,
   isLoading: true,
   actions: {
-    exit: function(){
+    didCloseVideo: function(){
       this.transitionToRoute("user.index");
     }
   }

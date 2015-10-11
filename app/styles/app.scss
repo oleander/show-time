@@ -1,6 +1,10 @@
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 
+.hide {
+  display: none;
+}
+
 .nothing {
   min-height: 400px !important; 
   text-align: center;

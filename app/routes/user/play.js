@@ -1,5 +1,4 @@
 var peerflix = nRequire("peerflix");
-var wjs = nRequire("wcjs-player");
 
 export default Ember.Route.extend({
   model: function(params) {
@@ -20,13 +19,8 @@ export default Ember.Route.extend({
     var engine = peerflix(episode.get("magnet"));
     controller.set("engine", engine);
     engine.server.on("listening", function() {
-      controller.set("isLoading", false);
       var url = "http://localhost:" + engine.server.address().port + "/";
-      var player = new wjs("#player").addPlayer({ autoplay: true });
-      controller.set("player", player);
-      player.addPlaylist(url);
-      player.ui(true);
-      player.video(true);
+      controller.set("url", url);
     });
   }
 });
