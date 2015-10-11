@@ -14,7 +14,7 @@
                 <i class="fa fa-play-circle-o fa-fw"></i>
               </a> --}}
 
-              {{#link-to "user.index.play" episode.id}}
+              {{#link-to "user.play" episode.id}}
                 <i class="fa fa-play-circle-o fa-fw"></i>
               {{/link-to}}
               <a href="#" {{action "reload" episode}} class="nav-link {{if episode.isLoading 'disabled'}}">
