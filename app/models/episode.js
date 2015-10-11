@@ -3,6 +3,8 @@ import getTorrentFromEpisode from "../lib/getTorrentFromEpisode"
 export default DS.Model.extend({
   show: DS.attr("string"),
   what: DS.attr("string"),
+  lengthInMs: DS.attr("number"),
+  seenInMs: DS.attr("number"),
   image: DS.attr("string"),
   magnet: DS.attr("string"),
   createdAt: DS.attr("date"),
@@ -14,6 +16,15 @@ export default DS.Model.extend({
   loadingPopcorn: false,
   hasSeen: function() {
     this.set("seen", true);
+    this.save();
+  },
+  markAsSeenBasedOnTime: function(time){
+    this.set("seenInMs", time);
+    if(this.get("lengthInMs")) {
+      if ((this.get("seenInMs") + 10000) >= this.get("lengthInMs")) {
+        this.set("seen", true);
+      }
+    }
     this.save();
   },
   defaultImage: function() {
