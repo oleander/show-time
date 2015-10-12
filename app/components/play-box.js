@@ -87,6 +87,14 @@ export default Ember.Component.extend({
   
     this.set("player", player);
     this.set("interval", interval);
+
+    $(document).on("keyup", { self: this }, this.onESC);
+  },
+  onESC: function(e){
+    console.info(e.keyCode);
+    if(e.keyCode === 27) {
+      e.data.self.sendAction("close");
+    }
   },
   willDestroyElement: function(){
     var player = this.get("player");
@@ -97,6 +105,8 @@ export default Ember.Component.extend({
 
     var interval = this.get("interval");
     if(interval) { clearInterval(interval); }
+
+    $(document).off("keyup", this.onESC);
   },
   onFirstFrame: function(){
     var $close = this.$().find("#close");
