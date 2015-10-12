@@ -10,7 +10,7 @@
           <div class="fill" style="background: url({{episode.defaultImage}})"></div>
           <div class="card-block">
             <div class="links">
-              {{#link-to "user.play" episode.id class="nav-link" disabled=episode.isNotVisible}}
+              {{#link-to "user.play" episode.id class="nav-link" disabled=episode.isNotPlayable}}
                 <i class="fa fa-play-circle-o fa-fw"></i>
               {{/link-to}}
               <a href="#" {{action "reload" episode}} class="nav-link {{if episode.isLoading 'disabled'}}">

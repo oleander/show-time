@@ -1,41 +1,62 @@
 var wjs = nRequire("wcjs-player");
 var peerflix = nRequire("peerflix");
-
-var toHHMMSS = function (sec) {
-  var hours   = Math.floor(sec / 3600);
-  var minutes = Math.floor((sec - (hours * 3600)) / 60);
-  var seconds = Math.floor(sec - (hours * 3600) - (minutes * 60));
-
-  if (hours   < 10) {hours   = "0"+hours;}
-  if (minutes < 10) {minutes = "0"+minutes;}
-  if (seconds < 10) {seconds = "0"+seconds;}
-  var time    = hours+':'+minutes+':'+seconds;
-  return time;
-}
+import downloadSubtitle from "../lib/downloadSubtitle";
+import toHHMMSS from "../lib/toHHMMSS";
 
 export default Ember.Component.extend({
   classNames: ["player-box"],
+  loaded: 0,
   didInsertElement: function() {
     var self = this;
+    var title = this.get("episode").get("magnetTitle");
     var engine = peerflix(this.get("episode").get("magnet"));
+
     engine.server.on("listening", function() {
-      self.hasLoadedUrl(
-        "http://localhost:" + 
+      self.set("url", "http://localhost:" + 
         engine.server.address().port + 
         "/"
       );
+      self.isLoaded();
+    });
+
+    downloadSubtitle(title, "eng").then(function(path){
+      self.set("subtitle", path);
+      self.isLoaded();
+    }).catch(function(err){
+      self.isLoaded();
     });
   },
-  hasLoadedUrl: function(url){
+  isLoaded: function(){
+    this.incrementProperty("loaded");
+    if(this.get("loaded") == 2) {
+      this.everytingIsLoaded();
+    }
+  },
+  everytingIsLoaded: function(){
+    var language = "English";
     var self = this;
+    var url = this.get("url");
+    var subtitle = this.get("subtitle");
+    var subtitles = {};
     var seenInMs = this.get("episode").get("seenInMs") || 0;
     var player = new wjs("#player").addPlayer({ autoplay: true });
-    player.addPlaylist(url);
+
+    if(subtitle) {
+      subtitles[language] = subtitle;
+    }
+
+    player.addPlaylist({
+      url: url,
+      subtitles: subtitles,
+      title: this.get("episode").get("shortTitle")
+    });
     player.ui(true);
     player.video(true);
     player.volume(0);
     player.playlist(false);
     player.time(seenInMs);
+    player.subTrack(0);
+    player.subTrack(1);
 
     if(seenInMs) {
       player.notify(`Starting at ${toHHMMSS(seenInMs / 1000)}`);
@@ -58,12 +79,12 @@ export default Ember.Component.extend({
         self.sendAction("time", currentTime);
         self.sendAction("close");
       }
-    });
 
-    player.onFrameSetup(function(){
-      self.onFirstFrame();
+      if(state === "buffering") {
+        self.onFirstFrame();
+      }
     });
-
+  
     this.set("player", player);
     this.set("interval", interval);
   },

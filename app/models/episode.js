@@ -7,6 +7,7 @@ export default DS.Model.extend({
   seenInMs: DS.attr("number"),
   image: DS.attr("string"),
   magnet: DS.attr("string"),
+  magnetTitle: DS.attr("string"),
   createdAt: DS.attr("date"),
   firstAired: DS.attr("date"),
   title: DS.attr("string"),
@@ -43,6 +44,9 @@ export default DS.Model.extend({
   isNotVisible: function() {
     return this.get("removed") || this.get("seen");
   }.property("seen", "removed"),
+  isNotPlayable: function(){
+    return (! this.get("magnet") || this.get("isNotVisible"));
+  }.property("magnet"),
   completeTitle: function(){
     return this.get("show") + " - " + this.get("what") + 
       " - " + this.get("title");
@@ -73,13 +77,15 @@ export default DS.Model.extend({
 
     self.set("isLoading", true);
 
-    getTorrentFromEpisode(self).then(function(magnet) {
-      self.set("magnet", magnet);
+    getTorrentFromEpisode(self).then(function(result) {
+      self.set("magnet", result.magnet);
+      self.set("magnetTitle", result.magnetTitle);
       self.save();
       self.set("isLoading", false);
       resolve();
     }, function(error) {
       self.set("magnet", null);
+      self.set("magnetTitle", null);
       self.save();
       self.set("isLoading", false);
       reject(error);
