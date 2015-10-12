@@ -67,7 +67,10 @@ export default function(episode) {
 
     var resultToMagnet = function(torrent) {
       // TODO: Make this shorter
-      return "magnet:?xt=urn:btih:" + torrent.hash + "&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&dn=" + encodeURIComponent(torrent.title);
+      return {
+        magnet: "magnet:?xt=urn:btih:" + torrent.hash + "&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&dn=" + encodeURIComponent(torrent.title),
+        magnetTitle: torrent.title
+      }
     };
 
     // First, search for show and episode number

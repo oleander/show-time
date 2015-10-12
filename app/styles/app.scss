@@ -179,7 +179,7 @@
   height: 26px;
   line-height: 26px;
   width: 35px;
-  font-family: 'Glyphs';
+  font-family: 'FontAwesome';
   background-color: #1c1c1c;
   float: right;
   text-align: center;
@@ -192,7 +192,7 @@
 }
 
 .wcp-menu-close:before {
-  content: "\E896";
+  content: "\f00d";
   font-size: 12px;
   margin-left: 1px;
 }
