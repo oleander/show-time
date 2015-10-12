@@ -54,6 +54,7 @@ export default Ember.Component.extend({
 
     player.onState(function(state){
       if(state === "ended") {
+        self.sendAction("videoTime", currentTime);
         self.sendAction("time", currentTime);
         self.sendAction("close");
       }
