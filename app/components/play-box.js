@@ -113,7 +113,15 @@ export default Ember.Component.extend({
   },
   willDestroyElement: function(){
     var player = this.get("player");
-    if(player) { player.stop(); }
+    if(player) { 
+      try {
+        // Crashes for some reason if the application
+        // is aborted before buffering is done
+        player.stop();
+      } catch(e){
+        console.info("player error", e);
+      }
+    }
 
     var engine = this.get("engine");
     if(engine) { engine.destroy(); }
