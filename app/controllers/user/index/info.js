@@ -21,6 +21,9 @@ export default Ember.Controller.extend({
     download: function() {
       if(this.model.get("noMagnet")) { return; }
       shell.openExternal(this.model.get("magnet"));
+    },
+    closeInfoBar: function(){
+      this.transitionToRoute("user.index");
     }
   }
 });
