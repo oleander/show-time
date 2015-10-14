@@ -1,0 +1,19 @@
+<nav class="navbar navbar-fixed-bottom navbar-light bg-faded">
+  <div class="links">
+    {{#link-to "play" model.id class="nav-link" disabled=model.isNotPlayable}}
+      <i class="fa fa-play-circle-o fa-fw fa-3x"></i>
+    {{/link-to}}
+    <a href="#" {{action "reload"}} class="nav-link {{if model.isLoading 'disabled'}}">
+      <i class="fa fa-refresh fa-fw fa-3x {{if model.isLoading 'fa-spin'}}"></i>
+    </a>
+    <a href="#" {{action "seen"}} class="nav-link {{if model.isNotVisible 'disabled'}}">
+      <i class="fa fa-eye fa-fw fa-3x"></i>
+    </a>
+    <a href="#" {{action "remove"}} class="nav-link {{if model.isNotVisible 'disabled'}}">
+      <i class="fa fa-trash fa-fw fa-3x"></i>
+    </a>
+    <a href="#" {{action "download"}} class="nav-link {{if model.noMagnet 'disabled'}}">
+      <i class="fa fa-cloud-download fa-fw fa-3x"></i>
+    </a>
+  </div>
+</nav>
