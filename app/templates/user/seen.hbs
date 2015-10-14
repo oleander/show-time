@@ -1,6 +1,17 @@
 {{#if model}}
+  <div class="row alert alert-info">
+    <h4>
+      <i class="fa fa-eye"></i>
+      Seen episodes
+    </h4>
+    <p>
+      Here are your seen episodes. They will be permanently removed after 30 days. Click on the
+      <i class="fa fa-refresh"></i> icon to move the episode back the index view.
+    </p>
+  </div>
   {{episode-list 
-    episodes=model 
+    episodes=model
+    restore="restoreEpisode"
   }}
 {{else}}
   {{#no-episodes}}

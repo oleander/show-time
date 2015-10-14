@@ -14,6 +14,9 @@ export default Ember.Component.extend({
     },
     download: function(episode) {
       this.sendAction("download", episode);
+    },
+    restore: function(episode) {
+      this.sendAction("restore", episode);
     }
   }
 })

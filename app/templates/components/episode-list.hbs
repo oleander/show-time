@@ -5,14 +5,22 @@
         <span class="list-group-item">
           <h4 class="list-group-item-heading">{{episode.show}}</h4>
           <p class="list-group-item-text">
-            {{#link-to "user.index.info" episode}}
-              <i class="fa fa-ellipsis-v" style="color: black"></i>
-            {{/link-to}}
+            {{#unless episode.isNotVisible}}
+              {{#link-to "user.index.info" episode}}
+                <i class="fa fa-ellipsis-v" style="color: black"></i>
+              {{/link-to}}
+            {{/unless}}
             {{episode.title}} - {{episode.what}}
           </p>
-          <span class="pull-right" style="position: relative; top: -50px">
-            <i class="fa fa-play-circle-o fa-3x"></i>
-          </span>
+          {{#if episode.isNotVisible}}
+            <a href="#" {{action "restore" episode}} class="pull-right play-episode">
+              <i class="fa fa-refresh fa-3x"></i>
+            </a>
+          {{else}}
+            {{#link-to "play" episode.id class="pull-right play-episode"}}
+              <i class="fa fa-play-circle-o fa-3x"></i>
+            {{/link-to}}
+          {{/if}}
         </span>
       {{/each}}
     </div>

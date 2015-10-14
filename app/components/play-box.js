@@ -13,6 +13,8 @@ export default Ember.Component.extend({
     return this.currentUser.defaultLanguage();
   },
   didInsertElement: function() {
+    $(document).on("keydown", { _self: this }, this.onESC);
+
     var self = this;
     var title = this.get("episode").get("magnetTitle");
     var engine = peerflix(this.get("episode").get("magnet"));
@@ -64,7 +66,6 @@ export default Ember.Component.extend({
     });
     player.ui(true);
     player.video(true);
-    player.volume(0);
     player.playlist(false);
     player.time(seenInMs);
     player.subTrack(0);
@@ -102,11 +103,8 @@ export default Ember.Component.extend({
   
     this.set("player", player);
     this.set("interval", interval);
-
-    $(document).on("keyup", { _self: this }, this.onESC);
   },
   onESC: function(e){
-    console.info(e.keyCode);
     if(e.keyCode === 27) {
       e.data._self.sendAction("close");
     }
@@ -119,7 +117,7 @@ export default Ember.Component.extend({
         // is aborted before buffering is done
         player.stop();
       } catch(e){
-        console.info("player error", e);
+        console.error("player error", e);
       }
     }
 
@@ -129,7 +127,7 @@ export default Ember.Component.extend({
     var interval = this.get("interval");
     if(interval) { clearInterval(interval); }
 
-    $(document).off("keyup", this.onESC);
+    $(document).off("keydown", this.onESC);
   },
   onFirstFrame: function(){
     var $close = this.$().find("#close");

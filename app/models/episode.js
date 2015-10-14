@@ -19,6 +19,11 @@ export default DS.Model.extend({
     this.set("seen", true);
     this.save();
   },
+  restore: function(){
+    this.set("seen", false);
+    this.set("removed", false);
+    this.save();
+  },
   markAsSeenBasedOnTime: function(time){
     this.set("seenInMs", time);
     if(this.get("lengthInMs")) {
