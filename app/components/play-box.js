@@ -6,6 +6,12 @@ import toHHMMSS from "../lib/toHHMMSS";
 export default Ember.Component.extend({
   classNames: ["player-box"],
   loaded: 0,
+  defaultLanguageKey: function(){
+    return this.currentUser.defaultLanguageKey();
+  },
+  defaultLanguage: function(){
+    return this.currentUser.defaultLanguage();
+  },
   didInsertElement: function() {
     var self = this;
     var title = this.get("episode").get("magnetTitle");
@@ -19,12 +25,18 @@ export default Ember.Component.extend({
       self.isLoaded();
     });
 
-    downloadSubtitle(title, "eng").then(function(path){
-      self.set("subtitle", path);
+    // Load default subtitle language from settings
+    var langKey = this.defaultLanguageKey();
+    if(langKey){
+      downloadSubtitle(title, langKey).then(function(path){
+        self.set("subtitle", path);
+        self.isLoaded();
+      }).catch(function(err){
+        self.isLoaded();
+      });
+    } else {
       self.isLoaded();
-    }).catch(function(err){
-      self.isLoaded();
-    });
+    }
   },
   isLoaded: function(){
     this.incrementProperty("loaded");
@@ -33,13 +45,13 @@ export default Ember.Component.extend({
     }
   },
   everytingIsLoaded: function(){
-    var language = "English";
-    var self = this;
-    var url = this.get("url");
-    var subtitle = this.get("subtitle");
+    var language  = this.currentUser.defaultLanguage();
+    var self      = this;
+    var url       = this.get("url");
+    var subtitle  = this.get("subtitle");
     var subtitles = {};
-    var seenInMs = this.get("episode").get("seenInMs") || 0;
-    var player = new wjs("#player").addPlayer({ autoplay: true });
+    var seenInMs  = this.get("episode").get("seenInMs") || 0;
+    var player    = new wjs("#player").addPlayer({ autoplay: true });
 
     if(subtitle) {
       subtitles[language] = subtitle;
@@ -75,10 +87,13 @@ export default Ember.Component.extend({
 
     player.onState(function(state){
       if(state === "ended") {
+        console.info("=======> has ended")
         self.sendAction("videoTime", currentTime);
         self.sendAction("time", currentTime);
         self.sendAction("close");
       }
+
+      console.info("state", state);
 
       if(state === "buffering") {
         self.onFirstFrame();
@@ -88,12 +103,12 @@ export default Ember.Component.extend({
     this.set("player", player);
     this.set("interval", interval);
 
-    $(document).on("keyup", { self: this }, this.onESC);
+    $(document).on("keyup", { _self: this }, this.onESC);
   },
   onESC: function(e){
     console.info(e.keyCode);
     if(e.keyCode === 27) {
-      e.data.self.sendAction("close");
+      e.data._self.sendAction("close");
     }
   },
   willDestroyElement: function(){

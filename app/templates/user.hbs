@@ -20,6 +20,16 @@
         {{input type="text" value=excludeSetting class="form-control" placeholder="CAM, nuked, fake" id="exclude"}}
         <small class="text-muted">Seperate with a comma. None of the words can exist in the relase.</small>
       </fieldset>
+      <fieldset class="form-group">
+         <label for="languages">Select a subtitle language</label>
+         <select class="form-control" id="languages" onchange={{action "selectLanguage" value="target.value"}}>
+            {{#each languages as |language|}}
+              <option selected={{eq language defaultLanguage}}>
+                {{language}}
+              </option>
+            {{/each}}
+         </select>
+       </fieldset>
     </div>
     <div class="modal-footer">
       <button type="submit" class="btn btn-secondary" data-dismiss="modal">Save</button>

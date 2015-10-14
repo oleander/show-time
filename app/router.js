@@ -10,8 +10,9 @@ export default Router.map(function() {
     this.route("index");
     this.route("removed");
     this.route("seen");
-    this.route("play", { path: ":id/play" });
   });
+
+  this.route("play", { path: ":id/play" });
 
   this.route("login");
 });

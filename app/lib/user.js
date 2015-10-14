@@ -1,7 +1,8 @@
 import postJSON from "./postJSON";
 import globals from "./globals";
 import login from "./login";
-import getProfile from "../lib/getProfile";
+import getProfile from "./getProfile";
+import languages from "./languages";
 
 export default Ember.Object.extend({
   isLoggedIn: false,
@@ -23,6 +24,13 @@ export default Ember.Object.extend({
     this.set("joinedAt", self.joinedAt);
     this.set("exclude", self.exclude);
     this.set("include", self.include);
+    this.set("language", self.language);
+  },
+  defaultLanguage: function() {
+    return this.get("language") || "None";
+  },
+  defaultLanguageKey: function(){
+    return languages.content[this.defaultLanguage()];
   },
   getAccessToken: function() {
     var today = new Date();
@@ -91,6 +99,7 @@ export default Ember.Object.extend({
       }, reject);
     })
   },
+
   save: function(){
     var self = {
       accessToken: this.get("accessToken"),
@@ -100,11 +109,12 @@ export default Ember.Object.extend({
       username: this.get("username"),
       joinedAt: this.get("joinedAt"),
       exclude: this.get("exclude"),
-      include: this.get("include")
+      include: this.get("include"),
+      language: this.get("language")
     };
 
     window.localStorage.setItem("user", JSON.stringify(self));
-  }.observes("accessToken", "expiresAt", "refreshToken", "username", "avatar", "joinedAt", "include", "exclude"),
+  }.observes("accessToken", "expiresAt", "refreshToken", "username", "avatar", "joinedAt", "include", "exclude", "language"),
   logout: function(){
     window.localStorage.setItem("user", null);
     this.set("isLoggedIn", false);
@@ -119,6 +129,7 @@ export default Ember.Object.extend({
     this.set("joinedAt", null);
     this.set("exclude", null);
     this.set("include", null);
+    this.set("language", null);
   }.observes("isLoggedIn"),
   login: function(authToken){
     var self = this;

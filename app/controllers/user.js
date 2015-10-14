@@ -1,4 +1,5 @@
-import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes"
+import getAndInitNewEpisodes from "../lib/getAndInitNewEpisodes";
+import languages from "../lib/languages";
 
 export default Ember.Controller.extend({
   isShowingModal: false,
@@ -12,6 +13,12 @@ export default Ember.Controller.extend({
   excludeSetting: null,
   isReloadingProfile: false,
   indexController: Ember.inject.controller("user.index"),
+  languages: function(){
+    return languages.keys();
+  }.property(),
+  defaultLanguage: function(){
+    return this.currentUser.defaultLanguage();
+  }.property(),
   // Displays flash messages
   flash: function(message, error) {
     var messageID = Math.random();
@@ -41,7 +48,7 @@ export default Ember.Controller.extend({
     }, this.get("messageTimeout"));
   },
   actions: {
-    showSettings: function(){
+    showSettings: function(data){
       this.set("includeSetting", this.currentUser.get("include"));
       this.set("excludeSetting", this.currentUser.get("exclude"));
       this.toggleProperty("isShowingModal");
@@ -51,6 +58,9 @@ export default Ember.Controller.extend({
       this.currentUser.set("exclude", this.get("excludeSetting"));
       this.toggleProperty("isShowingModal");
       this.get("indexController").send("reloadAll");
+    },
+    selectLanguage: function(value) {
+      this.currentUser.set("language", value);
     },
     logout: function() {
       var sure = confirm("Are you sure?");
