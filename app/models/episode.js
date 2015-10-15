@@ -1,4 +1,5 @@
 import getTorrentFromEpisode from "../lib/getTorrentFromEpisode"
+var moment = nRequire("moment");
 
 export default DS.Model.extend({
   show: DS.attr("string"),
@@ -67,11 +68,9 @@ export default DS.Model.extend({
     return this.get("show") + " - " + this.get("what");
   }.property("show", "what"),
   formatCreatedAt: function() {
-    var moment = nRequire("moment");
     return moment(this.get("createdAt")).format("YYYY-MM-DD HH:mm");
   }.property("createdAt"),
   formatFirstAired: function() {
-    var moment = nRequire("moment");
     return moment(this.get("firstAired")).format("YYYY-MM-DD HH:mm");
   }.property("createdAt"),
   noMagnet: function() {

@@ -1,3 +1,5 @@
+/* @flow weak */
+
 var wjs = nRequire("wcjs-player");
 var peerflix = nRequire("peerflix");
 import downloadSubtitle from "../lib/downloadSubtitle";
@@ -6,6 +8,7 @@ import toHHMMSS from "../lib/toHHMMSS";
 export default Ember.Component.extend({
   classNames: ["player-box"],
   loaded: 0,
+  hasStarted: false,
   defaultLanguageKey: function(){
     return this.currentUser.defaultLanguageKey();
   },
@@ -13,7 +16,7 @@ export default Ember.Component.extend({
     return this.currentUser.defaultLanguage();
   },
   didInsertElement: function() {
-    $(document).on("keydown", { _self: this }, this.onESC);
+    $(document).on("keydown", { _self: this }, this.onKey);
 
     var self = this;
     var title = this.get("episode").get("magnetTitle");
@@ -105,10 +108,32 @@ export default Ember.Component.extend({
     this.set("player", player);
     this.set("interval", interval);
   },
-  onESC: function(e){
-    if(e.keyCode === 27) {
-      e.data._self.sendAction("close");
+  onKey: function(e){
+    e.preventDefault();
+    if(e.keyCode == 27) {
+      return e.data._self.sendAction("close");
     }
+
+    if(!e.data._self.get("hasStarted")) { return; }
+    switch(e.keyCode) {
+      case 32: // space
+        e.data._self.togglePlay(); break;
+      case 39: // Right
+        e.data._self.skipForward(); break;
+      case 37: // Left
+        e.data._self.skipBackward(); break;
+    }
+  },
+  skipBackward: function(){
+    var player = this.get("player");
+    player.time(player.time() - 10000);
+  },
+  skipForward: function(){
+    var player = this.get("player");
+    player.time(player.time() + 10000);
+  },
+  togglePlay: function(){
+    this.get("player").togglePause();
   },
   willDestroyElement: function(){
     var player = this.get("player");
@@ -128,26 +153,32 @@ export default Ember.Component.extend({
     var interval = this.get("interval");
     if(interval) { clearInterval(interval); }
 
-    $(document).off("keydown", this.onESC);
+    $(document).off("keydown", this.onKey);
   },
   onPlay: function(){
+    this.set("hasStarted", true);
     // Calculate video length
     var $time = this.$().find(".wcp-time-total");
     var result = $time.text().match(/((\d+):)?(\d+):(\d+)/);
+    // No player?
+    if(!result) {
+      return setTimeout(this.onPlay, 5000);
+    }
     var sum = 0;
     var hour = result[2];
     var min = result[3];
     var sec = result[4];
+
     if(hour) {
-      sum += hour * 60 * 60 * 1000;
+      sum += hour * 60 * 60;
     }
     if(min) {
-      sum += min * 60 * 1000;
+      sum += min * 60;
     }
     if(sec) {
-      sum += sec * 1000;
+      sum += sec;
     }
-    this.sendAction("videoTime", sum);
+    this.sendAction("videoTime", sum * 1000);
   },
   onFirstFrame: function(){
     var $close = this.$().find("#close");
