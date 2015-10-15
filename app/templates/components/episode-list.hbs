@@ -20,9 +20,15 @@
               <i class="fa fa-refresh fa-3x"></i>
             </a>
           {{else}}
-            {{#link-to "play" episode.id class="pull-right play-episode"}}
-              <i class="fa fa-play-circle-o fa-3x"></i>
-            {{/link-to}}
+            {{#if episode.magnet}}
+              {{#link-to "play" episode.id class="pull-right play-episode nav-link"}}
+                <i class="fa fa-play-circle-o fa-3x"></i>
+              {{/link-to}}
+            {{else}}
+              <a href="#" class="pull-right play-episode nav-link disabled">
+                <i class="fa fa-play-circle-o fa-3x"></i>
+              </a>
+            {{/if}}
           {{/if}}
         </span>
       {{/each}}
