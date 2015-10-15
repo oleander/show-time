@@ -1,11 +1,14 @@
 #!/bin/sh -e
 
 APP=ShowTime
+VERSION="0.33.3"
+export npm_config_wcjs_runtime="electron"
+export npm_config_wcjs_runtime_version=$VERSION
 
 echo "Remove old app"
 rm -rf dist/
 
-echo "Remove current build path"
+echo "Remove curre  nt build path"
 rm -rf build
 
 echo "Generate static files"
@@ -18,12 +21,15 @@ echo "mode=production" > "build/environment"
 cp -r assets/ build/assets
 
 echo "Installing packages"
-cd build/ && npm install --production && cd ..
+cd build/ && npm install --production && npm install wcjs-player && cd ..
+
+echo "Copy VLC bindings"
+cp -R ./resources/lib build/node_modules/wcjs-player/node_modules/wcjs-renderer/node_modules/webchimera.js/build/Release
 
 echo "Build package using electron-packager"
-./node_modules/electron-packager/cli.js build/ `echo $APP` --out=dist/ --version=0.33.4 --icon=assets/icon.icns --prune --platform=darwin --arch=x64 --asar
+./node_modules/electron-packager/cli.js build/ $APP --out=dist/ --version=$VERSION --icon=assets/icon.icns --platform=darwin --arch=x64
 
 echo "Remove build path"
-rm -rf build/
+# rm -rf build/
 
-echo dist/`echo $APP`.app "has been created"
+echo "$APP has been created"

@@ -109,7 +109,6 @@ export default Ember.Component.extend({
     this.set("interval", interval);
   },
   onKey: function(e){
-    e.preventDefault();
     if(e.keyCode == 27) {
       return e.data._self.sendAction("close");
     }

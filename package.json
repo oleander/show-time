@@ -46,18 +46,17 @@
     "height": 600
   },
   "dependencies": {
-    "cheerio": "^0.19.0",
-    "jrpc2": "^1.0.5",
-    "js-base64": "^2.1.9",
-    "moment": "^2.10.6",
-    "node-env-file": "^0.1.7",
-    "peerflix": "^0.32.0",
-    "request": "^2.64.0",
-    "subtitler": "^2.4.0",
-    "temp": "^0.8.3",
-    "underscore": "^1.8.3",
-    "wcjs-player": "*",
-    "wuzzy": "^0.1.2",
-    "zpad": "^0.5.0"
+    "cheerio": "0.19.0",
+    "jrpc2": "1.0.5",
+    "js-base64": "2.1.9",
+    "moment": "2.10.6",
+    "node-env-file": "0.1.7",
+    "peerflix": "0.32.0",
+    "request": "2.64.0",
+    "subtitler": "2.4.0",
+    "temp": "0.8.3",
+    "underscore": "1.8.3",
+    "wuzzy": "0.1.2",
+    "zpad": "0.5.0"
   }
 }
