@@ -75,29 +75,30 @@ export default Ember.Component.extend({
       player.notify(`Starting at ${toHHMMSS(seenInMs / 1000)}`);
     }
 
-    this.sendAction("videoTime", player.time());
-
     var currentTime = 0;
     player.onTime(function(time){
       currentTime = time;
     });
 
     var interval = setInterval(function(){
-      self.sendAction("time", currentTime);
-    }, 10000);
+      if(currentTime) {
+        self.sendAction("time", currentTime);
+      }
+    }, 1000);
 
     player.onState(function(state){
       if(state === "ended") {
-        console.info("=======> has ended")
         self.sendAction("videoTime", currentTime);
         self.sendAction("time", currentTime);
         self.sendAction("close");
       }
 
-      console.info("state", state);
-
       if(state === "buffering") {
         self.onFirstFrame();
+      }
+
+      if(state === "playing") {
+        self.onPlay();
       }
     });
   
@@ -129,6 +130,25 @@ export default Ember.Component.extend({
 
     $(document).off("keydown", this.onESC);
   },
+  onPlay: function(){
+    // Calculate video length
+    var $time = this.$().find(".wcp-time-total");
+    var result = $time.text().match(/((\d+):)?(\d+):(\d+)/);
+    var sum = 0;
+    var hour = result[2];
+    var min = result[3];
+    var sec = result[4];
+    if(hour) {
+      sum += hour * 60 * 60 * 1000;
+    }
+    if(min) {
+      sum += min * 60 * 1000;
+    }
+    if(sec) {
+      sum += sec * 1000;
+    }
+    this.sendAction("videoTime", sum);
+  },
   onFirstFrame: function(){
     var $close = this.$().find("#close");
     var $toolbar = this.$().find(".wcp-toolbar");
@@ -138,7 +158,7 @@ export default Ember.Component.extend({
       self.sendAction("close");
     });
 
-    new MutationObserver(function(mutations,b){
+    new MutationObserver(function(){
       if($toolbar.is(":visible")) {
         $close.removeClass("hide");
       } else {

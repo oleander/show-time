@@ -24,6 +24,13 @@ export default DS.Model.extend({
     this.set("removed", false);
     this.save();
   },
+  isStarted: function(){
+    return this.get("seenInPercent") !== 0;
+  }.property("seenInMs"),
+  seenInPercent: function(){
+    if(!this.get("seenInMs") || !this.get("lengthInMs")) { return 0; }
+    return Math.round((this.get("seenInMs") / this.get("lengthInMs")) * 100);
+  }.property("lengthInMs", "seenInMs"),
   markAsSeenBasedOnTime: function(time){
     this.set("seenInMs", time);
     if(this.get("lengthInMs")) {

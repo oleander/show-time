@@ -6,11 +6,14 @@
           <h4 class="list-group-item-heading">{{episode.show}}</h4>
           <p class="list-group-item-text">
             {{#unless episode.isNotVisible}}
-              {{#link-to "user.index.info" episode}}
-                <i class="fa fa-ellipsis-v" style="color: black"></i>
+              {{#link-to "user.index.info" episode class="more"}}
+                <i class="fa fa-ellipsis-v"></i>
               {{/link-to}}
             {{/unless}}
             {{episode.title}} - {{episode.what}}
+            {{#if episode.isStarted}}
+              - {{episode.seenInPercent}}%
+            {{/if}}
           </p>
           {{#if episode.isNotVisible}}
             <a href="#" {{action "restore" episode}} class="pull-right play-episode">
