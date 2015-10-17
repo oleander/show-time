@@ -67,6 +67,7 @@ export default Ember.Component.extend({
       subtitles: subtitles,
       title: this.get("episode").get("shortTitle")
     });
+
     player.ui(true);
     player.video(true);
     player.playlist(false);
@@ -110,7 +111,7 @@ export default Ember.Component.extend({
   },
   onKey: function(e){
     if(e.keyCode == 27) {
-      return e.data._self.sendAction("close");
+      return e.data._self.escPressed();
     }
 
     if(!e.data._self.get("hasStarted")) { return; }
@@ -121,6 +122,8 @@ export default Ember.Component.extend({
         e.data._self.skipForward(); break;
       case 37: // Left
         e.data._self.skipBackward(); break;
+      case 83: // Left
+        e.data._self.toggleSubtitle(); break;
     }
   },
   skipBackward: function(){
@@ -133,6 +136,27 @@ export default Ember.Component.extend({
   },
   togglePlay: function(){
     this.get("player").togglePause();
+  },
+  toggleSubtitle: function(){
+    var player = this.get("player");
+    var current = player.subTrack();
+    var next = (current + 1) % player.subCount();
+    var subtitle = player.subDesc(current);
+    if(subtitle) {
+      player.notify(`Subtitle: ${subtitle.language}`);
+    } else {
+      player.notify(`Subtitles has been turned off`);
+    }
+
+    player.subTrack(next);
+  },
+  escPressed: function(){
+    var player = this.get("player");
+    // If in fullscreen, minimize otherwise close
+    if(player && player.fullscreen()){
+      return player.fullscreen(false);
+    }
+    this.sendAction("close");
   },
   willDestroyElement: function(){
     var player = this.get("player");
