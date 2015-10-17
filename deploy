@@ -8,7 +8,7 @@ export npm_config_wcjs_runtime_version=$VERSION
 echo "Remove old app"
 rm -rf dist/
 
-echo "Remove curre  nt build path"
+echo "Remove current build path"
 rm -rf build
 
 echo "Generate static files"
@@ -21,10 +21,11 @@ echo "mode=production" > "build/environment"
 cp -r assets/ build/assets
 
 echo "Installing packages"
-cd build/ && npm install --production && npm install wcjs-player && cd ..
+cd build/ && npm install --production && cd ..
 
 echo "Copy VLC bindings"
-cp -R ./resources/lib build/node_modules/wcjs-player/node_modules/wcjs-renderer/node_modules/webchimera.js/build/Release
+rm -rf build/node_modules/wcjs-player
+cp -R node_modules/wcjs-player build/node_modules
 
 echo "Build package using electron-packager"
 ./node_modules/electron-packager/cli.js build/ $APP --out=dist/ --version=$VERSION --icon=assets/icon.icns --platform=darwin --arch=x64
