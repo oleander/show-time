@@ -9,6 +9,7 @@
 /bower_components
 
 # misc
+airplay
 /.sass-cache
 /connect.lock
 /coverage/*
