@@ -2,13 +2,16 @@ import backgroundLoader from "../../lib/backgroundLoader";
 import query from "../../lib/query";
 
 export default Ember.Route.extend({
-  model: function() {
+  model() {
     return query(this.store, { seen: false, removed: false });
   },
-  renderTemplate: function(){
+  renderTemplate() {
     this.render();
     this.render("user.menu", {
       outlet: "menu"
     });
+  },
+  afterModel(){
+    this.get("store").findAll("magnet");
   }
 });

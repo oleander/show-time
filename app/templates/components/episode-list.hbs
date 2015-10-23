@@ -20,14 +20,12 @@
               <i class="fa fa-refresh fa-3x"></i>
             </a>
           {{else}}
-            {{#if episode.magnet}}
-              {{#link-to "play" episode.id class="pull-right play-episode nav-link"}}
-                <i class="fa fa-play-circle-o fa-3x"></i>
-              {{/link-to}}
-            {{else}}
-              <a href="#" class="pull-right play-episode nav-link disabled">
+            {{#if episode.hasValidMagnet}}
+              <a class="pull-right play-episode nav-link" href="#" {{action "play" episode}}>
                 <i class="fa fa-play-circle-o fa-3x"></i>
               </a>
+            {{else}}
+              <i class="fa fa-play-circle-o fa-3x nav-link play-episode pull-right disabled"></i>
             {{/if}}
           {{/if}}
         </span>

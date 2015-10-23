@@ -1,5 +1,7 @@
 import getTorrentFromEpisode from "../lib/getTorrentFromEpisode"
 var moment = nRequire("moment");
+import forEach from "../lib/forEach";
+import bestTorrentMatch from "../lib/bestTorrentMatch";
 
 export default DS.Model.extend({
   show: DS.attr("string"),
@@ -7,8 +9,7 @@ export default DS.Model.extend({
   lengthInMs: DS.attr("number"),
   seenInMs: DS.attr("number"),
   image: DS.attr("string"),
-  magnet: DS.attr("string"),
-  magnetTitle: DS.attr("string"),
+  magnets: DS.hasMany("magnet", { async: false }),
   createdAt: DS.attr("date"),
   firstAired: DS.attr("date"),
   title: DS.attr("string"),
@@ -16,6 +17,18 @@ export default DS.Model.extend({
   removed: DS.attr("boolean", { defaultValue: false }),
   isLoading: false,
   loadingPopcorn: false,
+  validMagnet: function(){
+    return this.get("magnets").get("firstObject");
+  }.property("magnets.[]"),
+  hasValidMagnet: function(){
+    return !! this.get("validMagnet");
+  }.property("magnets.[]"),
+  magnet: function(){
+    if(this.get("hasValidMagnet")) return this.get("validMagnet").get("href");
+  }.property("magnets.[]"),
+  magnetTitle: function(){
+    if(this.get("hasValidMagnet")) return this.get("validMagnet").get("title");
+  }.property("magnets.[]"),
   hasSeen: function() {
     this.set("seen", true);
     this.save();
@@ -88,18 +101,40 @@ export default DS.Model.extend({
 
     self.set("isLoading", true);
 
-    getTorrentFromEpisode(self).then(function(result) {
-      self.set("magnet", result.magnet);
-      self.set("magnetTitle", result.magnetTitle);
-      self.save();
-      self.set("isLoading", false);
-      resolve();
+    var createMagnet = function(torrent, done){
+      var magnet = self.get("magnets").createRecord({
+        href: torrent.href,
+        seeders: torrent.seeders,
+        title: torrent.title
+      });
+      bestTorrentMatch(magnet);
+      magnet.save().finally(done);
+    }
+
+    getTorrentFromEpisode(self).then(function(torrents) {
+      forEach(torrents, function(torrent, next){
+        self.store.query("magnet", { href: torrent.href }).then(function(result){
+          if(result.get("length")) { 
+            var found = result.get("firstObject")
+            found.setProperties({
+              title: torrent.title,
+              seeders: torrent.seeders
+            });
+            bestTorrentMatch(found);
+            found.save(next);
+          } else {
+            createMagnet(torrent, next);
+          }
+        }).catch(function(){
+          createMagnet(torrent, next);
+        }).finally(next);
+      }, function(){
+        self.set("isLoading", false);
+        resolve();
+      });
     }, function(error) {
-      self.set("magnet", null);
-      self.set("magnetTitle", null);
-      self.save();
       self.set("isLoading", false);
       reject(error);
-    })
+    });
   }
 });

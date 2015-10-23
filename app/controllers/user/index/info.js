@@ -24,6 +24,9 @@ export default Ember.Controller.extend({
     },
     closeInfoBar: function(){
       this.transitionToRoute("user.index");
+    },
+    magnets: function(){
+      this.transitionToRoute("user.index.magnets", this.model.get("id"));
     }
   }
 });

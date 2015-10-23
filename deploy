@@ -6,7 +6,7 @@ export npm_config_wcjs_runtime="electron"
 export npm_config_wcjs_runtime_version=$VERSION
 
 echo "Remove old app"
-rm -rf dist/
+# rm -rf dist/
 
 echo "Remove current build path"
 rm -rf build

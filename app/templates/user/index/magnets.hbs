@@ -1,0 +1,14 @@
+{{#modal-dialog close="back"
+                targetAttachment="center"
+                translucentOverlay=true}}
+  <div class="modal-body">
+    <table>
+      {{#each model as |magnet|}}
+        <tr>
+          <td>{{magnet.title}}</td>
+          <td>{{magnet.seeders}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  </div>
+{{/modal-dialog}}

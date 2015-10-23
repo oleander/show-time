@@ -13,7 +13,6 @@ module.exports = function(defaults) {
     }
   });
 
-  app.import("bower_components/ember-localstorage-adapter/localstorage_adapter.js");
   app.import("bower_components/bootstrap/dist/js/bootstrap.js");
   app.import("vendor/app.js");
   app.import("vendor/vegas.js");

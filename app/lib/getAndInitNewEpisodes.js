@@ -29,11 +29,9 @@ export default function(user, store) {
       var episodes = [];
       useEpisodes.forEach(function(rawEpisode) {
         if(rawEpisode.firstAired > new Date()) { return; }
-
         var episode = store.createRecord("episode", {
           show: rawEpisode.show,
           what: rawEpisode.what,
-          magnet: null,
           title: rawEpisode.title,
           createdAt: new Date(),
           firstAired: rawEpisode.firstAired,

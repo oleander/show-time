@@ -6,6 +6,14 @@ var peerflix = nRequire("peerflix");
 export default Ember.Controller.extend({
   userController: Ember.inject.controller("user"),
   actions: {
+    playEpisode: function(episode){
+      this.transitionToRoute("user.index.magnets", episode.get("id"));
+      if(episode.get("hasValidMagnet")){
+        this.transitionToRoute("play", episode.get("id"));
+      } else {
+        this.transitionToRoute("user.index.magnets", episode.get("id"));
+      }
+    },
     reloadAll: function() {
       var self = this;
       self.set("isReloading", true);

@@ -53,7 +53,7 @@ export default function(accessToken) {
           "image": getImage(episode)
         });
       });
-      resolve(episodes)
+      resolve(episodes);
     }).catch(reject);
   });
 }

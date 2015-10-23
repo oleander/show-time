@@ -9,6 +9,7 @@ export default Router.map(function() {
   this.route("user", function() {
     this.route("index", function(){
       this.route("info", { path: ":id/info" });
+      this.route("magnets", { path: ":id/magnets" });
     });
     this.route("removed");
     this.route("seen");

@@ -1,10 +1,7 @@
 {{#if model}}
   {{episode-list 
     episodes=model 
-    seen="markEpisodeAsSeen"
-    remove="removeEpisode"
-    reload="reloadEpisode"
-    download="downloadEpisode"
+    play="playEpisode"
   }}
 {{else}}
   {{#no-episodes}}
