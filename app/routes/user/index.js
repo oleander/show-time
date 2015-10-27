@@ -10,8 +10,5 @@ export default Ember.Route.extend({
     this.render("user.menu", {
       outlet: "menu"
     });
-  },
-  afterModel(){
-    this.get("store").findAll("magnet");
   }
 });

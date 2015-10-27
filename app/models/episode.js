@@ -9,7 +9,7 @@ export default DS.Model.extend({
   lengthInMs: DS.attr("number"),
   seenInMs: DS.attr("number"),
   image: DS.attr("string"),
-  magnets: DS.hasMany("magnet", { async: false }),
+  magnets: DS.hasMany("magnet", { async: true }),
   createdAt: DS.attr("date"),
   firstAired: DS.attr("date"),
   title: DS.attr("string"),
@@ -129,8 +129,10 @@ export default DS.Model.extend({
           createMagnet(torrent, next);
         }).finally(next);
       }, function(){
-        self.set("isLoading", false);
-        resolve();
+        self.save().then(function(){
+          self.set("isLoading", false);
+          resolve();
+        })
       });
     }, function(error) {
       self.set("isLoading", false);

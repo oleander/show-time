@@ -35,6 +35,7 @@
     "ember-cli-sass": "5.0.1",
     "ember-cli-uglify": "*",
     "ember-data": "^2.0.0",
+    "ember-data-has-many-query": "mdehoog/ember-data-has-many-query",
     "ember-export-application-global": "^1.0.2",
     "ember-localforage-adapter": "/Users/linus/Documents/Projekt/ember-localforage-adapter",
     "ember-modal-dialog": "0.8.1",

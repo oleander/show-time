@@ -3,7 +3,9 @@
     <div class="list-group">
       {{#each episodes as |episode|}}
         <span class="list-group-item">
-          <h4 class="list-group-item-heading">{{episode.show}}</h4>
+          <h4 class="list-group-item-heading">
+            {{episode.show}}
+          </h4>
           <p class="list-group-item-text">
             {{#unless episode.isNotVisible}}
               {{#link-to "user.index.info" episode class="more"}}
@@ -15,17 +17,22 @@
               - {{episode.seenInPercent}}%
             {{/if}}
           </p>
+
           {{#if episode.isNotVisible}}
             <a href="#" {{action "restore" episode}} class="pull-right play-episode">
               <i class="fa fa-refresh fa-3x"></i>
             </a>
           {{else}}
-            {{#if episode.hasValidMagnet}}
-              <a class="pull-right play-episode nav-link" href="#" {{action "play" episode}}>
-                <i class="fa fa-play-circle-o fa-3x"></i>
-              </a>
+            {{#if episode.isLoading}}
+              <i class="fa fa-spinner fa-spin fa-3x nav-link play-episode pull-right disabled"></i>
             {{else}}
-              <i class="fa fa-play-circle-o fa-3x nav-link play-episode pull-right disabled"></i>
+              {{#if episode.hasValidMagnet}}
+                <a class="pull-right play-episode nav-link" href="#" {{action "play" episode}}>
+                  <i class="fa fa-play-circle-o fa-3x"></i>
+                </a>
+              {{else}}
+                <i class="fa fa-play-circle-o fa-3x nav-link play-episode pull-right disabled"></i>
+              {{/if}}
             {{/if}}
           {{/if}}
         </span>

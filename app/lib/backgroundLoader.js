@@ -7,10 +7,8 @@ export default function(controller) {
     if(controller.get("isUpdating")) { return; }
 
     controller.set("isUpdating", true);
-
     getAndInitNewEpisodes(controller.currentUser, store).then(function(episodes) {
       controller.model.unshiftObjects(episodes);
-
       forEach(episodes.toArray(), function(episode, next) {
         episode.loading(next, next);
       }, function(){
@@ -111,9 +109,9 @@ export default function(controller) {
 
   var check = function() {
     checkForEp();
-    // checkForNewMagnets();
-    // updateMagnets();
-    // deleteOld();
+    checkForNewMagnets();
+    updateMagnets();
+    deleteOld();
   };
 
   var online = function() {
