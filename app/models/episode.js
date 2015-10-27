@@ -1,7 +1,7 @@
 import getTorrentFromEpisode from "../lib/getTorrentFromEpisode"
 var moment = nRequire("moment");
 import forEach from "../lib/forEach";
-import bestTorrentMatch from "../lib/bestTorrentMatch";
+import bestArrayTorrentMatch from "../lib/bestArrayTorrentMatch";
 
 export default DS.Model.extend({
   show: DS.attr("string"),
@@ -18,7 +18,8 @@ export default DS.Model.extend({
   isLoading: false,
   loadingPopcorn: false,
   validMagnet: function(){
-    return this.get("magnets").get("firstObject");
+    return bestArrayTorrentMatch(this.get("magnets")).
+      sortBy("seeders").reverse()[0];
   }.property("magnets.[]"),
   hasValidMagnet: function(){
     return !! this.get("validMagnet");
@@ -102,13 +103,11 @@ export default DS.Model.extend({
     self.set("isLoading", true);
 
     var createMagnet = function(torrent, done){
-      var magnet = self.get("magnets").createRecord({
+      self.get("magnets").createRecord({
         href: torrent.href,
         seeders: torrent.seeders,
         title: torrent.title
-      });
-      bestTorrentMatch(magnet);
-      magnet.save().finally(done);
+      }).save().finally(done);
     }
 
     getTorrentFromEpisode(self).then(function(torrents) {

@@ -15,12 +15,17 @@ export default Ember.Component.extend({
   defaultLanguage: function(){
     return this.currentUser.defaultLanguage();
   },
+  magnet: function(){
+    return this.get("model").magnet;
+  }.property(),
+  episode: function(){
+    return this.get("model").episode;
+  }.property(),
   didInsertElement: function() {
-    $(document).on("keydown", { _self: this }, this.onKey);
-
     var self = this;
-    var title = this.get("episode").get("magnetTitle");
-    var engine = peerflix(this.get("episode").get("magnet"));
+    $(document).on("keydown", { _self: this }, this.onKey);
+    var title = self.get("magnet").get("title");
+    var engine = peerflix(this.get("magnet").get("href"));
 
     engine.server.on("listening", function() {
       self.set("url", "http://localhost:" + 

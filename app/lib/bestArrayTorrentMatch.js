@@ -13,20 +13,22 @@ export default function(magnets){
     includes = include.split(",");
   }
 
-  magnets.forEach(function(magnet){
+  magnets.filter(function(magnet){
     var excludeOK = true;
     if(excludes.length) {
       excludeOK = ! excludes.any(function(exclude){
         return new RegExp(exclude.trim(), "i").test(magnet.get("title"));
       });
     }
+    
     var includeOK = true;
     if(includes.length) {
       var includeOK = includes.every(function(include){
         return new RegExp(include.trim(), "i").test(magnet.get("title"));
       });
     }
-    magnet.set("valid", includeOK && excludeOK);
+
+    return includeOK && excludeOK;
   });
 
   return magnets;

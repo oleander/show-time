@@ -4,11 +4,11 @@ export default Ember.Controller.extend({
       this.transitionToRoute("user.index");
     },
     didChangedTime: function(time) {
-      this.model.markAsSeenBasedOnTime(time);
+      this.model.episode.markAsSeenBasedOnTime(time);
     },
     setVideoTime: function(time){
-      this.model.set("lengthInMs", time);
-      this.model.save();
+      this.model.episode.set("lengthInMs", time);
+      this.model.episode.save();
     }
   }
 });

@@ -15,7 +15,7 @@ export default Router.map(function() {
     this.route("seen");
   });
 
-  this.route("play", { path: ":id/play" });
+  this.route("play", { path: ":episode_id/:magnet_id/play" });
 
   this.route("login");
 });
