@@ -3,10 +3,15 @@
                 translucentOverlay=true}}
   <div class="modal-body">
     <table>
-      {{#each model as |magnet|}}
+      {{#each magnets as |magnet|}}
         <tr>
           <td>{{magnet.title}}</td>
           <td>{{magnet.seeders}}</td>
+          <td>
+            <a {{action "play" magnet}} href="#">
+              <i class="fa fa-play"></i>
+            </a>
+          </td>
         </tr>
       {{/each}}
     </table>
