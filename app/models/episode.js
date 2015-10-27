@@ -90,6 +90,16 @@ export default DS.Model.extend({
   noMagnet: function() {
     return ! this.get("magnet");
   }.property("magnet"),
+  doesHaveMagnet: function(href){
+    var self = this;
+    return new Em.RSVP.Promise(function(accept, reject){
+      var found = self.get("magnets").find(function(magnet){
+        return magnet.get("href") == href;
+      });
+
+      found ? accept(found) : reject("Nothing found");
+    });
+  },
   loading: function(resolve, reject) {
     if(!resolve) { resolve = function() {}; }
     if(!reject) { reject = function() {}; }
@@ -112,19 +122,17 @@ export default DS.Model.extend({
 
     getTorrentFromEpisode(self).then(function(torrents) {
       forEach(torrents, function(torrent, next){
-        self.store.query("magnet", { href: torrent.href }).then(function(result){
-          if(result.get("length")) { 
-            var found = result.get("firstObject")
-            found.setProperties({
-              title: torrent.title,
-              seeders: torrent.seeders
-            });
-            bestTorrentMatch(found);
-            found.save(next);
-          } else {
-            createMagnet(torrent, next);
-          }
-        }).catch(function(){
+        self.doesHaveMagnet(torrent.href).then(function(found){
+          found.setProperties({
+            title: torrent.title,
+            seeders: torrent.seeders
+          })
+
+          found.save(function(){
+            self.save().then(next);
+          });
+        }).catch(function(err){
+          console.info("err", err)
           createMagnet(torrent, next);
         }).finally(next);
       }, function(){

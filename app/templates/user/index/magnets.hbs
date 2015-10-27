@@ -2,18 +2,27 @@
                 targetAttachment="center"
                 translucentOverlay=true}}
   <div class="modal-body">
-    <table>
-      {{#each magnets as |magnet|}}
+    <table class="table table-striped table-hover">
+      <thead>
         <tr>
-          <td>{{magnet.title}}</td>
-          <td>{{magnet.seeders}}</td>
-          <td>
-            <a {{action "play" magnet}} href="#">
-              <i class="fa fa-play"></i>
-            </a>
-          </td>
+          <th>Release</th>
+          <th>Seeders</th>
+          <th></th>
         </tr>
-      {{/each}}
+      </thead>
+      <tbody>
+        {{#each magnets as |magnet|}}
+          <tr>
+            <td>{{magnet.title}}</td>
+            <td>{{magnet.seeders}}</td>
+            <td>
+              <a {{action "play" magnet}} href="#" class="more">
+                <i class="fa fa-play"></i>
+              </a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
     </table>
   </div>
 {{/modal-dialog}}

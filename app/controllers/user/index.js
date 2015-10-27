@@ -7,7 +7,7 @@ export default Ember.Controller.extend({
   userController: Ember.inject.controller("user"),
   actions: {
     playEpisode: function(episode){
-      if(episode.get("hasValidMagnet") && false){
+      if(episode.get("hasValidMagnet")){
         this.transitionToRoute("play",
           episode.get("id"),
           episode.get("validMagnet").get("id")
