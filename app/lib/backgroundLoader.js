@@ -108,10 +108,10 @@ export default function(controller) {
   ids.push(setInterval(deleteOld, 60 * minute));
 
   var check = function() {
-    // checkForEp();
-    // checkForNewMagnets();
-    // updateMagnets();
-    // deleteOld();
+    checkForEp();
+    checkForNewMagnets();
+    updateMagnets();
+    deleteOld();
   };
 
   var online = function() {
