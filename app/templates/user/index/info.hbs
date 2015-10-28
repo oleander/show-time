@@ -1,7 +1,4 @@
 {{#info-bar action="closeInfoBar"}}
-  {{#link-to "play" model.id class="nav-link" disabled=model.isNotPlayable}}
-    <i class="fa fa-play-circle-o fa-fw fa-3x"></i>
-  {{/link-to}}
   <a href="#" {{action "reload"}} class="nav-link {{if model.isLoading 'disabled'}}">
     <i class="fa fa-refresh fa-fw fa-3x {{if model.isLoading 'fa-spin'}}"></i>
   </a>
