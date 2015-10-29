@@ -526,7 +526,6 @@
   height: 500px;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 .flex .loading {
@@ -556,4 +555,20 @@ a.more {
 
 span.episode:hover { 
   background-color: lightgrey;
+}
+
+.load-player {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+
+  .status {
+    margin-top: 20px;
+  }
+
+  .status span {
+    font-size: 20px;
+  }
 }

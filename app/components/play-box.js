@@ -27,7 +27,10 @@ export default Ember.Component.extend({
     var title = self.get("magnet").get("title");
     var engine = peerflix(this.get("magnet").get("href"));
 
+    this.set("status", "Downloading magnet file");
+
     engine.server.on("listening", function() {
+      self.set("status", "Downloading completed");
       self.set("url", "http://localhost:" + 
         engine.server.address().port + 
         "/"
@@ -39,6 +42,7 @@ export default Ember.Component.extend({
     var langKey = this.defaultLanguageKey();
     if(langKey){
       downloadSubtitle(title, langKey).then(function(path){
+        self.set("status", "Downloaded subtitle");
         self.set("subtitle", path);
         self.isLoaded();
       }).catch(function(err){
@@ -104,6 +108,7 @@ export default Ember.Component.extend({
 
       if(state === "buffering") {
         self.onFirstFrame();
+        self.set("status", "Buffering");
       }
 
       if(state === "playing") {
@@ -184,6 +189,7 @@ export default Ember.Component.extend({
     $(document).off("keydown", this.onKey);
   },
   onPlay: function(){
+    this.$().find("#player").removeClass("hide");
     this.set("hasStarted", true);
     // Calculate video length
     var $time = this.$().find(".wcp-time-total");
