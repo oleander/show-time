@@ -1,20 +1,13 @@
-/* @flow weak */
-
 var wjs = nRequire("wcjs-player");
 var peerflix = nRequire("peerflix");
 import downloadSubtitle from "../lib/downloadSubtitle";
 import toHHMMSS from "../lib/toHHMMSS";
+import languages from "./../lib/languages";
 
 export default Ember.Component.extend({
   classNames: ["player-box"],
   loaded: 0,
   hasStarted: false,
-  defaultLanguageKey: function(){
-    return this.currentUser.defaultLanguageKey();
-  },
-  defaultLanguage: function(){
-    return this.currentUser.defaultLanguage();
-  },
   magnet: function(){
     return this.get("model").magnet;
   }.property(),
@@ -30,7 +23,7 @@ export default Ember.Component.extend({
     this.set("status", "Downloading magnet file");
 
     engine.server.on("listening", function() {
-      self.set("status", "Downloading completed");
+      self.set("status", "Download completed");
       self.set("url", "http://localhost:" + 
         engine.server.address().port + 
         "/"
@@ -39,18 +32,24 @@ export default Ember.Component.extend({
     });
 
     // Load default subtitle language from settings
-    var langKey = this.defaultLanguageKey();
-    if(langKey){
-      downloadSubtitle(title, langKey).then(function(path){
-        self.set("status", "Downloaded subtitle");
-        self.set("subtitle", path);
-        self.isLoaded();
-      }).catch(function(err){
-        self.isLoaded();
+    var promises = ["swe", "eng"].map(function(langKey){
+      return downloadSubtitle(title, langKey).then(function(path){
+        return { path: path, lang: langKey };
+      })
+    });
+
+    Em.RSVP.allSettled(promises).then(function(paths){
+      var foundedPaths = [];
+      paths.forEach(function(path){
+        if(path.value){
+          foundedPaths.push(path.value);
+        }
       });
-    } else {
+      self.set("status", "Downloaded subtitle");
+      self.set("subtitles", foundedPaths);
+    }).finally(function(){
       self.isLoaded();
-    }
+    });
   },
   isLoaded: function(){
     this.incrementProperty("loaded");
@@ -62,18 +61,20 @@ export default Ember.Component.extend({
     var language  = this.currentUser.defaultLanguage();
     var self      = this;
     var url       = this.get("url");
-    var subtitle  = this.get("subtitle");
-    var subtitles = {};
+    var subtitles  = this.get("subtitles");
+    var usedSubtitles = {};
     var seenInMs  = this.get("episode").get("seenInMs") || 0;
     var player    = new wjs("#player").addPlayer({ autoplay: true });
 
-    if(subtitle) {
-      subtitles[language] = subtitle;
+    if(subtitles && subtitles.length) {
+      subtitles.forEach(function(result){
+        usedSubtitles[languages.byKey(result.lang)] = result.path;
+      });
     }
 
     player.addPlaylist({
       url: url,
-      subtitles: subtitles,
+      subtitles: usedSubtitles,
       title: this.get("episode").get("shortTitle")
     });
 
@@ -153,6 +154,8 @@ export default Ember.Component.extend({
     var next = (current + 1) % player.subCount();
     var subtitle = player.subDesc(current);
     if(subtitle) {
+      console.info(subtitle.language);
+
       player.notify(`Subtitle: ${subtitle.language}`);
     } else {
       player.notify(`Subtitles has been turned off`);

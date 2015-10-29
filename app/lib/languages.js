@@ -19,5 +19,12 @@ export default {
     "English": "eng",
     "Swedish": "swe",
     "None": null
+  },
+  byKey: function(key) {
+    for(var k in this.content){
+      if(this.content[k] === key) { return k; }
+    }
+
+    throw key + " not found";
   }
 };
