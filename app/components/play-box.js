@@ -154,8 +154,6 @@ export default Ember.Component.extend({
     var next = (current + 1) % player.subCount();
     var subtitle = player.subDesc(current);
     if(subtitle) {
-      console.info(subtitle.language);
-
       player.notify(`Subtitle: ${subtitle.language}`);
     } else {
       player.notify(`Subtitles has been turned off`);

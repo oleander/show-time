@@ -13,6 +13,8 @@
               {{/link-to}}
             {{/unless}}
             {{episode.title}} - {{episode.what}}
+            -
+            {{moment-from-now episode.firstAired}}
             {{#if episode.isStarted}}
               - {{episode.seenInPercent}}%
             {{/if}}
