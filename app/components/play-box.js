@@ -193,9 +193,9 @@ export default Ember.Component.extend({
       return setTimeout(this.onPlay, 5000);
     }
     var sum = 0;
-    var hour = result[2];
-    var min = result[3];
-    var sec = result[4];
+    var hour = parseInt(result[2], 10);
+    var min = parseInt(result[3], 10);
+    var sec = parseInt(result[4], 10);
 
     if(hour) {
       sum += hour * 60 * 60;
@@ -206,6 +206,7 @@ export default Ember.Component.extend({
     if(sec) {
       sum += sec;
     }
+
     this.sendAction("videoTime", sum * 1000);
   },
   onFirstFrame: function(){
