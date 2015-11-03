@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
       this.transitionToRoute("user.index");
     },
     play: function(magnet) {
-      this.transitionToRoute("play",
+      this.transitionToRoute("user.play",
         this.get("episode").get("id"),
         magnet.get("id")
       );

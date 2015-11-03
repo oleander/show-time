@@ -13,9 +13,8 @@ export default Router.map(function() {
     });
     this.route("removed");
     this.route("seen");
+    this.route("play", { path: ":episode_id/:magnet_id/play" });
   });
-
-  this.route("play", { path: ":episode_id/:magnet_id/play" });
 
   this.route("login");
 });
