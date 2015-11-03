@@ -8,12 +8,13 @@ export default function(magnets){
   if(exclude && exclude.length) {
     excludes = exclude.split(",");
   }
+
   var include = user.get("include");
   if(include && include.length) {
     includes = include.split(",");
   }
 
-  magnets.filter(function(magnet){
+  return magnets.filter(function(magnet){
     var excludeOK = true;
     if(excludes.length) {
       excludeOK = ! excludes.any(function(exclude){
@@ -30,6 +31,4 @@ export default function(magnets){
 
     return includeOK && excludeOK;
   });
-
-  return magnets;
 }
