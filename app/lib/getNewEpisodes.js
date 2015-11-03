@@ -14,7 +14,7 @@ export default function(accessToken) {
     "Authorization": "Bearer " + accessToken
   }
 
-  var days = 30;
+  var days = 3;
   var date = new Date();
   date.setDate(date.getDate() - days);
   var printableDate = moment(date).format("YYYY-MM-DD");
