@@ -24,7 +24,7 @@ var search1 = function(query) {
   };
 
   return getJSON(params).then(function(data){
-    return resolve(cleanUp(data.list.filterBy("verified").sortBy("seeds").reverse()));
+    return cleanUp(data.list.filterBy("verified").sortBy("seeds").reverse());
   });
 };
 
@@ -37,26 +37,46 @@ var search2 = function(query){
         seeders: parseInt(result.seeders, 10)
       };
     });
-  });
+  })
 }
 
 var search = function(query) {
-  return new Promise(function(resolve, reject) {
-    return search1(query).then(function(results){
-      results.length ? resolve(results.slice(0, 10)) : reject("Nothing found for search1");
-    }).catch(function(err){
-      return search2(query);
-    }).then(function(results){
-      results.length ? resolve(results.slice(0, 10)) : reject("Nothing found for search2");
-    });
-  });
+  return search1(query).then(function(results){
+    if(results.length) {
+      return results.slice(0, 10);
+    } else {
+      return search2(query).then(function(results){
+        return results.slice(0, 10);
+      }).catch(function(err){
+        return [];
+      });
+    }
+  }).catch(function(err){
+    return search2(query);
+  }).then(function(results){
+    return results.slice(0, 10);
+  }).catch(function(err){
+    return [];
+  })
 }
 
 export default function(episode) {
   var show = episode.get("show");
   var query1 = show + " " + episode.get("what");
   var query2 = show + " " + episode.get("title");
-  return search(query1).catch(function(err) {
-    return search(query2);
+  return search(query1).then(function(results){
+    if(results.length){
+      return results;
+    } else {
+      search(query2).then(function(results){
+        return results
+      }).catch(function(err){
+        return [];
+      });
+    }
+  }).catch(function(err) {
+    return search(query2)
+  }).catch(function(err){
+    return [];
   });
 }

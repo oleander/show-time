@@ -121,7 +121,7 @@ export default DS.Model.extend({
     }
 
     getTorrentFromEpisode(self).then(function(torrents) {
-      forEach(torrents, function(torrent, next){
+      forEach(torrents || [], function(torrent, next){
         self.doesHaveMagnet(torrent.href).then(function(found){
           found.setProperties({
             title: torrent.title,
