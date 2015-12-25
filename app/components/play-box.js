@@ -1,4 +1,5 @@
 var wjs = nRequire("wcjs-player");
+var exec = nRequire("child_process").exec;
 var peerflix = nRequire("peerflix");
 import downloadSubtitle from "../lib/downloadSubtitle";
 import toHHMMSS from "../lib/toHHMMSS";
@@ -6,8 +7,7 @@ import languages from "./../lib/languages";
 
 export default Ember.Component.extend({
   classNames: ["player-box"],
-  loaded: 0,
-  hasStarted: false,
+  loading: true,
   magnet: function(){
     return this.get("model").magnet;
   }.property(),
@@ -16,20 +16,15 @@ export default Ember.Component.extend({
   }.property(),
   didInsertElement: function() {
     var self = this;
-    $(document).on("keydown", { _self: this }, this.onKey);
     var title = self.get("magnet").get("title");
-    var engine = peerflix(this.get("magnet").get("href"));
+    // var engine = peerflix(this.get("magnet").get("href"));
+    var engine = peerflix("magnet:?xt=urn:btih:273259314f67d2eff328e7727ac1cf2efb458750&dn=Bridge.of.Spies.2015.HDRip.XviD.AC3-EVO&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969");
 
-    this.set("status", "Downloading magnet file");
-
-    engine.server.on("listening", function() {
-      self.set("status", "Download completed");
-      self.set("url", "http://localhost:" + 
-        engine.server.address().port + 
-        "/"
-      );
-      self.isLoaded();
-    });
+    var serverP = new Promise(function(resolve){
+      engine.server.on("listening", function() {
+        resolve("http://localhost:" + engine.server.address().port);
+      });
+    })
 
     // Load default subtitle language from settings
     var promises = ["swe", "eng"].map(function(langKey){
@@ -38,202 +33,46 @@ export default Ember.Component.extend({
       })
     });
 
-    Em.RSVP.allSettled(promises).then(function(paths){
+    promises.push(serverP);
+
+    Em.RSVP.allSettled(promises).then(function(data){
       var foundedPaths = [];
-      paths.forEach(function(path){
-        if(path.value){
-          foundedPaths.push(path.value);
+      var host = null;
+      data.forEach(function(response){
+        if(response.state != "fulfilled") { return; }
+        if(!response.value.path){
+          host = response.value;
+        } else {
+          foundedPaths.push(response.value.path);
         }
       });
-      self.set("status", "Downloaded subtitle");
-      self.set("subtitles", foundedPaths);
-    }).finally(function(){
-      self.isLoaded();
-    });
-  },
-  isLoaded: function(){
-    this.incrementProperty("loaded");
-    if(this.get("loaded") == 2) {
-      this.everytingIsLoaded();
-    }
-  },
-  everytingIsLoaded: function(){
-    var language  = this.currentUser.defaultLanguage();
-    var self      = this;
-    var url       = this.get("url");
-    var subtitles  = this.get("subtitles");
-    var usedSubtitles = {};
-    var seenInMs  = this.get("episode").get("seenInMs") || 0;
-    var player    = new wjs("#player").addPlayer({ autoplay: true });
 
-    if(subtitles && subtitles.length) {
-      subtitles.forEach(function(result){
-        usedSubtitles[languages.byKey(result.lang)] = result.path;
+      if(foundedPaths[0]) {
+        var subtitle = "--sub-file='" + foundedPaths[0] + "'";
+      }
+      var seen = "--start-time=" + self.get("episode").get("seenInSec");
+      var title = "--input-title-format='" + self.get("episode").get("shortTitle") + "'";
+      exec("/Applications/VLC.app/Contents/MacOS/VLC " + seen + " "  + title +  " --no-fullscreen  --no-video-title-show " + subtitle + " -f " + host, function(error, stdout, stderr) {
       });
-    }
 
-    player.addPlaylist({
-      url: url,
-      subtitles: usedSubtitles,
-      title: this.get("episode").get("shortTitle")
+      self.set("loading", false);
     });
-
-    player.ui(true);
-    player.video(true);
-    player.playlist(false);
-    player.time(seenInMs);
-    player.subTrack(0);
-    player.subTrack(1);
-
-    if(seenInMs) {
-      player.notify(`Starting at ${toHHMMSS(seenInMs / 1000)}`);
-    }
-
-    var currentTime = 0;
-    player.onTime(function(time){
-      currentTime = time;
-    });
-
-    var interval = setInterval(function(){
-      if(currentTime) {
-        self.sendAction("time", currentTime);
-      }
-    }, 1000);
-
-    player.onState(function(state){
-      if(state === "ended") {
-        self.sendAction("videoTime", currentTime);
-        self.sendAction("time", currentTime);
-        self.sendAction("close");
-      }
-
-      if(state === "buffering") {
-        self.onFirstFrame();
-        self.set("status", "Buffering");
-      }
-
-      if(state === "playing") {
-        self.onPlay();
-      }
-    });
-  
-    this.set("player", player);
-    this.set("interval", interval);
   },
   onKey: function(e){
     if(e.keyCode == 27) {
       return e.data._self.escPressed();
     }
-
-    if(!e.data._self.get("hasStarted")) { return; }
-    switch(e.keyCode) {
-      case 32: // space
-        e.data._self.togglePlay(); break;
-      case 39: // Right
-        e.data._self.skipForward(); break;
-      case 37: // Left
-        e.data._self.skipBackward(); break;
-      case 83: // Left
-        e.data._self.toggleSubtitle(); break;
-    }
-  },
-  skipBackward: function(){
-    var player = this.get("player");
-    player.time(player.time() - 10000);
-  },
-  skipForward: function(){
-    var player = this.get("player");
-    player.time(player.time() + 10000);
-  },
-  togglePlay: function(){
-    this.get("player").togglePause();
-  },
-  toggleSubtitle: function(){
-    var player = this.get("player");
-    var current = player.subTrack();
-    var next = (current + 1) % player.subCount();
-    var subtitle = player.subDesc(current);
-    if(subtitle) {
-      player.notify(`Subtitle: ${subtitle.language}`);
-    } else {
-      player.notify(`Subtitles has been turned off`);
-    }
-
-    player.subTrack(next);
   },
   escPressed: function(){
-    var player = this.get("player");
-    // If in fullscreen, minimize otherwise close
-    if(player && player.fullscreen()){
-      return player.fullscreen(false);
-    }
     this.sendAction("close");
   },
   willDestroyElement: function(){
-    var player = this.get("player");
-    if(player) { 
-      try {
-        // Crashes for some reason if the application
-        // is aborted before buffering is done
-        player.stop();
-      } catch(e){
-        console.error("player error", e);
-      }
-    }
-
     var engine = this.get("engine");
     if(engine) { engine.destroy(); }
-
-    var interval = this.get("interval");
-    if(interval) { clearInterval(interval); }
-
-    $(document).off("keydown", this.onKey);
   },
-  onPlay: function(){
-    this.$().find("#player").removeClass("hide");
-    this.set("hasStarted", true);
-    // Calculate video length
-    var $time = this.$().find(".wcp-time-total");
-    var result = $time.text().match(/((\d+):)?(\d+):(\d+)/);
-    // No player?
-    if(!result) {
-      return setTimeout(this.onPlay, 5000);
+  actions: {
+    back: function(){
+      this.sendAction("close");
     }
-    var sum = 0;
-    var hour = parseInt(result[2], 10);
-    var min = parseInt(result[3], 10);
-    var sec = parseInt(result[4], 10);
-
-    if(hour) {
-      sum += hour * 60 * 60;
-    }
-    if(min) {
-      sum += min * 60;
-    }
-    if(sec) {
-      sum += sec;
-    }
-
-    this.sendAction("videoTime", sum * 1000);
-  },
-  onFirstFrame: function(){
-    var $close = this.$().find("#close");
-    var $toolbar = this.$().find(".wcp-toolbar");
-    var self = this;
-
-    $close.click(function(){
-      self.sendAction("close");
-    });
-
-    new MutationObserver(function(){
-      if($toolbar.is(":visible")) {
-        $close.removeClass("hide");
-      } else {
-        $close.addClass("hide");
-      }
-    }).observe($toolbar.get(0), {
-      attributes: true,
-      subtree: false
-    });
   }
 })

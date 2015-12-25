@@ -8,6 +8,12 @@ export default DS.Model.extend({
   what: DS.attr("string"),
   lengthInMs: DS.attr("number"),
   seenInMs: DS.attr("number"),
+  seenInSec: function () {
+    if(!this.get("seenInMs")) {
+      return 0;
+    }
+    return this.get("seenInMs") / 1000;
+  }.property("seenInMs"),
   image: DS.attr("string"),
   magnets: DS.hasMany("magnet", { async: true }),
   createdAt: DS.attr("date"),
@@ -60,7 +66,7 @@ export default DS.Model.extend({
   }.property("image"),
   isOlderThenDays: function(days) {
     var now = new Date().getTime();
-    var expires = this.get("createdAt").getTime() + 
+    var expires = this.get("createdAt").getTime() +
       (days * 24 * 60 * 60 * 1000);
     return expires <= now;
   },
@@ -75,7 +81,7 @@ export default DS.Model.extend({
     return (! this.get("magnet") || this.get("isNotVisible"));
   }.property("magnet"),
   completeTitle: function(){
-    return this.get("show") + " - " + this.get("what") + 
+    return this.get("show") + " - " + this.get("what") +
       " - " + this.get("title");
   }.property("show", "what", "title"),
   shortTitle: function(){
@@ -106,7 +112,7 @@ export default DS.Model.extend({
 
     var self = this;
 
-    if(self.get("isLoading")){ 
+    if(self.get("isLoading")){
       return reject("Episode is already loading");
     }
 
