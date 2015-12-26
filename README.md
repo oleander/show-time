@@ -4,23 +4,19 @@ A torrent desktop client for [Trakt.tv](http://trakt.tv) with live updates from 
 
 ## Screenshots
 
-### Login screen
-
-![Login Screen](resources/login.png)
-
 ### Dashboard
 
 ![Dashboard](resources/dashboard.png)
+
+### Login screen
+
+![Login Screen](resources/login.png)
 
 ## Functionality
 
 - Runs in the background and notifies you about new episodes / releases
 - Play episodes directly in [Popcorn-Time](http://popcorntime.io/)
 - Mark seen episodes
-
-## Pre-compiled binaries
-
-Visit the [release page](https://github.com/oleander/show-time/releases) for pre-compiled binaries.
 
 ## Development
 
@@ -32,3 +28,7 @@ Visit the [release page](https://github.com/oleander/show-time/releases) for pre
 ## Deploy
 
 Run `./deploy` to create a runnable binary. Note that I only support OS X at the moment, but PR are welcome.
+
+## Prerequisite
+
+Runs on all platforms supported by Electron, but currently only has playback support in OS X.
