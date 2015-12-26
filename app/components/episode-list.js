@@ -17,6 +17,9 @@ export default Ember.Component.extend({
     },
     restore: function(episode) {
       this.sendAction("restore", episode);
+    },
+    magnets: function(episode){
+      this.sendAction("magnets", episode);
     }
   }
 })

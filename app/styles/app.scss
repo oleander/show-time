@@ -6,7 +6,7 @@
 }
 
 .nothing {
-  min-height: 400px !important; 
+  min-height: 400px !important;
   text-align: center;
 }
 
@@ -16,9 +16,9 @@
 }
 
 .nothing span {
-  font-size: 20px; 
-  font-weight: bold; 
-  top: 170px; 
+  font-size: 20px;
+  font-weight: bold;
+  top: 170px;
   position: relative;
 }
 
@@ -541,7 +541,7 @@
 }
 
 .play-episode {
-  position: relative; 
+  position: relative;
   top: -50px;
   color: inherit;
 }
@@ -553,7 +553,7 @@ a.more {
   }
 }
 
-span.episode:hover { 
+span.episode:hover {
   background-color: lightgrey;
 }
 
@@ -571,4 +571,8 @@ span.episode:hover {
   .status span {
     font-size: 20px;
   }
+}
+
+.disabled {
+  opacity: 0.4;
 }

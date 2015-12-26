@@ -14,7 +14,7 @@ export default function(accessToken) {
     "Authorization": "Bearer " + accessToken
   }
 
-  var days = 3;
+  var days = 30;
   var date = new Date();
   date.setDate(date.getDate() - days);
   var printableDate = moment(date).format("YYYY-MM-DD");
@@ -31,7 +31,7 @@ export default function(accessToken) {
       throw e;
     }
   };
-  
+
   return new Promise(function(resolve, reject){
     getJSON(options).then(function(json){
       var episodes = [];

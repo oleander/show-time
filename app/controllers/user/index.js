@@ -2,10 +2,29 @@ import openPopcornTime from "../../lib/openPopcornTime";
 import getAndInitNewEpisodes from "../../lib/getAndInitNewEpisodes";
 import forEach from "../../lib/forEach";
 var peerflix = nRequire("peerflix");
+var shell = nRequire("shell");
 
 export default Ember.Controller.extend({
   userController: Ember.inject.controller("user"),
   actions: {
+    displayMagnetsView: function(episode){
+      this.transitionToRoute("user.index.magnets", episode.get("id"));
+    },
+    removeMagnet: function(episode) {
+      this.model.removeObject(episode);
+      episode.isRemoved();
+    },
+    markAsSeen: function(episode) {
+      this.model.removeObject(episode)
+      episode.hasSeen();
+    },
+    reloadMagnet: function(episode) {
+      episode.loading();
+    },
+    downloadMagnet: function(episode) {
+      if(episode.get("noMagnet")) { return; }
+      shell.openExternal(episode.get("magnet"));
+    },
     playEpisode: function(episode){
       if(episode.get("hasValidMagnet")){
         this.transitionToRoute("user.play",
@@ -28,7 +47,7 @@ export default Ember.Controller.extend({
     updateAll: function() {
       this.set("isUpdating", true);
       var self = this;
-      
+
       getAndInitNewEpisodes(this.currentUser, this.store).then(function(episodes){
         self.model.unshiftObjects(episodes);
       }).catch(function(error) {

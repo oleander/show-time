@@ -1,23 +1,33 @@
 <section class="content">
   <div class="row">
-    <div class="list-group">
+    <div class="list-group" style="font-color: grey">
       {{#each episodes as |episode|}}
         <span class="list-group-item episode">
           <h4 class="list-group-item-heading">
             {{episode.show}}
+            -
+            {{episode.what}}
           </h4>
-          <p class="list-group-item-text">
-            {{#unless episode.isNotVisible}}
-              {{#link-to "user.index.info" episode class="more"}}
-                <i class="fa fa-ellipsis-v"></i>
-              {{/link-to}}
-            {{/unless}}
-            {{episode.title}} - {{episode.what}}
+          <p class="list-group-item-text" style="opacity: 0.7">
+            <a href="#" {{action "reload" episode}} class="more {{if episode.isLoading 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
+              <i class="fa fa-refresh fa-fw {{if episode.isLoading 'fa-spin'}}"></i>
+            </a>
+            <a href="#" {{action "seen" episode}} class="more {{if episode.isNotVisible 'disabled'}}" style="font-size: 121%; position: relative; top: 1px;">
+              <i class="fa fa-eye fa-fw"></i>
+            </a>
+            <a href="#" {{action "remove" episode}} class="more {{if episode.isNotVisible 'disabled'}}">
+              <i class="fa fa-trash fa-fw"></i>
+            </a>
+            <a href="#" {{action "download" episode}} class="more {{if episode.noMagnet 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
+              <i class="fa fa-cloud-download fa-fw"></i>
+            </a>
+            <a href="#" {{action "magnets" episode}} class="more {{if episode.noMagnet 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
+              <i class="fa fa-magnet fa-fw"></i>
+            </a>
+            -
+            {{episode.title}}
             -
             {{moment-from-now episode.firstAired}}
-            {{#if episode.isStarted}}
-              - {{episode.seenInPercent}}%
-            {{/if}}
           </p>
 
           {{#if episode.isNotVisible}}

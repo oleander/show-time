@@ -1,7 +1,11 @@
 {{#if model}}
-  {{episode-list 
-    episodes=model 
+  {{episode-list
+    episodes=model
     play="playEpisode"
+    magnets="displayMagnetsView"
+    seen="markAsSeen"
+    remove="removeMagnet"
+    download="downloadMagnet"
   }}
 {{else}}
   {{#no-episodes}}
