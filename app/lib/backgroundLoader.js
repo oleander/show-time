@@ -1,5 +1,6 @@
 import getAndInitNewEpisodes from "./getAndInitNewEpisodes";
 import forEach from "./forEach";
+import episodesToString from "./episodesToString";
 
 export default function(controller) {
   var store = controller.get("store");
