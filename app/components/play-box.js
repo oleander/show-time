@@ -7,52 +7,66 @@ import languages from "./../lib/languages";
 export default Ember.Component.extend({
   classNames: ["player-box"],
   loading: true,
+  disabledVLCButton: true,
   magnet: function(){
     return this.get("model").magnet;
   }.property(),
   episode: function(){
     return this.get("model").episode;
   }.property(),
+  lang: function () {
+    return this.get("currentUser").defaultLanguageKey();
+  },
+  longLang: function () {
+    return this.get("currentUser").defaultLanguage().toLowerCase();
+  },
   didInsertElement: function() {
     var self = this;
     var title = self.get("magnet").get("title");
     var engine = peerflix(this.get("magnet").get("href"));
-    var serverP = new Promise(function(resolve){
+    var promises = [new Promise(function(resolve){
       engine.server.on("listening", function() {
         resolve("http://localhost:" + engine.server.address().port);
       });
-    })
+    })]
 
     // Load default subtitle language from settings
-    var promises = ["swe", "eng"].map(function(langKey){
-      return downloadSubtitle(title, langKey).then(function(path){
-        return { path: path, lang: langKey };
-      })
-    });
-
-    promises.push(serverP);
+    if(this.lang()) {
+      promises.push(downloadSubtitle(title, this.lang()).then(function(path){
+        return { path: path, lang: this.lang() };
+      }));
+    }
 
     Em.RSVP.allSettled(promises).then(function(data){
-      var foundedPaths = [];
+      var foundPath = null;
       var host = null;
       data.forEach(function(response){
         if(response.state != "fulfilled") { return; }
         if(!response.value.path){
           host = response.value;
         } else {
-          foundedPaths.push(response.value.path);
+          foundPath = response.value.path;
         }
       });
 
-      if(foundedPaths[0]) {
-        var subtitle = "--sub-file='" + foundedPaths[0] + "'";
-      }
       var seen = "--start-time=" + self.get("episode").get("seenInSec");
       var title = "--input-title-format='" + self.get("episode").get("shortTitle") + "'";
-      exec("/Applications/VLC.app/Contents/MacOS/VLC " + seen + " "  + title +  " --no-fullscreen  --no-video-title-show " + subtitle + " -f " + host, function(error, stdout, stderr) {
-      });
 
+      var startVLC = "/Applications/VLC.app/Contents/MacOS/VLC " + seen + " "  + title +  " --no-fullscreen  --no-video-title-show"  + " -f " + host;
+
+      if(foundPath) {
+        startVLC += " --sub-file='" + foundPath + "'";
+        self.set("language", self.get("longLang"));
+
+      }
+
+      self.set("VLCUrl", startVLC);
+      console.info("start vlc", startVLC);
+      self.startVLC();
       self.set("loading", false);
+      setTimeout(function () {
+        self.set("disabledVLCButton", false);
+      }, 5000);
     });
   },
   onKey: function(e){
@@ -67,9 +81,15 @@ export default Ember.Component.extend({
     var engine = this.get("engine");
     if(engine) { engine.destroy(); }
   },
+  startVLC: function () {
+    exec(this.get("VLCUrl"));
+  },
   actions: {
     back: function(){
       this.sendAction("close");
+    },
+    openVLC: function(){
+      this.startVLC();
     }
   }
 })
