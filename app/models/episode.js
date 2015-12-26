@@ -96,6 +96,9 @@ export default DS.Model.extend({
   noMagnet: function() {
     return ! this.get("magnet");
   }.property("magnet"),
+  noMagnets: function(){
+    return ! this.get("magnets").length;
+  }.property("magnets"),
   doesHaveMagnet: function(href){
     var self = this;
     return new Em.RSVP.Promise(function(accept, reject){
