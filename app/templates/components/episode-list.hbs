@@ -3,10 +3,17 @@
     <div class="list-group" style="font-color: grey">
       {{#each episodes as |episode|}}
         <span class="list-group-item episode">
+          <div style="height: 55px; float: left;width: 76px;overflow: hidden;margin-right: 8px;border-radius: 4px;">
+            {{#if episode.image}}
+              <img style="height: 55px;" src="{{episode.image}}" alt="" />
+            {{else}}
+              <img style="height: 55px;" src="images/tv.png" alt="" />
+            {{/if}}
+          </div>
           <h4 class="list-group-item-heading">
-            {{episode.show}}
+            <strong>{{episode.show}}</strong>
             -
-            {{episode.what}}
+            <strong>{{episode.what}}</strong>
           </h4>
           <p class="list-group-item-text" style="opacity: 0.7">
             <a href="#" {{action "reload" episode}} class="more {{if episode.isLoading 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
