@@ -5,7 +5,7 @@ var tpb = nRequire("thepiratebay");
 var cleanUp = function(torrents) {
   return torrents.map(function(torrent){
     return {
-      href: "magnet:?xt=urn:btih:" + torrent.hash + "&tr=udp%3A%2F%2Ftracker.publicbt.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&dn=" + encodeURIComponent(torrent.title),
+      href: "magnet:?xt=urn:btih:" + torrent.hash + "&dn=" + encodeURIComponent(torrent.title),
       title: torrent.title,
       seeders: torrent.seeds
     };

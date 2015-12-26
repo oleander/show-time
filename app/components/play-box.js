@@ -23,7 +23,19 @@ export default Ember.Component.extend({
   didInsertElement: function() {
     var self = this;
     var title = self.get("magnet").get("title");
-    var engine = peerflix(this.get("magnet").get("href"));
+    var engine = peerflix(this.get("magnet").get("href"), {
+      connections: 100,
+      dht: true,
+      tracker: true,
+      trackers: [
+         "udp://tracker.openbittorrent.com:80",
+         "udp://tracker.coppersurfer.tk:6969",
+         "udp://tracker.publicbt.com:80/announce",
+         "udp://open.demonii.com:1337"
+      ],
+      buffer: (1.5 * 1024 * 1024).toString()
+    });
+
     var promises = [new Promise(function(resolve){
       engine.server.on("listening", function() {
         resolve("http://localhost:" + engine.server.address().port);
