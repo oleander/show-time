@@ -11,11 +11,11 @@
             {{/if}}
           </div>
           <h4 class="list-group-item-heading">
-            <strong>{{episode.show}}</strong>
+            {{episode.show}}
             -
-            <strong>{{episode.what}}</strong>
+            {{episode.what}}
           </h4>
-          <p class="list-group-item-text" style="opacity: 0.7">
+          <p class="list-group-item-text" style="opacity: 0.6">
             <a href="#" {{action "reload" episode}} class="more {{if episode.isLoading 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
               <i class="fa fa-refresh fa-fw {{if episode.isLoading 'fa-spin'}}"></i>
             </a>
@@ -32,9 +32,9 @@
               <i class="fa fa-magnet fa-fw"></i>
             </a>
             -
-            {{episode.title}}
+            <span style="font-weight: 600">{{episode.title}}</span>
             -
-            {{moment-from-now episode.firstAired}}
+            <span style="font-weight: 600">{{moment-from-now episode.firstAired}}</span>
           </p>
 
           {{#if episode.isNotVisible}}

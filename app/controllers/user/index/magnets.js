@@ -1,3 +1,5 @@
+var shell = nRequire("shell");
+
 export default Ember.Controller.extend({
   actions: {
     back: function(){
@@ -8,6 +10,9 @@ export default Ember.Controller.extend({
         this.get("episode").get("id"),
         magnet.get("id")
       );
-    }
+    },
+    download: function(magnet) {
+      shell.openExternal(magnet.get("href"));
+    },
   }
 });

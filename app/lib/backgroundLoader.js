@@ -87,7 +87,7 @@ export default function(controller) {
       seen: false,
       removed: false
     }).then(function(episodes) {
-      forEach(episodes.toArray(), function(episode, next){
+      forEach(episodes.toArray().reverse(), function(episode, next){
         episode.loading(next, next);
       }, function(){
         controller.set("isReloading", false);

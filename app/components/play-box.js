@@ -17,9 +17,7 @@ export default Ember.Component.extend({
   didInsertElement: function() {
     var self = this;
     var title = self.get("magnet").get("title");
-    // var engine = peerflix(this.get("magnet").get("href"));
-    var engine = peerflix("magnet:?xt=urn:btih:273259314f67d2eff328e7727ac1cf2efb458750&dn=Bridge.of.Spies.2015.HDRip.XviD.AC3-EVO&tr=udp%3A%2F%2Ftracker.openbittorrent.com%3A80&tr=udp%3A%2F%2Fopen.demonii.com%3A1337&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Fexodus.desync.com%3A6969");
-
+    var engine = peerflix(this.get("magnet").get("href"));
     var serverP = new Promise(function(resolve){
       engine.server.on("listening", function() {
         resolve("http://localhost:" + engine.server.address().port);
