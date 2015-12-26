@@ -1,4 +1,3 @@
-var wjs = nRequire("wcjs-player");
 var exec = nRequire("child_process").exec;
 var peerflix = nRequire("peerflix");
 import downloadSubtitle from "../lib/downloadSubtitle";

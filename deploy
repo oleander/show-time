@@ -26,18 +26,7 @@ cd build/ && npm install --production && cd ..
 echo "Build package using electron-packager"
 ./node_modules/electron-packager/cli.js build/ $APP --out=dist/ --version=$VERSION --icon=assets/icon.icns --platform=darwin --arch=x64
 
-LIBFILE=tmp/libvlc.zip
-if [ ! -f $LIBFILE ]; then
-  echo "Downloading bindings"
-  wget -N https://github.com/RSATom/WebChimera.js/releases/download/v.0.1.3/libvlc_2.2.1_mac.zip -O $LIBFILE
-else
-  echo "Libfile already exists"
-fi
-
-echo "Copy VLC bindings"
-unzip -q -o tmp/libvlc.zip -d dist/ShowTime-darwin-x64/ShowTime.app/Contents/Resources/app/node_modules/wcjs-player/node_modules/wcjs-renderer/node_modules/webchimera.js/build/Release
-
 echo "Remove build path"
-# rm -rf build/
+rm -rf build/
 
 echo "$APP has been created"
