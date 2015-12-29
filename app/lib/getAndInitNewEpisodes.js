@@ -14,7 +14,7 @@ export default function(user, store) {
         show: episode.show,
         what: episode.what
       }).then(function(episodes) {
-        if(episodes.get("length")) { 
+        if(episodes.get("length")) {
           var found = episodes.get("firstObject");
           found.set("image", episode.image);
           return;
@@ -35,7 +35,8 @@ export default function(user, store) {
           title: rawEpisode.title,
           createdAt: new Date(),
           firstAired: rawEpisode.firstAired,
-          image: rawEpisode.image
+          image: rawEpisode.image,
+          traktID: rawEpisode.traktID
         });
 
         episode.save();

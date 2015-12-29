@@ -14,7 +14,7 @@ export default function(accessToken) {
     "Authorization": "Bearer " + accessToken
   }
 
-  var days = 7;
+  var days = 30;
   var date = new Date();
   date.setDate(date.getDate() - days);
   var printableDate = moment(date).format("YYYY-MM-DD");
@@ -42,6 +42,7 @@ export default function(accessToken) {
         var season = zpad(episode["season"], 2);
         var number = zpad(episode["number"], 2);
         var show = data["show"]["title"];
+        var traktID = episode["ids"]["trakt"];
 
         if(season === "00" || number === "00") { return; }
 
@@ -50,7 +51,8 @@ export default function(accessToken) {
           "what": util.format("s%se%s", season, number),
           "title": title,
           "firstAired": new Date(firstAired),
-          "image": getImage(episode)
+          "image": getImage(episode),
+          "traktID": traktID
         });
       });
       resolve(episodes);

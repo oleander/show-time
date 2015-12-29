@@ -1,4 +1,5 @@
 import openPopcornTime from "../../lib/openPopcornTime";
+import addToTraktHistory from "../../lib/addToTraktHistory";
 import getAndInitNewEpisodes from "../../lib/getAndInitNewEpisodes";
 import forEach from "../../lib/forEach";
 var peerflix = nRequire("peerflix");
@@ -17,6 +18,7 @@ export default Ember.Controller.extend({
     markAsSeen: function(episode) {
       this.model.removeObject(episode)
       episode.hasSeen();
+      addToTraktHistory(episode);
     },
     reloadMagnet: function(episode) {
       episode.loading();

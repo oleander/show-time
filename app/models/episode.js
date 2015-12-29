@@ -7,6 +7,7 @@ export default DS.Model.extend({
   show: DS.attr("string"),
   what: DS.attr("string"),
   lengthInMs: DS.attr("number"),
+  traktID: DS.attr("number"),
   seenInMs: DS.attr("number"),
   seenInSec: function () {
     if(!this.get("seenInMs")) {
