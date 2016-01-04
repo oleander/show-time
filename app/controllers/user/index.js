@@ -1,4 +1,3 @@
-import openPopcornTime from "../../lib/openPopcornTime";
 import addToTraktHistory from "../../lib/addToTraktHistory";
 import getAndInitNewEpisodes from "../../lib/getAndInitNewEpisodes";
 import forEach from "../../lib/forEach";

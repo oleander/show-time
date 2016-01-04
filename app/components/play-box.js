@@ -1,14 +1,16 @@
 var exec = nRequire("child_process").exec;
 var peerflix = nRequire("peerflix");
 var pretty = nRequire("prettysize");
+import openPopcornTime from "../lib/openPopcornTime";
 import downloadSubtitle from "../lib/downloadSubtitle";
 import toHHMMSS from "../lib/toHHMMSS";
-import languages from "./../lib/languages";
+import languages from "../lib/languages";
 
 export default Ember.Component.extend({
   classNames: ["player-box"],
   loading: true,
-  disabledVLCButton: true,
+  disabledVLCBuoutton: true,
+  disabledPTButton: false,
   magnet: function(){
     return this.get("model").magnet;
   }.property(),
@@ -136,6 +138,17 @@ export default Ember.Component.extend({
     },
     openVLC: function(){
       this.startVLC();
+    },
+    openPT: function () {
+      var self = this;
+      this.set("disabledPTButton", true);
+      openPopcornTime(this.get("episode"), this.get("magnet")).then(function() {
+        self.set("disabledPTButton", false);
+        console.info("Start in PopcornTime");
+      }).catch(function(error) {
+        console.error("error", error);
+        self.set("disabledPTButton", false);
+      })
     }
   }
 })
