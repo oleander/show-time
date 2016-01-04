@@ -54,6 +54,7 @@
     "moment": "2.10.6",
     "node-env-file": "0.1.7",
     "peerflix": "0.32.0",
+    "prettysize": "0.0.3",
     "promise": "^7.0.4",
     "request": "2.64.0",
     "subtitler": "2.4.0",

@@ -1,5 +1,6 @@
 var exec = nRequire("child_process").exec;
 var peerflix = nRequire("peerflix");
+var pretty = nRequire("prettysize");
 import downloadSubtitle from "../lib/downloadSubtitle";
 import toHHMMSS from "../lib/toHHMMSS";
 import languages from "./../lib/languages";
@@ -36,11 +37,38 @@ export default Ember.Component.extend({
       buffer: (1.5 * 1024 * 1024).toString()
     });
 
+    this.set("engine", engine);
+
     var promises = [new Promise(function(resolve){
       engine.server.on("listening", function() {
         resolve("http://localhost:" + engine.server.address().port);
       });
     })]
+
+    engine.on("ready", function () {
+      this.set("engineReady", true);
+      this.set("downloaded", pretty(0));
+
+      // Calculate total file size
+      var size = 0;
+      engine.files.forEach(function (file) { // pct torrent
+        size += file.length || 0;
+      });
+      this.set("totalSize", pretty(size));
+
+      var swarm = engine.swarm;
+      var checkStatus = setInterval(function () {
+        var downloaded = swarm.downloaded || 0;
+        if (swarm.cachedDownload) {
+          downloaded += swarm.cachedDownload;
+        }
+        if(!downloaded) {
+          this.set("downloaded", pretty(downloaded));
+        }
+      }.bind(this), 1000);
+      this.set("checkStatus", checkStatus);
+      this.initVLC();
+    }.bind(this));
 
     // Load default subtitle language from settings
     if(this.lang()) {
@@ -69,21 +97,24 @@ export default Ember.Component.extend({
       if(foundPath) {
         startVLC += " --sub-file='" + foundPath + "'";
         self.set("language", self.get("longLang"));
-
       }
 
       self.set("VLCUrl", startVLC);
-      console.info("start vlc", startVLC);
-      self.startVLC();
-      self.set("loading", false);
-      setTimeout(function () {
-        self.set("disabledVLCButton", false);
-      }, 5000);
+      self.initVLC();
     });
   },
   onKey: function(e){
     if(e.keyCode == 27) {
       return e.data._self.escPressed();
+    }
+  },
+  initVLC: function () {
+    if(this.get("engineReady") && this.get("VLCUrl")) {
+      this.set("loading", false);
+      this.startVLC();
+      setTimeout(function () {
+        this.set("disabledVLCButton", false);
+      }.bind(this), 5000);
     }
   },
   escPressed: function(){
@@ -92,6 +123,9 @@ export default Ember.Component.extend({
   willDestroyElement: function(){
     var engine = this.get("engine");
     if(engine) { engine.destroy(); }
+
+    var checkStatus = this.get("checkStatus");
+    if(checkStatus) { clearInterval(checkStatus); }
   },
   startVLC: function () {
     exec(this.get("VLCUrl"));

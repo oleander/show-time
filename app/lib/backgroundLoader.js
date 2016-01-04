@@ -24,10 +24,8 @@ export default function(controller) {
         }
       });
     }).catch(function(err){
-      if(err == 401) {
-        controller.currentUser.logout();
-        controller.transitionToRoute("login");
-      }
+      controller.currentUser.logout();
+      controller.transitionToRoute("login");
     }).finally(function(){
       controller.set("isUpdating", false);
     });
