@@ -65,7 +65,7 @@ export default Ember.Component.extend({
         if (swarm.cachedDownload) {
           downloaded += swarm.cachedDownload;
         }
-        if(!downloaded) {
+        if(downloaded) {
           this.set("downloaded", pretty(downloaded));
         }
       }.bind(this), 1000);
