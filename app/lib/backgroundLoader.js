@@ -1,6 +1,7 @@
 import getAndInitNewEpisodes from "./getAndInitNewEpisodes";
 import forEach from "./forEach";
 import episodesToString from "./episodesToString";
+var ipc = require("ipc");
 
 export default function(controller) {
   var store = controller.get("store");
@@ -24,6 +25,7 @@ export default function(controller) {
         }
       });
     }).catch(function(err){
+      console.info("err1", err)
       controller.currentUser.logout();
       controller.transitionToRoute("login");
     }).finally(function(){

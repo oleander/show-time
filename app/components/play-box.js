@@ -1,6 +1,7 @@
 var exec = nRequire("child_process").exec;
 var peerflix = nRequire("peerflix");
 var pretty = nRequire("prettysize");
+
 import openPopcornTime from "../lib/openPopcornTime";
 import downloadSubtitle from "../lib/downloadSubtitle";
 import toHHMMSS from "../lib/toHHMMSS";
