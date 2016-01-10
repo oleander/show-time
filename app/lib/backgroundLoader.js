@@ -1,7 +1,7 @@
 import getAndInitNewEpisodes from "./getAndInitNewEpisodes";
 import forEach from "./forEach";
 import episodesToString from "./episodesToString";
-var ipc = require("ipc");
+var ipc = nRequire("ipc");
 
 export default function(controller) {
   var store = controller.get("store");
