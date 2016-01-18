@@ -24,10 +24,6 @@ export default function(controller) {
           ipc.send("newBackgroundEpisodes", 1);
         }
       });
-    }).catch(function(err){
-      console.info("err1", err)
-      controller.currentUser.logout();
-      controller.transitionToRoute("login");
     }).finally(function(){
       controller.set("isUpdating", false);
     });
