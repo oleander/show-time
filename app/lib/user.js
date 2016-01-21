@@ -57,27 +57,36 @@ export default Ember.Object.extend({
 
     return new Promise(function(resolve, failed) {
       if(!self.get("isLoggedIn")){
+        console.error("User not logged in");
         return failed("User not logged in");
       }
       if(!self.get("refreshToken")) {
+        console.error("No refreshToken set on user");
         return failed("No refreshToken set on user");
       }
 
       if(today < self.get("expiresAt")){
+        console.info("Return already existing token");
+        console.info(today, self.get("expiresAt"));
         return resolve(self.get("accessToken"));
       }
 
       postJSON(options).then(function(data){
         if(data["error"]) {
+          console.error("failed", data);
           return failed(data);
         }
 
         var expiresAt = new Date();
         expiresAt.setSeconds(
           expiresAt.getSeconds() +
-          data["expires_in"] - 60 * 60 * 24 * 2
+          (data["expires_in"] / 1000)
         );
 
+        console.info("Set new accessToken", data["access_token"]);
+        console.info("expires in", expiresAt);
+        console.info("plain expires", data["expires_in"]);
+        
         self.set("accessToken", data["access_token"]);
         self.set("refreshToken", data["refresh_token"]);
         self.set("expiresAt", expiresAt);
