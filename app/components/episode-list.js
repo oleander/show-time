@@ -20,6 +20,9 @@ export default Ember.Component.extend({
     },
     magnets: function(episode){
       this.sendAction("magnets", episode);
+    },
+    flushMagnets: function(episode){
+      this.sendAction("flushMagnets", episode);
     }
   }
 })

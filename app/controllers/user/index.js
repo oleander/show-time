@@ -27,6 +27,11 @@ export default Ember.Controller.extend({
       if(episode.get("noMagnet")) { return; }
       shell.openExternal(episode.get("magnet"));
     },
+    flushMagnets: function(episode) {
+      if(episode.get("noMagnets")) { return; }
+      episode.set("magnets", []);
+      episode.loading();
+    },
     playEpisode: function(episode){
       if(episode.get("hasValidMagnet")){
         this.transitionToRoute("user.play",

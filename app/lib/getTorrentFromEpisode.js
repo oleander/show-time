@@ -7,7 +7,8 @@ var cleanUp = function(torrents) {
     return {
       href: "magnet:?xt=urn:btih:" + torrent.hash + "&dn=" + encodeURIComponent(torrent.title),
       title: torrent.title,
-      seeders: torrent.seeds
+      seeders: torrent.seeds,
+      hash: torrent.hash
     };
   })
 }
@@ -28,13 +29,18 @@ var search1 = function(query) {
   });
 };
 
+var extractHash = function(href) {
+  return href.match(/xt=(\w+:\w+:\w+)/)[1];
+}
+
 var search2 = function(query){
   return tpb.search(query, { category: "200", orderBy: "7" }).then(function(results){
     return results.map(function(result){
       return {
         href: result.magnetLink,
         title: result.name,
-        seeders: parseInt(result.seeders, 10)
+        seeders: parseInt(result.seeders, 10),
+        hash: extractHash(result.magnetLink)
       };
     });
   })

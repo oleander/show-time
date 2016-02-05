@@ -31,6 +31,9 @@
             <a href="#" {{action "magnets" episode}} class="more {{if episode.noMagnets 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
               <i class="fa fa-magnet fa-fw"></i>
             </a>
+            <a href="#" {{action "flushMagnets" episode}} class="more {{if episode.noMagnets 'disabled'}} {{if episode.isNotVisible 'disabled'}}">
+              <i class="fa fa-flash fa-fw"></i>
+            </a>
             -
             <span style="font-weight: 600">{{episode.title}}</span>
             -

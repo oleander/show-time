@@ -100,15 +100,14 @@ export default DS.Model.extend({
   noMagnets: function(){
     return ! this.get("magnets.length");
   }.property("magnets"),
-  doesHaveMagnet: function(href){
-    var self = this;
+  doesHaveMagnet: function(hash){
     return new Em.RSVP.Promise(function(accept, reject){
-      var found = self.get("magnets").find(function(magnet){
-        return magnet.get("href") == href;
+      var found = this.get("magnets").find(function(magnet){
+        return magnet.get("hash") == hash;
       });
 
       found ? accept(found) : reject("Nothing found");
-    });
+    }.bind(this));
   },
   loading: function(resolve, reject) {
     if(!resolve) { resolve = function() {}; }
@@ -126,7 +125,8 @@ export default DS.Model.extend({
       self.get("magnets").createRecord({
         href: torrent.href,
         seeders: torrent.seeders,
-        title: torrent.title
+        title: torrent.title,
+        hash: torrent.hash
       }).save().finally(done);
     }
 
