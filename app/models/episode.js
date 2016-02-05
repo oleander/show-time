@@ -102,11 +102,12 @@ export default DS.Model.extend({
   }.property("magnets"),
   doesHaveMagnet: function(hash){
     return new Em.RSVP.Promise(function(accept, reject){
-      var found = this.get("magnets").find(function(magnet){
-        return magnet.get("hash") == hash;
-      });
-
-      found ? accept(found) : reject("Nothing found");
+      this.get("magnets").then(function(magnets){
+        var found = magnets.find(function(magnet){
+          return magnet.get("hash") == hash;
+        });
+        found ? accept(found) : reject("Nothing found");
+      })
     }.bind(this));
   },
   loading: function(resolve, reject) {
@@ -132,7 +133,7 @@ export default DS.Model.extend({
 
     getTorrentFromEpisode(self).then(function(torrents) {
       forEach(torrents || [], function(torrent, next){
-        self.doesHaveMagnet(torrent.href).then(function(found){
+        self.doesHaveMagnet(torrent.hash).then(function(found){
           found.setProperties({
             title: torrent.title,
             seeders: torrent.seeders
