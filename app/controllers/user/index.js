@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
   userController: Ember.inject.controller("user"),
   actions: {
     displayMagnetsView: function(episode){
+      if(episode.get("noMagnets")) { return; }
       this.transitionToRoute("user.index.magnets", episode.get("id"));
     },
     removeMagnet: function(episode) {

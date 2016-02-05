@@ -95,10 +95,10 @@ export default DS.Model.extend({
     return moment(this.get("firstAired")).format("YYYY-MM-DD HH:mm");
   }.property("createdAt"),
   noMagnet: function() {
-    return ! this.get("magnet");
+    return ! this.get("magnet.length");
   }.property("magnet"),
   noMagnets: function(){
-    return ! this.get("magnets").length;
+    return ! this.get("magnets.length");
   }.property("magnets"),
   doesHaveMagnet: function(href){
     var self = this;
