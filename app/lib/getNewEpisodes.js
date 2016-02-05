@@ -32,30 +32,28 @@ export default function(accessToken) {
     }
   };
 
-  return new Promise(function(resolve, reject){
-    getJSON(options).then(function(json){
-      var episodes = [];
-      json.forEach(function(data) {
-        var episode = data["episode"];
-        var firstAired = data["first_aired"];
-        var title = episode["title"];
-        var season = zpad(episode["season"], 2);
-        var number = zpad(episode["number"], 2);
-        var show = data["show"]["title"];
-        var traktID = episode["ids"]["trakt"];
+  return getJSON(options).then(function(json){
+    var episodes = [];
+    json.forEach(function(data) {
+      var episode = data["episode"];
+      var firstAired = data["first_aired"];
+      var title = episode["title"];
+      var season = zpad(episode["season"], 2);
+      var number = zpad(episode["number"], 2);
+      var show = data["show"]["title"];
+      var traktID = episode["ids"]["trakt"];
 
-        if(season === "00" || number === "00") { return; }
+      if(season === "00" || number === "00") { return; }
 
-        episodes.push({
-          "show": show,
-          "what": util.format("s%se%s", season, number),
-          "title": title,
-          "firstAired": new Date(firstAired),
-          "image": getImage(episode),
-          "traktID": traktID
-        });
+      episodes.push({
+        "show": show,
+        "what": util.format("s%se%s", season, number),
+        "title": title,
+        "firstAired": new Date(firstAired),
+        "image": getImage(episode),
+        "traktID": traktID
       });
-      resolve(episodes);
-    }).catch(reject);
+    });
+    return episodes;
   });
 }
