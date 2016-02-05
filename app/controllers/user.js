@@ -53,6 +53,14 @@ export default Ember.Controller.extend({
       this.set("excludeSetting", this.currentUser.get("exclude"));
       this.toggleProperty("isShowingModal");
     },
+    flushAll: function() {
+      var okay = confirm("Are you sure you want to remove all episodes?");
+      if(!okay) { return false; }
+
+      localforage.clear(function(){
+        location.reload();
+      });
+    },
     saveSettings: function() {
       this.currentUser.set("include", this.get("includeSetting"));
       this.currentUser.set("exclude", this.get("excludeSetting"));
