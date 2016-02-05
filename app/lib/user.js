@@ -34,7 +34,6 @@ export default Ember.Object.extend({
   },
   getAccessToken: function() {
     var today = new Date();
-
     var data = {
       "client_id": globals.getClientID(),
       "client_secret": globals.getClientSecret(),
@@ -42,11 +41,9 @@ export default Ember.Object.extend({
       "grant_type": "refresh_token",
       "refresh_token": this.get("refreshToken")
     };
-
     var headers = {
       "Content-Type": "application/json",
     };
-
     var options = {
       url: "https://api-v2launch.trakt.tv/oauth/token",
       headers: headers,
@@ -80,7 +77,8 @@ export default Ember.Object.extend({
         var expiresAt = new Date();
         expiresAt.setSeconds(
           expiresAt.getSeconds() +
-          (data["expires_in"] / 1000)
+          // (data["expires_in"] / 1000)
+          24 * 60 * 60 // One day
         );
 
         console.info("Set new accessToken", data["access_token"]);
